@@ -1,0 +1,37 @@
+# macOS / Office
+.DS_Store
+~$*
+*.tmp
+
+# Python
+__pycache__/
+*.py[cod]
+.Ramanujan/
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Node / web
+node_modules/
+dist/
+.cache/
+.next/
+.parcel-cache/
+
+# Secrets / env (never commit)
+.env
+.env.*
+*.pem
+*.key
+secrets/
+credentials
+*.local
+
+# Logs / misc
+*.log
+coverage/
+.idea/
+.vscode/
