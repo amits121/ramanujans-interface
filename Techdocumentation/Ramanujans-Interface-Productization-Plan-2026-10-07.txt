@@ -26,10 +26,10 @@ Exit
 2026-10-08
 Engine files and specifications moved into the product repository; timestamp removed; rendering pure; ordering pinned; golden byte-equality test; one pure generate call behind pattern library 1.0.0
 Met: same specification twice, same and fresh process, identical bytes and a stable content hash; commit 16c3699
-2 Site patterns and tokens
-2026-10-15 to 10-28
-Design-token library from the December 2025 token specification to CSS variables; register the site patterns: image, heading and text block, navigation bar, hero, feature grid, footer, contact form, call-to-action band, testimonial, FAQ; static-site build path; HTML and CSS emitter started (decision F-2)
-Ten patterns registered, each with an accessibility check and a render test
+2 Site patterns and tokens. DONE 2026-10-08
+2026-10-08
+Design-token library from the December 2025 token specification to CSS variables; the ten site patterns registered (image, text block, navigation bar, hero, feature grid, footer, contact form, call-to-action band, testimonial, FAQ) plus the page layout; static target with no component framework; shell and pre-render so a site is plain HTML and CSS with no script
+Met: ten patterns with render and accessibility checks; sample site builds to 3.5 KB of HTML and 6 KB of CSS; a second build is byte-identical; 14 tests green; pattern library 1.1.0
 3 The innovation movement site
 2026-10-29 to 11-11
 Specification authored from the movement's brand inputs (theme line, hierarchy, summit date) and the designer library; generated; hosted on S3 and CloudFront in the company account; Turnstile contact form; the domain inovations.techinnovations.io by CNAME; regeneration recorded with its content hash
@@ -76,7 +76,7 @@ Site number one
 DECIDED 2026-10-08: the innovation movement site on inovations.techinnovations.io; the company site unchanged
 F-2
 Emitter for hosted sites
-Static build of the existing React output now (fastest, reuses the engine); the HTML and CSS emitter next, for the lighter pages Rs-scale needs
+IMPLEMENTED 2026-10-08 as a pre-rendered static build: the hosted output is plain HTML and CSS, no script. A dedicated emitter is deferred until page weight demands it
 F-3
 Repository and CI for the engine
 Push to the private product repository now; founder-only; CI runs the golden test on every change
@@ -87,8 +87,8 @@ F-5
 Show the engine live at the summit
 Yes, from the movement site: a specification change goes live on stage with its hash
 F-6
-Push the phase 1 commit to the private repository
-Yes, now; the key on the founder's machine is used, nothing is displayed
+Push to the private repository
+Phase 1 pushed 2026-10-08 (16c3699). Phase 2 committed locally, push on the founder's word
 F-7
 Domain spelling and hosted zone
 Confirm "inovations" with one n in front of techinnovations.io, and which account holds the hosted zone
@@ -116,5 +116,7 @@ Entry
 2026-10-07
 Plan drafted. Ruling: goal 2 first, with the founder's own website as the first use case.
 2026-10-08
-F-1 decided: the innovation movement site on inovations.techinnovations.io; company site unchanged. Phase 1 complete: engine imported into engine/, determinism steps 1 to 5 done, six golden tests green, pattern library 1.0.0, local commit 16c3699. Master to-do steps 1 to 5 ticked. Next: F-6 to F-9, then phase 2 (design tokens and the ten site patterns), which does not wait on them.
+F-1 decided: the innovation movement site on inovations.techinnovations.io; company site unchanged. Phase 1 complete: engine imported into engine/, determinism steps 1 to 5 done, six golden tests green, pattern library 1.0.0, local commit 16c3699. Master to-do steps 1 to 5 ticked.
+2026-10-08
+Phase 1 pushed. Phase 2 complete the same day: ten site patterns and the page layout registered without touching the core, design tokens to CSS variables, static target, shell with pre-render; the sample site is plain HTML and CSS and rebuilds byte-identical; 14 tests green; pattern library 1.1.0; committed locally. Open: F-7 domain spelling and hosted zone, F-8 AWS rights, F-9 content inputs. Next: phase 3, the movement site, as soon as F-9 arrives.
 
