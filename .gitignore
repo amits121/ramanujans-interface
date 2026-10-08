@@ -35,3 +35,9 @@ credentials
 coverage/
 .idea/
 .vscode/
+
+# build outputs and per-build generated sources
+build/*
+!build/.gitkeep
+scripts/static-shell/src/generated/
+scripts/static-shell/.ssr/

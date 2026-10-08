@@ -4,9 +4,9 @@ _Intelligent Cloud Lab | print-and-tick checklist | 2026-07-02_
 
 ## 0. Project setup, IP & infrastructure
 
-- [ ] Initialize git repo in Ramanujn's-Interface/ (product root)
-- [ ] Configure separate ICL AWS profile (aws configure --profile icl) — new account, never cross-billed
-- [ ] Migrate domain intelligentcloud.guru from old AWS account to new ICL account
+- [x] Initialize git repo in Ramanujn's-Interface/ (product root)
+- [x] Configure separate ICL AWS profile (aws configure --profile icl) — new account, never cross-billed
+- [x] NOT REQUIRED — offering under intelligentcloudlab.com; no domain migration; keep old WP site running
 - [ ] Keep pattern library / generators server-side only (no client SDK, never open-source) — moat rule
 - [ ] Build the commercial shell fresh in ICL - use no third-party product code
 - [ ] Convert ICL-1 provisional patent -> utility filing (keep IFS/Banach equations filed, not published)
@@ -14,25 +14,41 @@ _Intelligent Cloud Lab | print-and-tick checklist | 2026-07-02_
 
 ## 1. Deterministic engine - spec-core (LIBRARIES: author the CODE)
 
-- [ ] Package existing spec-engine (spec_parser.py, component_mapper.py, pattern_library.py, spec-schema.json) into engine/
-- [ ] Prove f(spec)=code running in the new ICL home (parse sample YAML -> emit React)
-- [ ] pattern-lib-web: package the 16 live patterns (L-01..L-06, C-01..C-10)
-- [ ] Add complex component patterns: image, heading/text, nav bar, hero section, feature grid
+- [x] Package existing spec-engine (spec_parser.py, component_mapper.py, pattern_library.py, spec-schema.json) into engine/
+- [x] Prove f(spec)=code running in the new ICL home (parse sample YAML -> emit React)
+- [x] pattern-lib-web: package the 16 live patterns (L-01..L-06, C-01..C-10)
+- [x] Add complex component patterns: image, heading/text, nav bar, hero section, feature grid
 - [ ] Expand pattern library from 16 -> 58 patterns (D/E/S/V/A/F/I/X categories) as demand dictates
 - [ ] quality-gates library: accessibility (WCAG) + performance checks, guaranteed by construction
 - [ ] verify-preview library: headless-Chrome render + visual diff (reuse existing pipeline)
 - [ ] commercial-core: build ICL's own auth / api / turnstile / bot-protection
 
+## 1a. Determinism fix sequence (DO FIRST - blocks the cache, the hash-chain log, and the enclave)
+
+_Steps 1-5 DONE 2026-10-08 (engine/ in the repo, golden hashes recorded in engine/tests/golden, pattern library 1.0.0). Steps 6-7 open._
+
+_Ordered; each step gates the next. content_hash byte-equality is the acceptance test - the deterministic cache key and the tamper-evident log both depend on it. [A - founder] = Class A, founder-only._
+
+- [x] 1. [A - founder] Remove `datetime.now()` from `component_mapper.py` (~L363 and the L26 import) - the embedded timestamp is what breaks byte-identical output. Where a value is genuinely needed, derive it from `pattern_lib_version` (a fixed input), never from wall-clock.
+- [x] 2. [A - founder] Make `_render_component` pure (~L334-335): copy props before mutating; the generator must not mutate its inputs.
+- [x] 3. [A - founder] Audit the full generation path for every other nondeterminism source: unseeded/auto IDs, dict/set iteration order, unsorted imports or keys, any `random`, and any read of env / filesystem / network. Sort and pin all ordering.
+- [x] 4. Add a golden byte-equality test: same spec generated twice (same process AND a fresh process) -> byte-identical; assert a stable `content_hash`. This test is the regression guard.
+- [x] 5. [A - founder] Package the spec-engine into `engine/` behind ONE pure callable `generate(spec) -> artifact` (no side effects, no I/O in the path) - the single entry point the enclave and cache wrap.
+- [ ] 6. Build GA-5 determinism gate: canonicalize the spec, compute `content_hash = sha256(canonical(spec)+pattern_lib_version+target)`, re-run and verify byte-equal; andon (halt + rollback) on any mismatch. No output ships that fails the gate.
+- [ ] 7. Only after GA-5 is green: wire the deterministic cache (§20) - the cache key trusts the hash - then the vsock/enclave layers (§20).
+
+_2026-10-08: phase 2 done - S-01..S-10 site patterns + L-07 page registered (engine/site_patterns.py), design tokens (engine/tokens.py, tokens/default.yaml), static target 'react-static', shell + pre-render (scripts/build_site.py); 14 tests green; pattern library 1.1.0._
+
 ## 2. Design fidelity & ingest libraries
 
-- [ ] design-tokens library: extract colors / fonts / spacing -> CSS (so output LOOKS like the design)
+- [x] design-tokens library: extract colors / fonts / spacing -> CSS (so output LOOKS like the design)
 - [ ] ingest-figma: Figma REST/MCP -> normalized design tree
 - [ ] ingest-canva: Canva Connect export -> normalized (lower priority; autofill is Enterprise-gated)
 - [ ] ingest-vision: any custom graphic (PNG/JPG) -> layout structure (hardest; the 'any graphic' unlock)
 
 ## 3. Multi-target emitters (framework-agnostic + mobile)
 
-- [ ] pattern-lib-html: deterministic HTML/CSS emitter
+- [ ] pattern-lib-html: deterministic HTML/CSS emitter  (2026-10-08: hosted output is already static HTML + CSS via pre-render of the React target; a dedicated emitter is deferred until Rs-scale page weight demands it)
 - [ ] pattern-lib-native: React Native / Expo emitter (the 'mobile app' output)
 - [ ] (reference only) study Builder.io Mitosis for one-IR -> many-frameworks (do NOT put in the engine)
 
@@ -108,11 +124,28 @@ _Intelligent Cloud Lab | print-and-tick checklist | 2026-07-02_
 - [ ] Handled by marketing firm + Google tools, own plan & budget
 - [ ] Reference only in this project; do not build marketing assets in the engineering lane
 
-## 13. Delivery model - no source export (current plan)
+## 13. Delivery model + output discipline - "behave like a hired human developer"
 
-- [ ] Default delivery = hosted running result via API; NEVER return source code (except vetted Enterprise export tier)
-- [ ] Position as deterministic math-based UI API that replaces the probabilistic LLM call
-- [ ] Reject client-side DRM/encryption; protect by keeping engine server-side
+_Governing frame: the product behaves exactly like a hired human developer/agency. You get the finished, working deliverable - never the developer's private reusable toolkit (the generators + pattern library). Determinism (rule 2) stays absolute: we mimic a human's DELIVERABLE and PROFESSIONAL BOUNDARIES, never a human's variability; same spec still -> byte-identical output._
+
+- [ ] Served (rendered per-site HTML/CSS/JS) != factory: a site's own rendered bytes necessarily reach its visitors' browsers - that is fine. What NEVER leaves the server is the factory (generators, pattern library, IFS/Banach math) + the editable source project.
+- [ ] Default delivery = hosted running result (the finished product), like a freelancer's deployed hand-off. Deploy once; re-generate only on the next modification.
+- [ ] API returns the SAME thing the enclave vsock returns: rendered artifact + content_hash - NEVER clean source by default. (A code-vending API is the worst leak: every call is a clean (spec->output) training pair = a distillation corpus at scale.)
+- [ ] Emitted code must look hand-authored: strip pattern-ID comments, generator watermarks, rigidly uniform scaffolding; natural naming/structure. Defeats fingerprint/cluster reverse-engineering. (Still fully deterministic.)
+- [ ] Clean source, if ever handed over = Enterprise export tier only = THAT one site's self-contained project source (a freelancer's hand-off), never the cross-client pattern factory; contract-bound, rate-limited, per-tenant caps, output-fingerprinted.
+- [ ] Position as a deterministic math-based UI service that replaces the probabilistic LLM call with generate-AND-serve (a running result), not generate-code-you-host.
+- [ ] Reject client-side DRM/encryption; protection = server-side engine + hardware lock + output discipline, not client locks.
+
+### 13a. Moat economics - raise the cost of replication (effort x time) so most give up
+
+_The moat is COST ASYMMETRY, not prevention: make replication uneconomic (attacker cost > expected payoff) and the rational majority abandon it. Layers are cost multipliers that compound. Intrinsic difficulty is itself the base layer - deriving the algorithm from outside requires being in the <1% engineer cohort that could author it in the first place._
+
+- [ ] Hardware lock (enclave) -> can't steal the factory; must reconstruct from scratch. Protects the IMPLEMENTATION.
+- [ ] Human-like, unwatermarked output -> can't fingerprint; must infer structure the hard way. Protects against CLUSTERING.
+- [ ] No clean source + rate limits + anomaly detection + counter-distillation (see 17a) -> can't bulk-harvest; distillation becomes slow, expensive, account-burning, detectable, and poisoned. Protects against DISTILLATION.
+- [ ] Determinism -> even a successful cloner gets a probabilistic lookalike, not f(spec)=byte-identical (the patent claim). Protects the DIFFERENTIATOR.
+- [ ] Velocity = the master multiplier -> a moving target: while they distill v1, ship v2..vN + more patterns; they always clone yesterday's product (Grove "obsolete your own product"; ~2-yr lead).
+- [ ] Honest limit: raising cost defeats the MANY (script-kiddies quit at rate limits; mid-tier quit at distillation cost), NOT the well-funded FEW. Against the few the moat is patent (deterrence/valuation) + velocity + DISTRIBUTION (Canva channel + premium brand) - cloning the tech != cloning the business.
 
 ## 14. Hosted site architecture (hybrid serverless)
 
@@ -155,6 +188,22 @@ _Intelligent Cloud Lab | print-and-tick checklist | 2026-07-02_
 - [ ] Break-glass succession envelope for Class A (sealed/encrypted access; bus-factor mitigation)
 - [ ] API-surface defenses: rate limits, enumeration/anomaly detection (IDS/IPS agent), per-tenant sets, output fingerprinting
 
+## 17a. Counter-distillation defense - O-4 (separate Defense MCP, deceive-don't-block)
+
+_Threat model: the near-certain attack is LLM distillation - harvest (spec->output) pairs, fit a probabilistic mimic. Blocking is a signal (they adapt); deception is silent (they train on poison and can't tell why the clone fails). This attacks the PAYOFF, not just the effort. Runs as its own MCP, physically outside the enclave, so poison can NEVER touch the deterministic path/cache/hash-chain._
+
+- [ ] Stand up a SEPARATE Defense MCP (own account/deploy/blast-radius; NOT Class A; non-deterministic by design). A gateway sentinel routes each request: legit -> Core MCP (enclave); flagged -> Defense MCP.
+- [ ] O-4a Sentinel (detect/classify): baseline = "what real developer usage looks like" (per section 13). Flag the enumeration signature - systematic input-space sweeps, near-duplicate spec families, breadth-over-depth, machine cadence, and the strongest tell: they never actually deploy/serve what they generate.
+- [ ] O-4b Decoy ("hallucinate by design"): on high-confidence flags, silently return plausible-but-wrong, NON-deterministic output (same spec -> slightly different each call) so f(spec) looks like a noisy, non-convergent function -> distillation can never converge.
+- [ ] Decoy must be un-learnable, NOT real-plus-noise: a genuinely different, dumber generator that shares surface STYLE but has no stable underlying pattern grammar to recover (poison the grammar, not just the pixels).
+- [ ] Self-play harness (own the generator -> unlimited labeled adversarial data): simulate the cloner ~1,000,000x - generate attacker trajectories (space-filling sweeps) vs legit trajectories (clustered, deploy-terminated); train the pattern-recognition agent on the separation. Red-team ourselves first (ethical-hack our own clone-ability).
+- [ ] Fractal-coverage discriminator: measure the coverage / box-counting dimension of a tenant's request set over the IFS attractor - a space-filling sweep drives it toward full attractor dimension; genuine use stays low/local. Principled, computable feature (not just "looks fishy").
+- [ ] Sequential testing for the 99.99% (SPRT/Wald): on a flag, keep sampling the tenant and updating the posterior; declare only when false-positive probability < threshold (e.g., 1e-4). Trades time-to-verdict for confidence; the FPR is a dial. 100% is not claimed - 99.99% is.
+- [ ] Graduated response (protect real customers): base rate at volume means even 1e-4 FPR = many false flags, so gate the IRREVERSIBLE action (poisoning) behind the high-confidence sequential verdict; fire cheap actions first (soft rate-limit, Turnstile step-up, tarpit latency).
+- [ ] Adaptive/Sybil counter: slow, distributed, decoy-deploying harvesters degrade the per-account signal -> aggregate coverage ACROSS accounts (cross-tenant correlation) + per-account caps. Forcing them into slow/distributed/expensive harvesting IS the win (velocity obsoletes what they eventually get).
+- [ ] Validate the decoy with the harness: train a model on decoy output in simulation and confirm it FAILS to converge (this is how 13/#3 un-learnable-decoy is proven); include a honeypot-probing attacker (canary specs, cross-account diff) and tune until deception detectability is minimized (this is how 13/#4 is hardened).
+- [ ] Stay defensive only: govern what OUR service returns to requests made TO it (degraded/deceptive responses to detected abuse), backed by ToS prohibiting scraping / model-training on outputs. Never reach OUT to the attacker (no beaconing/corrupting their systems).
+
 ## 18. Go-to-market & business plan (current)
 
 - [ ] Canva Premium App launch: first week of August
@@ -173,4 +222,18 @@ _Intelligent Cloud Lab | print-and-tick checklist | 2026-07-02_
 - [ ] Target ~$1M/month combined within 6 months of hitting 1,000 (target, not forecast until validated)
 - [ ] Senior anchor (founder + AI review) for reliability/security/incident response (hosted = critical infra)
 - [ ] India trainee hiring: walk-in interviews; ~$10k for 4 trainees / 6 months for feature work via agents
+
+## 20. Core isolation - Nitro Enclave boundary (ICL-2-D pattern, cloud-native)
+
+- [ ] Separate CORE AWS account (blast-radius isolation from the product account)
+- [ ] Parent EC2 on dedicated host / bare metal (single-tenant, no side-channel)
+- [ ] [A - founder] Package the core math functions into a signed Nitro Enclave image (EIF)
+- [ ] vsock request/response contract: {spec, pattern_lib_version, target} -> {rendered artifact, content_hash, log}
+- [ ] Fuse generate+serve inside the enclave - return RENDERED output only; no source templates cross the boundary
+- [ ] Attestation flow: NSM attestation doc (PCRs) -> KMS Decrypt gated on kms:RecipientAttestation:PCR*
+- [ ] Founder-controlled CMK; encrypted core artifact in S3, decrypt-in-enclave-only; break-glass succession grant for trustee
+- [ ] Deterministic cache: key = sha256(canonical(spec)+pattern_lib_version+target); edge/CDN tier + parent-side generation tier; enclave runs only on cache-miss
+- [ ] Tamper-evident hash-chain log per generation (seq, prev_hash, entry_hash)
+- [ ] Red-team the enclave boundary (O-4 security agent): what can cross vsock / logs / errors reveal about Class A?
+- [ ] No GPU-in-enclave (current core is CPU-light); revisit only if a future math function needs GPU inside the boundary
 

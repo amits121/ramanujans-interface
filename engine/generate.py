@@ -23,8 +23,9 @@ from typing import Any, Dict
 
 from component_mapper import ComponentMapper
 from pattern_library import PatternLibrary, PATTERN_LIBRARY_VERSION
+from site_patterns import register_site_patterns, SITE_TYPE_MAPPING
 
-TARGETS = ('react-amplify',)
+TARGETS = ('react-amplify', 'react-static')
 
 
 @dataclass(frozen=True)
@@ -54,7 +55,7 @@ def generate(spec: Dict[str, Any], target: str = 'react-amplify') -> Artifact:
 
     Args:
         spec: Specification dictionary, already validated against the schema.
-        target: Output target. Only 'react-amplify' exists today.
+        target: 'react-amplify' (component screens) or 'react-static' (hosted sites, no Amplify).
 
     Returns:
         Artifact with the code and its hashes.
@@ -66,7 +67,11 @@ def generate(spec: Dict[str, Any], target: str = 'react-amplify') -> Artifact:
         raise ValueError(f'Unknown target: {target}')
 
     library = PatternLibrary()
-    code = ComponentMapper(library).generate(spec)
+    register_site_patterns(library)
+    static = target == 'react-static'
+    mapper = ComponentMapper(library, container='div' if static else 'View', use_amplify=not static)
+    mapper.register_types(SITE_TYPE_MAPPING)
+    code = mapper.generate(spec)
     return Artifact(
         code=code,
         content_hash=hashlib.sha256(code.encode('utf-8')).hexdigest(),
@@ -82,10 +87,11 @@ if __name__ == '__main__':
     from spec_parser import SpecParser
 
     if len(sys.argv) < 2:
-        print('Usage: python generate.py <spec.yaml> [--hash-only]')
+        print('Usage: python generate.py <spec.yaml> [--static] [--hash-only]')
         sys.exit(1)
 
-    artifact = generate(SpecParser().parse(sys.argv[1]))
+    target = 'react-static' if '--static' in sys.argv else 'react-amplify'
+    artifact = generate(SpecParser().parse(sys.argv[1]), target)
     if '--hash-only' in sys.argv:
         print(f'{artifact.content_hash}  {artifact.spec_key}  {artifact.pattern_lib_version}')
     else:

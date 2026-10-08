@@ -38,14 +38,18 @@ class ComponentMapper:
         amplify_map: Maps component types to Amplify UI imports
     """
     
-    def __init__(self, pattern_library):
+    def __init__(self, pattern_library, container: str = 'View', use_amplify: bool = True):
         """
         Initialize mapper with pattern library.
         
         Args:
             pattern_library: PatternLibrary instance
+            container: JSX element used for layout wrappers ('View' or 'div')
+            use_amplify: emit the Amplify UI imports (False for the static target)
         """
         self.library = pattern_library
+        self.container = container
+        self.use_amplify = use_amplify
         
         self.type_mapping = {
             # Layout patterns
@@ -80,6 +84,10 @@ class ComponentMapper:
             'modal': ['View', 'Card', 'Heading', 'Button'],
             'alert': ['Alert'],
         }
+    
+    def register_types(self, mapping: Dict[str, str]) -> None:
+        """Register additional spec types -> pattern ids (patterns are registered, never edited in)."""
+        self.type_mapping.update(mapping)
     
     def generate(self, spec: Dict[str, Any]) -> str:
         """
@@ -188,6 +196,9 @@ class ComponentMapper:
         Returns:
             Import statements as string
         """
+        if not self.use_amplify:
+            return "import React, { useState } from 'react';"
+        
         components = self._get_all_components(spec)
         types_used = {comp.get('type', '') for comp in components}
         
@@ -263,7 +274,7 @@ import '@aws-amplify/ui-react/styles.css';"""
             return self._generate_sectioned_body(layout, spec['sections'])
         elif 'components' in spec:
             return self._generate_flat_body(layout, spec['components'])
-        return '<View>No components defined</View>'
+        return f'<{self.container}>No components defined</{self.container}>'
     
     def _generate_sectioned_body(self, layout: str, sections: Dict[str, List]) -> str:
         """
@@ -287,17 +298,18 @@ import '@aws-amplify/ui-react/styles.css';"""
         body = section_jsx.get('body', '')
         footer = section_jsx.get('footer', '')
         
-        return f'''<View className="page-layout">
-                <View className="header">
+        c = self.container
+        return f'''<{c} className="page-layout">
+                <{c} className="header">
                     {header}
-                </View>
-                <View className="body">
+                </{c}>
+                <{c} className="body">
                     {body}
-                </View>
-                <View className="footer">
+                </{c}>
+                <{c} className="footer">
                     {footer}
-                </View>
-            </View>'''
+                </{c}>
+            </{c}>'''
     
     def _generate_flat_body(self, layout: str, components: List[Dict]) -> str:
         """
@@ -313,9 +325,10 @@ import '@aws-amplify/ui-react/styles.css';"""
         rendered = [self._render_component(comp) for comp in components]
         children = '\n                '.join(rendered)
         
-        return f'''<View className="{layout}">
+        c = self.container
+        return f'''<{c} className="{layout}">
                 {children}
-            </View>'''
+            </{c}>'''
     
     def _render_component(self, comp: Dict[str, Any]) -> str:
         """

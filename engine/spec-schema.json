@@ -2,9 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "UI Screen Specification Schema",
   "description": "JSON Schema for validating YAML UI specifications in the spec-driven UI generation system.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "object",
-  "required": ["screen_id", "version", "layout"],
+  "required": [
+    "screen_id",
+    "version",
+    "layout"
+  ],
   "properties": {
     "screen_id": {
       "type": "string",
@@ -24,7 +28,8 @@
         "header-body-footer",
         "card-grid",
         "form-stack",
-        "split-panel"
+        "split-panel",
+        "page"
       ],
       "description": "Layout pattern identifier"
     },
@@ -34,7 +39,9 @@
     },
     "components": {
       "type": "array",
-      "items": { "$ref": "#/definitions/component" },
+      "items": {
+        "$ref": "#/definitions/component"
+      },
       "description": "Flat list of UI components"
     },
     "sections": {
@@ -42,37 +49,56 @@
       "properties": {
         "header": {
           "type": "array",
-          "items": { "$ref": "#/definitions/component" }
+          "items": {
+            "$ref": "#/definitions/component"
+          }
         },
         "body": {
           "type": "array",
-          "items": { "$ref": "#/definitions/component" }
+          "items": {
+            "$ref": "#/definitions/component"
+          }
         },
         "footer": {
           "type": "array",
-          "items": { "$ref": "#/definitions/component" }
+          "items": {
+            "$ref": "#/definitions/component"
+          }
         }
       },
       "description": "Sectioned layout with header, body, and footer regions"
     },
     "validation": {
       "type": "array",
-      "items": { "$ref": "#/definitions/validationRule" },
+      "items": {
+        "$ref": "#/definitions/validationRule"
+      },
       "description": "Form validation rules"
     },
     "api": {
       "type": "object",
       "properties": {
-        "endpoint": { "type": "string" },
+        "endpoint": {
+          "type": "string"
+        },
         "method": {
           "type": "string",
-          "enum": ["GET", "POST", "PUT", "DELETE"]
+          "enum": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE"
+          ]
         },
         "body": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "onLoad": { "type": "boolean" }
+        "onLoad": {
+          "type": "boolean"
+        }
       },
       "description": "API integration configuration"
     },
@@ -81,10 +107,16 @@
       "properties": {
         "focusOrder": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "ariaLabels": { "type": "boolean" },
-        "keyboardNav": { "type": "boolean" }
+        "ariaLabels": {
+          "type": "boolean"
+        },
+        "keyboardNav": {
+          "type": "boolean"
+        }
       },
       "description": "Accessibility configuration"
     }
@@ -92,7 +124,10 @@
   "definitions": {
     "component": {
       "type": "object",
-      "required": ["id", "type"],
+      "required": [
+        "id",
+        "type"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -110,7 +145,17 @@
             "card",
             "data-table",
             "modal",
-            "alert"
+            "alert",
+            "image",
+            "text-block",
+            "nav-bar",
+            "hero",
+            "feature-grid",
+            "footer",
+            "contact-form",
+            "cta-band",
+            "testimonial",
+            "faq"
           ],
           "description": "Component type identifier"
         },
@@ -122,7 +167,10 @@
     },
     "validationRule": {
       "type": "object",
-      "required": ["field", "rules"],
+      "required": [
+        "field",
+        "rules"
+      ],
       "properties": {
         "field": {
           "type": "string",
@@ -132,10 +180,17 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["type", "message"],
+            "required": [
+              "type",
+              "message"
+            ],
             "properties": {
-              "type": { "type": "string" },
-              "message": { "type": "string" },
+              "type": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
               "value": {}
             }
           }

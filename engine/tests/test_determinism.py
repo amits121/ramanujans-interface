@@ -60,7 +60,7 @@ class DeterminismTest(unittest.TestCase):
             with self.subTest(spec=name):
                 code = generate(SpecParser().parse(spec_path(name))).code
                 self.assertIsNone(FORBIDDEN.search(code))
-                self.assertIn('Pattern library: 1.0.0', code)
+                self.assertIn('Pattern library: 1.1.0', code)
 
     def test_generation_does_not_mutate_the_spec(self):
         parser = SpecParser()

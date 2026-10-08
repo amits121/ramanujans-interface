@@ -1,0 +1,90 @@
+# Sample landing page: proves the static target end to end. Neutral placeholder content.
+# Copyright (c) 2025 Intelligent Cloud Lab Inc.
+
+screen_id: sample-landing
+version: "1.0"
+layout: page
+
+components:
+  - id: nav
+    type: nav-bar
+    props:
+      brand: "Sample Studio"
+      links:
+        - { label: "Services", href: "#services" }
+        - { label: "Stories", href: "#stories" }
+        - { label: "Questions", href: "#faq" }
+      cta: { label: "Contact us", href: "#contact" }
+
+  - id: hero
+    type: hero
+    props:
+      title: "A clear, fast website for a small business"
+      subtitle: "Designed once, generated the same way every time."
+      primary_cta: { label: "See services", href: "#services" }
+      secondary_cta: { label: "Talk to us", href: "#contact" }
+      image: { src: "/assets/hero.jpg", alt: "A storefront on a sunny street" }
+
+  - id: services
+    type: feature-grid
+    props:
+      heading: "What we do"
+      columns: 3
+      items:
+        - { title: "Design", text: "A look that fits your business and your customers." }
+        - { title: "Build", text: "Pages that load fast on any phone." }
+        - { title: "Care", text: "Updates when you need them, nothing breaks." }
+
+  - id: about
+    type: text-block
+    props:
+      heading: "About us"
+      level: 2
+      paragraphs:
+        - "We are a small team that builds websites for local businesses."
+        - "Every site we make is generated from a written plan, so it is exactly the same every time it is built."
+
+  - id: story
+    type: testimonial
+    props:
+      quote: "The site was live in a day and it has never gone wrong."
+      author: "A. Customer"
+      role: "Owner, Corner Bakery"
+
+  - id: faq
+    type: faq
+    props:
+      heading: "Questions"
+      items:
+        - { q: "How long does it take?", a: "Most sites are live within a day of the plan being approved." }
+        - { q: "Can I change it later?", a: "Yes. Change the plan and the site is regenerated." }
+
+  - id: cta
+    type: cta-band
+    props:
+      title: "Ready to start?"
+      text: "Tell us about your business and we will send a plan."
+      cta: { label: "Contact us", href: "#contact" }
+
+  - id: contact
+    type: contact-form
+    props:
+      heading: "Contact"
+      action: "https://example.invalid/contact"
+      labels: { name: "Your name", email: "Your email", message: "How can we help?", submit: "Send" }
+
+  - id: footer
+    type: footer
+    props:
+      brand: "Sample Studio"
+      links:
+        - { label: "Privacy", href: "/privacy" }
+        - { label: "Terms", href: "/terms" }
+      social:
+        - { label: "Instagram", href: "https://example.invalid/instagram" }
+      note: "Sample Studio. All rights reserved."
+
+accessibility:
+  focusOrder: [nav, hero, services, about, story, faq, cta, contact, footer]
+  ariaLabels: true
+  keyboardNav: true
