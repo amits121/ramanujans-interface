@@ -40,9 +40,7 @@ def run_gate(spec: Dict[str, Any], target: str = 'react-amplify', spec_path: Opt
         'spec_key_recomputes': first.spec_key == spec_key(spec, target),
     }
     if spec_path:
-        cmd = [sys.executable, os.path.join(ENGINE, 'generate.py'), spec_path]
-        if target == 'react-static':
-            cmd.append('--static')
+        cmd = [sys.executable, os.path.join(ENGINE, 'generate.py'), spec_path, '--target', target]
         fresh = subprocess.run(cmd, capture_output=True, text=True, check=True).stdout
         checks['fresh_process_byte_equal'] = fresh == first.code
     if expect is not None:

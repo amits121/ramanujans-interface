@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "UI Screen Specification Schema",
   "description": "JSON Schema for validating YAML UI specifications in the spec-driven UI generation system.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "object",
   "required": [
     "screen_id",
@@ -22,15 +22,7 @@
     },
     "layout": {
       "type": "string",
-      "enum": [
-        "grid-12",
-        "sidebar-main",
-        "header-body-footer",
-        "card-grid",
-        "form-stack",
-        "split-panel",
-        "page"
-      ],
+      "pattern": "^[a-z][a-z0-9-]*$",
       "description": "Layout pattern identifier"
     },
     "state": {
@@ -135,29 +127,8 @@
         },
         "type": {
           "type": "string",
-          "enum": [
-            "button",
-            "text-input",
-            "select",
-            "multi-select",
-            "range-slider",
-            "checkbox",
-            "card",
-            "data-table",
-            "modal",
-            "alert",
-            "image",
-            "text-block",
-            "nav-bar",
-            "hero",
-            "feature-grid",
-            "footer",
-            "contact-form",
-            "cta-band",
-            "testimonial",
-            "faq"
-          ],
-          "description": "Component type identifier"
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "Component type identifier; must resolve to a registered pattern for the target"
         },
         "props": {
           "type": "object",

@@ -27,8 +27,8 @@ Author: Amit Sarkar
 Version: 1.0.0
 """
 
-from typing import Dict, Any, Callable
-from dataclasses import dataclass
+from typing import Dict, Any, Callable, List
+from dataclasses import dataclass, field
 
 
 @dataclass
@@ -48,6 +48,10 @@ class Pattern:
     category: str
     description: str
     generator: Callable[[Dict[str, Any]], str]
+    imports: Dict[str, List[str]] = field(default_factory=dict)   # module -> names ('default:X', '*:ns', or [] side effect)
+    module: Dict[str, str] = field(default_factory=dict)          # key -> module-level code, emitted once per key
+    handlers: Dict[str, str] = field(default_factory=dict)        # handler name -> function expression
+    effects: List[str] = field(default_factory=list)              # code blocks placed inside the component
     
     def generate(self, props: Dict[str, Any]) -> str:
         """
@@ -62,7 +66,7 @@ class Pattern:
         return self.generator(props)
 
 
-PATTERN_LIBRARY_VERSION = '1.1.0'
+PATTERN_LIBRARY_VERSION = '1.2.0'
 
 
 class PatternLibrary:

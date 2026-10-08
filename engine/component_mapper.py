@@ -22,7 +22,9 @@ Author: Amit Sarkar
 Version: 1.0.0
 """
 
-from typing import Dict, Any, List, Set
+from typing import Dict, Any, List, Set, Optional, Tuple
+
+HANDLER_KEYS = ('onClick', 'onPress', 'onSubmit', 'onChange', 'onClose', 'onSelect', 'onOpen')
 
 
 class ComponentMapper:
@@ -38,7 +40,9 @@ class ComponentMapper:
         amplify_map: Maps component types to Amplify UI imports
     """
     
-    def __init__(self, pattern_library, container: str = 'View', use_amplify: bool = True):
+    def __init__(self, pattern_library, container: str = 'View', use_amplify: bool = True,
+                 container_import: Optional[Tuple[str, List[str]]] = None, flat_wrapper: Optional[str] = None,
+                 base_module: Optional[Dict[str, str]] = None):
         """
         Initialize mapper with pattern library.
         
@@ -50,6 +54,10 @@ class ComponentMapper:
         self.library = pattern_library
         self.container = container
         self.use_amplify = use_amplify
+        self.container_import = container_import      # e.g. ('react-native', ['SafeAreaView', 'ScrollView'])
+        self.flat_wrapper = flat_wrapper              # template with {layout} and {children}, or None
+        self.base_module = base_module or {}          # module-level code every file of this target carries
+        self._used: List[Any] = []                    # patterns used by the current generation, in order
         
         self.type_mapping = {
             # Layout patterns
@@ -102,12 +110,16 @@ class ComponentMapper:
         screen_id = spec['screen_id']
         component_name = self._to_pascal_case(screen_id)
         
+        self._used = []
+        body = self._generate_body(spec['layout'], spec)      # first: records the patterns used
         imports = self._generate_imports(spec)
         state_code = self._generate_state(spec.get('state', {}))
         handlers_code = self._generate_handlers(spec)
-        body = self._generate_body(spec['layout'], spec)
+        module_code = self._generate_module()
+        effects_code = self._generate_effects()
         
-        return self._assemble(component_name, imports, state_code, handlers_code, body, spec)
+        return self._assemble(component_name, imports, state_code, handlers_code, body, spec,
+                              module_code, effects_code)
     
     def _to_pascal_case(self, kebab_string: str) -> str:
         """
@@ -157,8 +169,10 @@ class ComponentMapper:
         
         for comp in components:
             props = comp.get('props', {})
-            if 'onClick' in props:
-                handlers.add(props['onClick'])
+            for key in HANDLER_KEYS:
+                value = props.get(key, '')
+                if isinstance(value, str) and value.isidentifier():
+                    handlers.add(value)
         
         return handlers
     
@@ -174,17 +188,42 @@ class ComponentMapper:
         """
         handlers = self._get_handlers(spec)
         
+        provided: Dict[str, str] = {}
+        for pattern in self._used:
+            for name, code in pattern.handlers.items():
+                provided.setdefault(name, code)
+        handlers = set(handlers) | set(provided)   # a handler a pattern declares is always emitted
         if not handlers:
             return ''
         
         lines = []
         for handler in sorted(handlers):
-            lines.append(f'''    const {handler} = () => {{
+            if handler in provided:
+                lines.append(f'    const {handler} = {provided[handler]};')
+            else:
+                lines.append(f'''    const {handler} = () => {{
         console.log('{handler} called');
         // TODO: Implement {handler}
     }};''')
         
         return '\n\n'.join(lines)
+    
+    def _generate_module(self) -> str:
+        """Module-level code declared by the used patterns, once per key, keys sorted."""
+        blocks: Dict[str, str] = dict(self.base_module)
+        for pattern in self._used:
+            for key, code in pattern.module.items():
+                blocks.setdefault(key, code)
+        return '\n\n'.join(blocks[k] for k in sorted(blocks))
+    
+    def _generate_effects(self) -> str:
+        """Effect blocks declared by the used patterns, in use order, each once."""
+        seen: List[str] = []
+        for pattern in self._used:
+            for code in pattern.effects:
+                if code not in seen:
+                    seen.append(code)
+        return '\n\n'.join(seen)
     
     def _generate_imports(self, spec: Dict[str, Any]) -> str:
         """
@@ -196,23 +235,38 @@ class ComponentMapper:
         Returns:
             Import statements as string
         """
-        if not self.use_amplify:
-            return "import React, { useState } from 'react';"
+        modules: Dict[str, Set[str]] = {'react': {'useState'}}
         
-        components = self._get_all_components(spec)
-        types_used = {comp.get('type', '') for comp in components}
+        if self.use_amplify:
+            amplify_imports: Set[str] = {'View'}
+            for comp in self._get_all_components(spec):
+                amplify_imports.update(self.amplify_map.get(comp.get('type', ''), []))
+            modules['@aws-amplify/ui-react'] = amplify_imports
+            modules['@aws-amplify/ui-react/styles.css'] = set()
+        elif self.container_import:
+            modules.setdefault(self.container_import[0], set()).update(self.container_import[1])
         
-        amplify_imports: Set[str] = {'View'}
+        for pattern in self._used:
+            for module, names in pattern.imports.items():
+                modules.setdefault(module, set()).update(names)
         
-        for comp_type in types_used:
-            if comp_type in self.amplify_map:
-                amplify_imports.update(self.amplify_map[comp_type])
-        
-        sorted_imports = sorted(amplify_imports)
-        
-        return f"""import React, {{ useState }} from 'react';
-import {{ {', '.join(sorted_imports)} }} from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';"""
+        lines = []
+        react_names = sorted(modules.pop('react'))
+        lines.append(f"import React, {{ {', '.join(react_names)} }} from 'react';")
+        for module in sorted(modules):
+            names = modules[module]
+            default = sorted(n[8:] for n in names if n.startswith('default:'))
+            namespace = sorted(n[2:] for n in names if n.startswith('*:'))
+            named = sorted(n for n in names if not n.startswith('default:') and not n.startswith('*:'))
+            if not names:
+                lines.append(f"import '{module}';")
+                continue
+            for ns in namespace:
+                lines.append(f"import * as {ns} from '{module}';")
+            head = ', '.join(default + ([f'{{ {", ".join(named)} }}'] if named else []))
+            if head:
+                lines.append(f"import {head} from '{module}';")
+        return '\n'.join(lines)
     
     def _generate_state(self, state: Dict[str, Any]) -> str:
         """
@@ -323,8 +377,10 @@ import '@aws-amplify/ui-react/styles.css';"""
             Flat JSX body as string
         """
         rendered = [self._render_component(comp) for comp in components]
-        children = '\n                '.join(rendered)
+        children = '\n                '.join(r for r in rendered if r)
         
+        if self.flat_wrapper:
+            return self.flat_wrapper.replace('{layout}', layout).replace('{children}', children)
         c = self.container
         return f'''<{c} className="{layout}">
                 {children}
@@ -351,15 +407,16 @@ import '@aws-amplify/ui-react/styles.css';"""
         pattern_id = self.type_mapping.get(comp_type)
         
         if not pattern_id:
-            return f"{{/* Unknown component type: {comp_type} */}}"
+            raise ValueError(f'unknown component type "{comp_type}" (component {comp_id}): no pattern registered')
         
-        try:
-            return self.library.generate(pattern_id, props)
-        except Exception as e:
-            return f"{{/* Error rendering {comp_id}: {e} */}}"
+        pattern = self.library.get(pattern_id)
+        if all(p.pattern_id != pattern.pattern_id for p in self._used):
+            self._used.append(pattern)
+        return pattern.generate(props)
     
     def _assemble(self, component_name: str, imports: str,
-                  state_code: str, handlers_code: str, body: str, spec: Dict) -> str:
+                  state_code: str, handlers_code: str, body: str, spec: Dict,
+                  module_code: str = '', effects_code: str = '') -> str:
         """
         Assemble complete React component file.
         
@@ -380,6 +437,8 @@ import '@aws-amplify/ui-react/styles.css';"""
         
         state_section = state_code if state_code else '    // No state defined'
         handlers_section = handlers_code if handlers_code else '    // No handlers defined'
+        module_section = ('\n' + module_code + '\n') if module_code else ''
+        effects_section = ('\n' + effects_code + '\n') if effects_code else ''
         
         return f'''/**
  * {component_name}.tsx
@@ -394,7 +453,7 @@ import '@aws-amplify/ui-react/styles.css';"""
  */
 
 {imports}
-
+{module_section}
 const {component_name}: React.FC = () => {{
 {state_section}
 
@@ -403,7 +462,7 @@ const {component_name}: React.FC = () => {{
     }};
 
 {handlers_section}
-
+{effects_section}
     return (
         {body}
     );

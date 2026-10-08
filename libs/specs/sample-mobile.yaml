@@ -1,0 +1,20 @@
+# React Native target sample: a field-operations screen.
+screen_id: sample-mobile
+version: "1.0"
+layout: screen
+state:
+  code: ""
+  pending: 0
+  online: true
+  homes: []
+  showHelp: false
+components:
+  - { id: bar, type: status-bar, props: { style: dark } }
+  - { id: title, type: heading, props: { text: "Walk list", level: 1 } }
+  - { id: sync, type: sync-pill, props: { count: pending, online: online } }
+  - { id: login, type: code-login, props: { state: code, onSubmit: handleLogin, length: 5 } }
+  - { id: homes, type: list, props: { state: homes, fields: [address, city] } }
+  - { id: outcome, type: choice-button-row, props: { options: [{ label: "Support", value: support, color: "#2ED573" }, { label: "Not home", value: not_home, color: "#6B7280" }], onPress: handleOutcome } }
+  - { id: help, type: modal, props: { visible: showHelp, title: "Help", text: "Tap a door to record the outcome.", onClose: handleClose } }
+  - { id: map, type: map-webview, props: { uri: "https://example.invalid/map" } }
+  - { id: settings, type: link, props: { href: "/settings", text: "Settings" } }

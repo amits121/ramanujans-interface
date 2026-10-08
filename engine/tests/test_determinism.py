@@ -48,7 +48,7 @@ class DeterminismTest(unittest.TestCase):
         for name in SPECS:
             with self.subTest(spec=name):
                 runs = [
-                    subprocess.run([sys.executable, os.path.join(ENGINE, 'generate.py'), spec_path(name)],
+                    subprocess.run([sys.executable, os.path.join(ENGINE, 'generate.py'), spec_path(name), '--target', 'react-amplify'],
                                    capture_output=True, text=True, check=True).stdout
                     for _ in range(2)
                 ]
@@ -60,7 +60,7 @@ class DeterminismTest(unittest.TestCase):
             with self.subTest(spec=name):
                 code = generate(SpecParser().parse(spec_path(name))).code
                 self.assertIsNone(FORBIDDEN.search(code))
-                self.assertIn('Pattern library: 1.1.0', code)
+                self.assertIn('Pattern library: 1.2.0', code)
 
     def test_generation_does_not_mutate_the_spec(self):
         parser = SpecParser()

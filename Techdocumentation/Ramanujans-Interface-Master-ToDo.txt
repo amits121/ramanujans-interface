@@ -17,6 +17,18 @@ Intelligent Cloud Lab | print-and-tick checklist | 2026-07-02
 ☑ quality-gates library: accessibility (WCAG) + performance checks, guaranteed by construction
 ☑ verify-preview library: headless-Chrome render + visual diff (reuse existing pipeline)
 ☐ commercial-core: build ICL's own auth / api / turnstile / bot-protection
+1b. Library repository (added 2026-10-08 - the black-box factory, private repo only)
+Ruling 2026-10-08: an exhaustive, continuously updated library of components and patterns for React, TypeScript, Next.js, Amplify UI, Google Material and Firebase, and React Native / Expo for mobile; organised on the 58-slot taxonomy with the 80/20 core tier; never shared with partners; the engine host pulls it through the pipeline. Deterministic generation only - never a prompt-to-code service.
+☑ libs/taxonomy.yaml: the ten categories, the 58 slots, the core sixteen, the pack list
+☑ libs/catalog/*.yaml: exhaustive inventories from the installed packages (453 entries, 182 core): react-core, typescript, nextjs, amplify-ui-react (+ connected packages), material-web (54 elements), firebase (+ firebaseui), react-native-expo (+ field-operations patterns)
+☑ libs/registry.py + libs/jsx.py: catalog validation, pack loading by target, shared escaped-JSX helpers
+☑ Pattern record carries declared imports, module-level code, handler bodies and effects; the mapper emits them (core change, reviewed)
+☑ Packs: amplify (AMP-01..23), next (NXT-01..07), material (MAT-01..15), firebase (FB-01..06), mobile (MOB-00..17) = 69 generators + 16 core + 11 site = 96 registered patterns, pattern library 1.2.0
+☑ Targets: react-amplify, react-static, next, material, firebase, react-native; one sample spec per target with golden hashes; unknown types refused
+☑ CI gate on push (.github/workflows/ci.yml): engine + library tests, determinism gate per sample, sample site build
+☐ Generators for the remaining core-tier entries (catalog status 'catalogued'): react-core hooks as D/E/S patterns, Amplify Collection/Autocomplete/Table variants, Material labs elements, Expo camera/notifications/secure-store, Next route handlers and server actions
+☐ Self-hosted runner on the engine host before any customer specification enters the repository
+☐ Nested components (children) in the specification language - today every component is a leaf
 1a. Determinism fix sequence (DO FIRST - blocks the cache, the hash-chain log, and the enclave)
 Steps 1-6 DONE 2026-10-08 (gate = engine/gate.py, andon exit 2); step 7 local tier done (engine/ in the repo, golden hashes recorded in engine/tests/golden, pattern library 1.0.0). Steps 6-7 open.
 Ordered; each step gates the next. content_hash byte-equality is the acceptance test - the deterministic cache key and the tamper-evident log both depend on it. [A - founder] = Class A, founder-only.

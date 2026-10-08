@@ -1,0 +1,15 @@
+# Firebase target sample: app init, sign-in, a Firestore list and an upload.
+screen_id: sample-firebase
+version: "1.0"
+layout: page
+state:
+  email: ""
+  password: ""
+  posts: []
+components:
+  - { id: app, type: firebase-app, props: { envPrefix: VITE_FIREBASE_ } }
+  - { id: title, type: text-block, props: { heading: "Sign in", paragraphs: ["Use your account or Google."] } }
+  - { id: form, type: firebase-email-form, props: { onSubmit: handleEmailSignIn } }
+  - { id: google, type: firebase-google-button, props: { label: "Continue with Google" } }
+  - { id: posts, type: firestore-list, props: { collection: posts, fields: [title, author], state: posts } }
+  - { id: upload, type: storage-upload, props: { label: "Upload a photo", path: "photos/" } }

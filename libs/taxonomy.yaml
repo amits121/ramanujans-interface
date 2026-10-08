@@ -1,0 +1,39 @@
+# The pattern taxonomy of the filing: ten categories, fifty-eight pattern slots.
+# tier core = the 80/20 cut: the sixteen patterns that cover most screens (6 layout + 10 component).
+# Pattern ids in the packs (AMP-, NXT-, MAT-, FB-, MOB-, S-) map into these categories through their catalog entries.
+version: "1.0"
+categories:
+  L: { name: Layout,        range: L-01..L-06, count: 6,  examples: "grid 12, sidebar+main, header-body-footer, card grid, form stack, split panel" }
+  C: { name: Component,     range: C-01..C-10, count: 10, examples: "button, text field, select, multi-select, slider, checkbox, card, data table, modal, alert" }
+  D: { name: Data binding,  range: D-01..D-06, count: 6,  examples: "state binding, API response binding, computed values, template expressions" }
+  E: { name: Event,         range: E-01..E-06, count: 6,  examples: "click, submit, change, keyboard" }
+  S: { name: State,         range: S-01..S-05, count: 5,  examples: "useState hooks, form state, loading, error, pagination state" }
+  V: { name: Validation,    range: V-01..V-06, count: 6,  examples: "required, email, length, regex, cross-field, async" }
+  A: { name: API,           range: A-01..A-05, count: 5,  examples: "GET fetch, POST submit, paginated fetch, file upload, WebSocket" }
+  F: { name: Feedback,      range: F-01..F-05, count: 5,  examples: "spinner, error banner, toast, progress, skeleton" }
+  I: { name: Iteration,     range: I-01..I-05, count: 5,  examples: "list, table rows, card grid, grouped list, virtual scroll" }
+  X: { name: Conditional,   range: X-01..X-04, count: 4,  examples: "if/else, role-based, feature flag, responsive" }
+core_sixteen:
+  - L-01
+  - L-02
+  - L-03
+  - L-04
+  - L-05
+  - L-06
+  - C-01
+  - C-02
+  - C-03
+  - C-04
+  - C-05
+  - C-06
+  - C-07
+  - C-08
+  - C-09
+  - C-10
+packs:
+  site:     { target: react-static,  module: engine/site_patterns.py,      prefix: S,   note: "hosted marketing sites, plain JSX" }
+  amplify:  { target: react-amplify, module: libs/packs/amplify/patterns.py, prefix: AMP, note: "Amplify UI React beyond C-01..C-10, plus connected components" }
+  next:     { target: next,          module: libs/packs/next/patterns.py,    prefix: NXT, note: "Next.js primitives and conventions" }
+  material: { target: material,      module: libs/packs/material/patterns.py, prefix: MAT, note: "Material Web custom elements in JSX" }
+  firebase: { target: firebase,      module: libs/packs/firebase/patterns.py, prefix: FB,  note: "Firebase auth, Firestore, Storage, FirebaseUI" }
+  mobile:   { target: react-native,  module: libs/packs/mobile/patterns.py,  prefix: MOB, note: "React Native, Expo, field-operations patterns" }

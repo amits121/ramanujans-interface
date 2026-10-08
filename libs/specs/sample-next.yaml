@@ -1,0 +1,13 @@
+# Next.js target sample: site patterns plus NXT-xx primitives and module-level conventions.
+screen_id: sample-next
+version: "1.0"
+layout: page
+components:
+  - { id: meta, type: next-metadata, props: { title: "Sample Studio", description: "A clear, fast website." } }
+  - { id: font, type: next-font, props: { family: Inter, text: "Welcome", subsets: [latin] } }
+  - { id: hero, type: hero, props: { title: "A clear, fast website", subtitle: "Generated the same way every time." } }
+  - { id: picture, type: next-image, props: { src: "/hero.png", alt: "Hero", width: 1200, height: 800, priority: true } }
+  - { id: more, type: next-link, props: { href: "/about", text: "About us" } }
+  - { id: chart, type: next-dynamic, props: { name: Chart, path: "../components/Chart", ssr: false } }
+  - { id: search, type: next-form, props: { action: "/search", fields: [{ name: q, label: "Search", required: true }], submit: "Go" } }
+  - { id: widget, type: next-script, props: { src: "https://example.invalid/widget.js", strategy: lazyOnload } }

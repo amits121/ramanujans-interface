@@ -1,0 +1,20 @@
+# Amplify target sample: C-xx core patterns plus AMP-xx extensions. Neutral content.
+screen_id: sample-amplify
+version: "1.0"
+layout: form-stack
+state:
+  page: 1
+  query: ""
+components:
+  - { id: crumbs, type: breadcrumbs, props: { items: [{ label: "Home", href: "/" }, { label: "Settings", href: "/settings" }] } }
+  - { id: title, type: heading, props: { text: "Settings", level: 1 } }
+  - { id: intro, type: text, props: { text: "Choose how the workspace behaves.", variation: secondary } }
+  - { id: notice, type: message, props: { heading: "Saved", text: "Changes apply immediately.", colorTheme: success } }
+  - { id: name, type: text-input, props: { label: "Workspace name", placeholder: "Name", required: true } }
+  - { id: plan, type: select, props: { label: "Plan", options: [{ label: "Free", value: free }, { label: "Pro", value: pro }] } }
+  - { id: notify, type: switch-field, props: { label: "Email notifications", name: notify, checked: true } }
+  - { id: size, type: radio-group, props: { legend: "Density", name: density, options: [{ label: "Comfortable", value: c }, { label: "Compact", value: d }] } }
+  - { id: notes, type: textarea-field, props: { label: "Notes", name: notes, rows: 3 } }
+  - { id: faq, type: accordion, props: { items: [{ title: "Can I change this later?", content: "Yes, at any time." }] } }
+  - { id: pager, type: pagination, props: { totalPages: 5, currentPage: page, onChange: handlePage } }
+  - { id: save, type: button, props: { text: "Save", variant: primary, onClick: handleSave } }

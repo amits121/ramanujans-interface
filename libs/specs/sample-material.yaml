@@ -1,0 +1,16 @@
+# Material target sample: Material Web elements inside site patterns.
+screen_id: sample-material
+version: "1.0"
+layout: page
+components:
+  - { id: nav, type: nav-bar, props: { brand: "Sample Studio", links: [{ label: "Home", href: "/" }] } }
+  - { id: tabs, type: md-tabs, props: { items: ["Overview", "Details"] } }
+  - { id: email, type: md-text-field, props: { label: "Email", name: email, type: email, required: true } }
+  - { id: plan, type: md-select, props: { label: "Plan", name: plan, options: [{ label: "Free", value: free }, { label: "Pro", value: pro }] } }
+  - { id: agree, type: md-checkbox, props: { label: "I agree", name: agree } }
+  - { id: dark, type: md-switch, props: { label: "Dark mode", name: dark } }
+  - { id: chips, type: md-chips, props: { chips: [{ label: "Design" }, { label: "Build", kind: filter }] } }
+  - { id: progress, type: md-progress, props: { kind: linear, value: 0.4, label: "Setup" } }
+  - { id: save, type: md-button, props: { label: "Save", variant: filled, onClick: handleSave } }
+  - { id: confirm, type: md-dialog, props: { id: confirm, headline: "Save changes?", text: "You can undo later.", actions: [{ label: "Cancel", value: cancel }, { label: "Save", value: ok }] } }
+  - { id: add, type: md-fab, props: { icon: add, label: "Add", onClick: handleAdd } }

@@ -1,0 +1,36 @@
+# Gate on every push: the engine and library test suites, then a full gated build of the sample site.
+# Runs on GitHub-hosted runners of the private repository. Move to a self-hosted runner on the engine
+# host before any secret or customer specification enters this repository.
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Python dependencies
+        run: pip install pyyaml jsonschema pillow
+      - name: Engine tests (determinism, site patterns, gates)
+        run: python -m unittest discover -s engine/tests -v
+      - name: Library tests (catalogs, packs, targets)
+        run: python -m unittest discover -s libs/tests -v
+      - name: Determinism gate on every sample specification
+        run: |
+          for spec in engine/specs/login-screen.yaml engine/specs/dashboard-screen.yaml; do python engine/gate.py "$spec"; done
+          python engine/gate.py engine/specs/sample-landing.yaml --static
+          for t in react-amplify next material firebase react-native; do
+            f=libs/specs/sample-$(echo $t | sed 's/react-amplify/amplify/; s/react-native/mobile/').yaml
+            python engine/gate.py "$f" --target "$t" >/dev/null && echo "gate pass $t"
+          done
+      - name: Build the sample site (static, pre-rendered, quality gates)
+        run: python scripts/build_site.py engine/specs/sample-landing.yaml sample-landing --title "Sample Studio"

@@ -18,14 +18,33 @@ Version: 1.0.0
 
 import hashlib
 import json
+import os
+import sys
 from dataclasses import dataclass
 from typing import Any, Dict
 
-from component_mapper import ComponentMapper
-from pattern_library import PatternLibrary, PATTERN_LIBRARY_VERSION
-from site_patterns import register_site_patterns, SITE_TYPE_MAPPING
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
 
-TARGETS = ('react-amplify', 'react-static')
+from component_mapper import ComponentMapper  # noqa: E402
+from pattern_library import PatternLibrary, PATTERN_LIBRARY_VERSION  # noqa: E402
+from site_patterns import register_site_patterns, SITE_TYPE_MAPPING  # noqa: E402
+from libs.registry import register_packs  # noqa: E402
+from libs.packs.mobile.patterns import MODULE as MOBILE_MODULE, WRAPPER as MOBILE_WRAPPER  # noqa: E402
+
+# target -> how the file is shaped: which packs register, the layout container, the imports it needs.
+TARGET_CONFIG: Dict[str, Dict[str, Any]] = {
+    'react-amplify': {'packs': ['amplify'], 'site': True, 'container': 'View', 'use_amplify': True},
+    'react-static': {'packs': [], 'site': True, 'container': 'div', 'use_amplify': False},
+    'next': {'packs': ['next'], 'site': True, 'container': 'div', 'use_amplify': False},
+    'material': {'packs': ['material'], 'site': True, 'container': 'div', 'use_amplify': False},
+    'firebase': {'packs': ['firebase'], 'site': True, 'container': 'div', 'use_amplify': False},
+    'react-native': {'packs': ['mobile'], 'site': False, 'container': 'View', 'use_amplify': False,
+                     'container_import': ('react-native', ['SafeAreaView', 'ScrollView', 'StyleSheet', 'View']),
+                     'wrapper': MOBILE_WRAPPER, 'base_module': MOBILE_MODULE},
+}
+TARGETS = tuple(TARGET_CONFIG)
 
 
 @dataclass(frozen=True)
@@ -66,11 +85,15 @@ def generate(spec: Dict[str, Any], target: str = 'react-amplify') -> Artifact:
     if target not in TARGETS:
         raise ValueError(f'Unknown target: {target}')
 
+    cfg = TARGET_CONFIG[target]
     library = PatternLibrary()
-    register_site_patterns(library)
-    static = target == 'react-static'
-    mapper = ComponentMapper(library, container='div' if static else 'View', use_amplify=not static)
-    mapper.register_types(SITE_TYPE_MAPPING)
+    mapper = ComponentMapper(library, container=cfg['container'], use_amplify=cfg['use_amplify'],
+                             container_import=cfg.get('container_import'), flat_wrapper=cfg.get('wrapper'),
+                             base_module=cfg.get('base_module'))
+    if cfg['site']:
+        register_site_patterns(library)
+        mapper.register_types(SITE_TYPE_MAPPING)
+    mapper.register_types(register_packs(library, cfg['packs']))   # packs win over site names on their target
     code = mapper.generate(spec)
     return Artifact(
         code=code,
@@ -87,10 +110,12 @@ if __name__ == '__main__':
     from spec_parser import SpecParser
 
     if len(sys.argv) < 2:
-        print('Usage: python generate.py <spec.yaml> [--static] [--hash-only]')
+        print('Usage: python generate.py <spec.yaml> [--static | --target <name>] [--hash-only]')
         sys.exit(1)
 
     target = 'react-static' if '--static' in sys.argv else 'react-amplify'
+    if '--target' in sys.argv:
+        target = sys.argv[sys.argv.index('--target') + 1]
     artifact = generate(SpecParser().parse(sys.argv[1]), target)
     if '--hash-only' in sys.argv:
         print(f'{artifact.content_hash}  {artifact.spec_key}  {artifact.pattern_lib_version}')
