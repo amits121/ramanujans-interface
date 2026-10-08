@@ -41,3 +41,5 @@ build/*
 !build/.gitkeep
 scripts/static-shell/src/generated/
 scripts/static-shell/.ssr/
+build/.cache/
+scripts/static-shell/public/assets/

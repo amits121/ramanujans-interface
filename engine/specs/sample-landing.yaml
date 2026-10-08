@@ -23,7 +23,7 @@ components:
       subtitle: "Designed once, generated the same way every time."
       primary_cta: { label: "See services", href: "#services" }
       secondary_cta: { label: "Talk to us", href: "#contact" }
-      image: { src: "/assets/hero.jpg", alt: "A storefront on a sunny street" }
+      image: { src: "assets/hero.svg", alt: "A storefront on a sunny street" }
 
   - id: services
     type: feature-grid

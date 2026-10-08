@@ -19,13 +19,13 @@ _Intelligent Cloud Lab | print-and-tick checklist | 2026-07-02_
 - [x] pattern-lib-web: package the 16 live patterns (L-01..L-06, C-01..C-10)
 - [x] Add complex component patterns: image, heading/text, nav bar, hero section, feature grid
 - [ ] Expand pattern library from 16 -> 58 patterns (D/E/S/V/A/F/I/X categories) as demand dictates
-- [ ] quality-gates library: accessibility (WCAG) + performance checks, guaranteed by construction
-- [ ] verify-preview library: headless-Chrome render + visual diff (reuse existing pipeline)
+- [x] quality-gates library: accessibility (WCAG) + performance checks, guaranteed by construction
+- [x] verify-preview library: headless-Chrome render + visual diff (reuse existing pipeline)
 - [ ] commercial-core: build ICL's own auth / api / turnstile / bot-protection
 
 ## 1a. Determinism fix sequence (DO FIRST - blocks the cache, the hash-chain log, and the enclave)
 
-_Steps 1-5 DONE 2026-10-08 (engine/ in the repo, golden hashes recorded in engine/tests/golden, pattern library 1.0.0). Steps 6-7 open._
+_Steps 1-6 DONE 2026-10-08 (gate = engine/gate.py, andon exit 2); step 7 local tier done (engine/ in the repo, golden hashes recorded in engine/tests/golden, pattern library 1.0.0). Steps 6-7 open._
 
 _Ordered; each step gates the next. content_hash byte-equality is the acceptance test - the deterministic cache key and the tamper-evident log both depend on it. [A - founder] = Class A, founder-only._
 
@@ -34,8 +34,8 @@ _Ordered; each step gates the next. content_hash byte-equality is the acceptance
 - [x] 3. [A - founder] Audit the full generation path for every other nondeterminism source: unseeded/auto IDs, dict/set iteration order, unsorted imports or keys, any `random`, and any read of env / filesystem / network. Sort and pin all ordering.
 - [x] 4. Add a golden byte-equality test: same spec generated twice (same process AND a fresh process) -> byte-identical; assert a stable `content_hash`. This test is the regression guard.
 - [x] 5. [A - founder] Package the spec-engine into `engine/` behind ONE pure callable `generate(spec) -> artifact` (no side effects, no I/O in the path) - the single entry point the enclave and cache wrap.
-- [ ] 6. Build GA-5 determinism gate: canonicalize the spec, compute `content_hash = sha256(canonical(spec)+pattern_lib_version+target)`, re-run and verify byte-equal; andon (halt + rollback) on any mismatch. No output ships that fails the gate.
-- [ ] 7. Only after GA-5 is green: wire the deterministic cache (§20) - the cache key trusts the hash - then the vsock/enclave layers (§20).
+- [x] 6. Build GA-5 determinism gate: canonicalize the spec, compute `content_hash = sha256(canonical(spec)+pattern_lib_version+target)`, re-run and verify byte-equal; andon (halt + rollback) on any mismatch. No output ships that fails the gate.
+- [ ] 7. (2026-10-08: local cache tier wired - engine/cache.py keyed by spec_key, used by scripts/build_site.py; the edge tier and the vsock/enclave layers remain) Only after GA-5 is green: wire the deterministic cache (§20) - the cache key trusts the hash - then the vsock/enclave layers (§20).
 
 _2026-10-08: phase 2 done - S-01..S-10 site patterns + L-07 page registered (engine/site_patterns.py), design tokens (engine/tokens.py, tokens/default.yaml), static target 'react-static', shell + pre-render (scripts/build_site.py); 14 tests green; pattern library 1.1.0._
 
