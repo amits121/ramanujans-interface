@@ -1,0 +1,72 @@
+# Login Screen Specification
+# Version: 1.0
+# Copyright (c) 2025 Intelligent Cloud Lab Inc.
+
+screen_id: login-screen
+version: "1.0"
+layout: form-stack
+
+state:
+  email: ""
+  password: ""
+  loading: false
+  error: null
+
+components:
+  - id: email
+    type: text-input
+    props:
+      label: "Email"
+      placeholder: "Enter your email"
+      type: email
+      required: true
+
+  - id: password
+    type: text-input
+    props:
+      label: "Password"
+      placeholder: "Enter your password"
+      type: password
+      required: true
+
+  - id: submit
+    type: button
+    props:
+      text: "Sign In"
+      variant: primary
+      onClick: handleLogin
+
+  - id: forgot-password
+    type: button
+    props:
+      text: "Forgot Password?"
+      variant: link
+      onClick: handleForgotPassword
+
+validation:
+  - field: email
+    rules:
+      - type: required
+        message: "Email is required"
+      - type: email
+        message: "Please enter a valid email"
+
+  - field: password
+    rules:
+      - type: required
+        message: "Password is required"
+
+api:
+  endpoint: /auth/login
+  method: POST
+  body:
+    - email
+    - password
+
+accessibility:
+  focusOrder:
+    - email
+    - password
+    - submit
+  ariaLabels: true
+  keyboardNav: true

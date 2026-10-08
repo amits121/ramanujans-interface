@@ -1,0 +1,70 @@
+# Dashboard Screen Specification
+# Version: 1.0
+# Copyright (c) 2025 Intelligent Cloud Lab Inc.
+
+screen_id: dashboard-screen
+version: "1.0"
+layout: header-body-footer
+
+state:
+  user: null
+  stats: null
+  loading: true
+  error: null
+
+sections:
+  header:
+    - id: title-card
+      type: card
+      props:
+        title: "Campaign Dashboard"
+
+  body:
+    - id: welcome-alert
+      type: alert
+      props:
+        message: "Welcome back to your campaign!"
+        variation: info
+
+    - id: create-email
+      type: button
+      props:
+        text: "Create Email Campaign"
+        variant: primary
+        onClick: handleCreateCampaign
+
+    - id: create-sms
+      type: button
+      props:
+        text: "Create SMS Campaign"
+        variant: link
+        onClick: handleCreateSMS
+
+    - id: view-contacts
+      type: button
+      props:
+        text: "View Contacts"
+        variant: link
+        onClick: handleViewContacts
+
+  footer:
+    - id: logout
+      type: button
+      props:
+        text: "Logout"
+        variant: link
+        onClick: handleLogout
+
+api:
+  endpoint: /dashboard/stats
+  method: GET
+  onLoad: true
+
+accessibility:
+  focusOrder:
+    - create-email
+    - create-sms
+    - view-contacts
+    - logout
+  ariaLabels: true
+  keyboardNav: true

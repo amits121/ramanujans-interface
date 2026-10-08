@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UI Screen Specification Schema",
+  "description": "JSON Schema for validating YAML UI specifications in the spec-driven UI generation system.",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["screen_id", "version", "layout"],
+  "properties": {
+    "screen_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Unique screen identifier in kebab-case format"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+$",
+      "description": "Semantic version number"
+    },
+    "layout": {
+      "type": "string",
+      "enum": [
+        "grid-12",
+        "sidebar-main",
+        "header-body-footer",
+        "card-grid",
+        "form-stack",
+        "split-panel"
+      ],
+      "description": "Layout pattern identifier"
+    },
+    "state": {
+      "type": "object",
+      "description": "Initial state variables and their default values"
+    },
+    "components": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/component" },
+      "description": "Flat list of UI components"
+    },
+    "sections": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/component" }
+        },
+        "body": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/component" }
+        },
+        "footer": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/component" }
+        }
+      },
+      "description": "Sectioned layout with header, body, and footer regions"
+    },
+    "validation": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/validationRule" },
+      "description": "Form validation rules"
+    },
+    "api": {
+      "type": "object",
+      "properties": {
+        "endpoint": { "type": "string" },
+        "method": {
+          "type": "string",
+          "enum": ["GET", "POST", "PUT", "DELETE"]
+        },
+        "body": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "onLoad": { "type": "boolean" }
+      },
+      "description": "API integration configuration"
+    },
+    "accessibility": {
+      "type": "object",
+      "properties": {
+        "focusOrder": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "ariaLabels": { "type": "boolean" },
+        "keyboardNav": { "type": "boolean" }
+      },
+      "description": "Accessibility configuration"
+    }
+  },
+  "definitions": {
+    "component": {
+      "type": "object",
+      "required": ["id", "type"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique component identifier within screen"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "button",
+            "text-input",
+            "select",
+            "multi-select",
+            "range-slider",
+            "checkbox",
+            "card",
+            "data-table",
+            "modal",
+            "alert"
+          ],
+          "description": "Component type identifier"
+        },
+        "props": {
+          "type": "object",
+          "description": "Component-specific properties"
+        }
+      }
+    },
+    "validationRule": {
+      "type": "object",
+      "required": ["field", "rules"],
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "Field identifier to validate"
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "message"],
+            "properties": {
+              "type": { "type": "string" },
+              "message": { "type": "string" },
+              "value": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}
