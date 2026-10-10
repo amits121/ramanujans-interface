@@ -89,10 +89,21 @@ _2026-10-08: phase 2 done - S-01..S-10 site patterns + L-07 page registered (eng
 
 ## 6. Hosting & deploy
 
-- [ ] Stand up ICL EC2 / Lambda + API Gateway
-- [ ] nginx config for static React sites
-- [ ] Deploy pipeline (build -> server -> CDN/CloudFront invalidate)
-- [ ] Monitoring / alarms
+_Ruling 2026-10-10: site number one on an EC2 web host in the company account (profile icl-2, us-east-1; VPC ICL-2-vpc with public and private subnets and an internet gateway exists; no instances yet). nginx serves the engine's pre-rendered static output; Session Manager only, no port 22, no key pair; the engine never goes on the web host. Console recipe with every value: productization plan, section 6. The founder runs the console steps; the session supplies scripts and verifies read-only (F-8)._
+
+- [ ] 6.1 Security group icl-web-sg in ICL-2-vpc: 80 and 443 in from anywhere; no 22; outbound all
+- [ ] 6.2 Instance role icl-web-host: AmazonSSMManagedInstanceCore + read on the sites bucket
+- [ ] 6.3 Sites bucket icl-sites-359428598413: public access blocked, versioning on, encrypted
+- [ ] 6.4 Launch icl-web-host: Amazon Linux 2023 arm64, t4g.micro, subnet ICL-2-subnet-public1-us-east-1a with public IP, no key pair, IMDSv2, 20 GB gp3 encrypted, role icl-web-host, user data = scripts/server/web-host-user-data.sh with HOST, SITE, BUCKET filled
+- [ ] 6.5 Elastic IP allocated and associated with icl-web-host
+- [ ] 6.6 DNS: A record <label>.techinnovations.io -> the Elastic IP, in the account that holds the zone (F-7 names the label; techinnovation.io without the s is parked by a third party, not ours)
+- [ ] 6.7 Certificate: `sudo site-cert <host> <email>` on the host through Session Manager; HTTPS redirect on; renewal timer active
+- [ ] 6.8 First deploy on the founder's word: `python scripts/deploy_site.py engine/specs/sample-landing.yaml sample-landing --host <host> --profile icl-2`; byte-equal check passes (plan E-2a)
+- [ ] 6.9 Alarms: StatusCheckFailed_System with the recover action; monthly budget alarm
+- [x] nginx config for static sites (inside the bootstrap, 2026-10-10)
+- [x] Deploy pipeline: gated build -> sites bucket -> site-sync on the host by Run Command -> served-bytes hash check (scripts/deploy_site.py, 2026-10-10)
+- [ ] CloudFront with an ACM certificate in front of the host when sites number more than a handful (F-10)
+- [ ] Engine host (private subnet, no public IP) + API Gateway front door: plan phase 4, after the web host
 
 ## 7. Cloud marketplaces (OUR side by Aug 15; approval time is external)
 

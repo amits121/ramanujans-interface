@@ -1,5 +1,6 @@
 Ramanujan's Interface - Master To-Do List
 Intelligent Cloud Lab | print-and-tick checklist | 2026-07-02
+
 0. Project setup, IP & infrastructure
 ☑ Initialize git repo in Ramanujn's-Interface/ (product root)
 ☑ Configure separate ICL AWS profile (aws configure --profile icl) — new account, never cross-billed
@@ -8,6 +9,7 @@ Intelligent Cloud Lab | print-and-tick checklist | 2026-07-02
 ☐ Build the commercial shell fresh in ICL - use no third-party product code
 ☐ Convert ICL-1 provisional patent -> utility filing (keep IFS/Banach equations filed, not published)
 ☐ Founder-only: complete marketplace / seller registrations (legal entity, tax, banking)
+
 1. Deterministic engine - spec-core (LIBRARIES: author the CODE)
 ☑ Package existing spec-engine (spec_parser.py, component_mapper.py, pattern_library.py, spec-schema.json) into engine/
 ☑ Prove f(spec)=code running in the new ICL home (parse sample YAML -> emit React)
@@ -17,6 +19,7 @@ Intelligent Cloud Lab | print-and-tick checklist | 2026-07-02
 ☑ quality-gates library: accessibility (WCAG) + performance checks, guaranteed by construction
 ☑ verify-preview library: headless-Chrome render + visual diff (reuse existing pipeline)
 ☐ commercial-core: build ICL's own auth / api / turnstile / bot-protection
+
 1b. Library repository (added 2026-10-08 - the black-box factory, private repo only)
 Ruling 2026-10-08: an exhaustive, continuously updated library of components and patterns for React, TypeScript, Next.js, Amplify UI, Google Material and Firebase, and React Native / Expo for mobile; organised on the 58-slot taxonomy with the 80/20 core tier; never shared with partners; the engine host pulls it through the pipeline. Deterministic generation only - never a prompt-to-code service.
 ☑ libs/taxonomy.yaml: the ten categories, the 58 slots, the core sixteen, the pack list
@@ -29,6 +32,7 @@ Ruling 2026-10-08: an exhaustive, continuously updated library of components and
 ☐ Generators for the remaining core-tier entries (catalog status 'catalogued'): react-core hooks as D/E/S patterns, Amplify Collection/Autocomplete/Table variants, Material labs elements, Expo camera/notifications/secure-store, Next route handlers and server actions
 ☐ Self-hosted runner on the engine host before any customer specification enters the repository
 ☐ Nested components (children) in the specification language - today every component is a leaf
+
 1a. Determinism fix sequence (DO FIRST - blocks the cache, the hash-chain log, and the enclave)
 Steps 1-6 DONE 2026-10-08 (gate = engine/gate.py, andon exit 2); step 7 local tier done (engine/ in the repo, golden hashes recorded in engine/tests/golden, pattern library 1.0.0). Steps 6-7 open.
 Ordered; each step gates the next. content_hash byte-equality is the acceptance test - the deterministic cache key and the tamper-evident log both depend on it. [A - founder] = Class A, founder-only.
@@ -40,15 +44,18 @@ Ordered; each step gates the next. content_hash byte-equality is the acceptance 
 ☑ 6. Build GA-5 determinism gate: canonicalize the spec, compute content_hash = sha256(canonical(spec)+pattern_lib_version+target), re-run and verify byte-equal; andon (halt + rollback) on any mismatch. No output ships that fails the gate.
 ☐ 7. (2026-10-08: local cache tier wired - engine/cache.py keyed by spec_key, used by scripts/build_site.py; the edge tier and the vsock/enclave layers remain) Only after GA-5 is green: wire the deterministic cache (§20) - the cache key trusts the hash - then the vsock/enclave layers (§20).
 2026-10-08: phase 2 done - S-01..S-10 site patterns + L-07 page registered (engine/site_patterns.py), design tokens (engine/tokens.py, tokens/default.yaml), static target 'react-static', shell + pre-render (scripts/build_site.py); 14 tests green; pattern library 1.1.0.
+
 2. Design fidelity & ingest libraries
 ☑ design-tokens library: extract colors / fonts / spacing -> CSS (so output LOOKS like the design)
 ☐ ingest-figma: Figma REST/MCP -> normalized design tree
 ☐ ingest-canva: Canva Connect export -> normalized (lower priority; autofill is Enterprise-gated)
 ☐ ingest-vision: any custom graphic (PNG/JPG) -> layout structure (hardest; the 'any graphic' unlock)
+
 3. Multi-target emitters (framework-agnostic + mobile)
 ☐ pattern-lib-html: deterministic HTML/CSS emitter  (2026-10-08: hosted output is already static HTML + CSS via pre-render of the React target; a dedicated emitter is deferred until Rs-scale page weight demands it)
 ☐ pattern-lib-native: React Native / Expo emitter (the 'mobile app' output)
 ☐ (reference only) study Builder.io Mitosis for one-IR -> many-frameworks (do NOT put in the engine)
+
 4. Agents (author the SPEC, never the code)
 ☐ ingest-agent (vision): Figma / Canva / graphic -> structured design description
 ☐ spec-author-agent (CORE): design or prompt -> valid YAML spec (schema-constrained, few-shot from reference specs)
@@ -57,6 +64,7 @@ Ordered; each step gates the next. content_hash byte-equality is the acceptance 
 ☐ verify-agent: render vs source visual diff -> feedback loop
 ☐ orchestrator-agent: MCP tool running ingest -> spec -> generate -> verify
 ☐ pattern-proposal-agent: unmapped element -> propose new pattern (human-reviewed) [later]
+
 5. API & commercial layer
 ☐ API layer: POST design|spec -> code (the a-UI-01 / hosted endpoint)
 ☐ API-key authentication + rate limiting
@@ -65,11 +73,23 @@ Ordered; each step gates the next. content_hash byte-equality is the acceptance 
 ☐ Landing page + docs + self-serve signup (build ICL's own UI core)
 ☐ Pricing tiers: indie $29-49 / Pro $99 / Agency $199+ (protects the $99 blended ARPU)
 ☐ (Phase 2) subscription hosted model (multi-tenant hosting + per-customer deploy) - DEFER
+
 6. Hosting & deploy
-☐ Stand up ICL EC2 / Lambda + API Gateway
-☐ nginx config for static React sites
-☐ Deploy pipeline (build -> server -> CDN/CloudFront invalidate)
-☐ Monitoring / alarms
+Ruling 2026-10-10: site number one on an EC2 web host in the company account (profile icl-2, us-east-1; VPC ICL-2-vpc with public and private subnets and an internet gateway exists; no instances yet). nginx serves the engine's pre-rendered static output; Session Manager only, no port 22, no key pair; the engine never goes on the web host. Console recipe with every value: productization plan, section 6. The founder runs the console steps; the session supplies scripts and verifies read-only (F-8).
+☐ 6.1 Security group icl-web-sg in ICL-2-vpc: 80 and 443 in from anywhere; no 22; outbound all
+☐ 6.2 Instance role icl-web-host: AmazonSSMManagedInstanceCore + read on the sites bucket
+☐ 6.3 Sites bucket icl-sites-359428598413: public access blocked, versioning on, encrypted
+☐ 6.4 Launch icl-web-host: Amazon Linux 2023 arm64, t4g.micro, subnet ICL-2-subnet-public1-us-east-1a with public IP, no key pair, IMDSv2, 20 GB gp3 encrypted, role icl-web-host, user data = scripts/server/web-host-user-data.sh with HOST, SITE, BUCKET filled
+☐ 6.5 Elastic IP allocated and associated with icl-web-host
+☐ 6.6 DNS: A record <label>.techinnovations.io -> the Elastic IP, in the account that holds the zone (F-7 names the label; techinnovation.io without the s is parked by a third party, not ours)
+☐ 6.7 Certificate: sudo site-cert <host> <email> on the host through Session Manager; HTTPS redirect on; renewal timer active
+☐ 6.8 First deploy on the founder's word: python scripts/deploy_site.py engine/specs/sample-landing.yaml sample-landing --host <host> --profile icl-2; byte-equal check passes (plan E-2a)
+☐ 6.9 Alarms: StatusCheckFailed_System with the recover action; monthly budget alarm
+☑ nginx config for static sites (inside the bootstrap, 2026-10-10)
+☑ Deploy pipeline: gated build -> sites bucket -> site-sync on the host by Run Command -> served-bytes hash check (scripts/deploy_site.py, 2026-10-10)
+☐ CloudFront with an ACM certificate in front of the host when sites number more than a handful (F-10)
+☐ Engine host (private subnet, no public IP) + API Gateway front door: plan phase 4, after the web host
+
 7. Cloud marketplaces (OUR side by Aug 15; approval time is external)
 ☐ Research + pick a marketplace-enablement layer (Tackle / Suger / Clazar / Labra) - one integration, not three
 ☐ FILE GCP Marketplace partner application FIRST (approval-gated even to start building)
@@ -77,6 +97,7 @@ Ordered; each step gates the next. content_hash byte-equality is the acceptance 
 ☐ Azure Marketplace: Partner Center + SaaS fulfillment API + listing content
 ☐ GCP Marketplace: procurement API integration + listing content (after partner approval)
 ☐ Submit all three (our side) by Aug 15
+
 8. WP -> React migration (first use cases = dogfood + case studies + alpha)
 ☐ Restart one WordPress instance briefly OR locate DB/XML backups (content access)
 ☐ Confirm each site type: brochure/marketing (easy) vs dynamic (forms / WooCommerce / membership)
@@ -88,21 +109,26 @@ Ordered; each step gates the next. content_hash byte-equality is the acceptance 
 ☐ Per site x6: deploy to nginx on ICL EC2
 ☐ Write case studies: migration speed, cost savings (WP servers -> static), perf/SEO gains
 ☐ Capture the speed-up curve (Site 1 days -> Site 6 hours) as the headline metric
+
 9. Launch milestones
 ☐ Aug 1, 2026 - ALPHA on Product Hunt + similar (lean metered API: YAML->code + Stripe + landing; NO Figma/hosted/mobile in alpha)
 ☐ Aug 15, 2026 - our side of AWS/Azure/GCP marketplace listings submitted
 ☐ Sept 1, 2026 - full marketing launch (Pune agency)
 ☐ Mar 31, 2027 - reach 10,000 subscribers (1/3 of target; 30k x $99/mo = ~$3M/mo target)
+
 10. Moat & IP protection
 ☐ Legal lock: ICL-1 utility conversion; keep equations filed not published
 ☐ Technical lock: pattern library 100% server-side; no client SDK; never open-source
 ☐ Compounding lock: data flywheel - log every ingested design to improve agents + grow token/spec corpus
+
 11. Team, offshore & personal
 ☐ Final interviews of ~10 developers (HR does strict vetting first)
 ☐ Plan & prepare short-term family relocation to Pune
+
 12. Marketing (SEPARATE TRACK - not built here)
 ☐ Handled by marketing firm + Google tools, own plan & budget
 ☐ Reference only in this project; do not build marketing assets in the engineering lane
+
 13. Delivery model + output discipline - "behave like a hired human developer"
 Governing frame: the product behaves exactly like a hired human developer/agency. You get the finished, working deliverable - never the developer's private reusable toolkit (the generators + pattern library). Determinism (rule 2) stays absolute: we mimic a human's DELIVERABLE and PROFESSIONAL BOUNDARIES, never a human's variability; same spec still -> byte-identical output.
 ☐ Served (rendered per-site HTML/CSS/JS) != factory: a site's own rendered bytes necessarily reach its visitors' browsers - that is fine. What NEVER leaves the server is the factory (generators, pattern library, IFS/Banach math) + the editable source project.
@@ -112,6 +138,7 @@ Governing frame: the product behaves exactly like a hired human developer/agency
 ☐ Clean source, if ever handed over = Enterprise export tier only = THAT one site's self-contained project source (a freelancer's hand-off), never the cross-client pattern factory; contract-bound, rate-limited, per-tenant caps, output-fingerprinted.
 ☐ Position as a deterministic math-based UI service that replaces the probabilistic LLM call with generate-AND-serve (a running result), not generate-code-you-host.
 ☐ Reject client-side DRM/encryption; protection = server-side engine + hardware lock + output discipline, not client locks.
+
 13a. Moat economics - raise the cost of replication (effort x time) so most give up
 The moat is COST ASYMMETRY, not prevention: make replication uneconomic (attacker cost > expected payoff) and the rational majority abandon it. Layers are cost multipliers that compound. Intrinsic difficulty is itself the base layer - deriving the algorithm from outside requires being in the <1% engineer cohort that could author it in the first place.
 ☐ Hardware lock (enclave) -> can't steal the factory; must reconstruct from scratch. Protects the IMPLEMENTATION.
@@ -120,6 +147,7 @@ The moat is COST ASYMMETRY, not prevention: make replication uneconomic (attacke
 ☐ Determinism -> even a successful cloner gets a probabilistic lookalike, not f(spec)=byte-identical (the patent claim). Protects the DIFFERENTIATOR.
 ☐ Velocity = the master multiplier -> a moving target: while they distill v1, ship v2..vN + more patterns; they always clone yesterday's product (Grove "obsolete your own product"; ~2-yr lead).
 ☐ Honest limit: raising cost defeats the MANY (script-kiddies quit at rate limits; mid-tier quit at distillation cost), NOT the well-funded FEW. Against the few the moat is patent (deterrence/valuation) + velocity + DISTRIBUTION (Canva channel + premium brand) - cloning the tech != cloning the business.
+
 14. Hosted site architecture (hybrid serverless)
 ☐ Static site served from S3 + CloudFront (on-demand build container, torn down when idle)
 ☐ Contact form: static form + Cloudflare Turnstile -> API Gateway -> one generic SMTP-relay Lambda
@@ -128,6 +156,7 @@ The moat is COST ASYMMETRY, not prevention: make replication uneconomic (attacke
 ☐ Chat widget calls reseller's own LLM endpoint directly (zero chat cost/liability)
 ☐ Reseller connects own domain (CNAME to CloudFront); managed DNS = paid add-on
 ☐ Confirm target ~$1-2/site all-in, ~90% gross margin at $99
+
 15. Canva Premium App - the beachhead (Canva sells it)
 ☐ Build narrow, delightful in-editor app: "turn your Canva design into a real website" (one-click)
 ☐ Ingest via Canva Design Editing API (structured design -> high fidelity)
@@ -138,6 +167,7 @@ The moat is COST ASYMMETRY, not prevention: make replication uneconomic (attacke
 ☐ Seed reviews/installs from WP case studies + first creator-resellers
 ☐ Keep non-Canva channels live so slow approval can't stall launch
 ☐ (Earned, later) OEM/embed deal for native my.canva.site output
+
 16. Pricing & upsell ladder (Macy's, not dollar store)
 ☐ Anchor tier: $99 premium; NOT a race to the bottom vs Canva free Websites
 ☐ Build upsells from day one: e-commerce/store, multi-site, custom domain + pro email
@@ -146,6 +176,7 @@ The moat is COST ASYMMETRY, not prevention: make replication uneconomic (attacke
 ☐ Traffic/bandwidth tiers; priority support/SLA; managed "keep it fresh" updates
 ☐ Agency/team seats + white-label (highest ACV)
 ☐ Target NRR > 100% (grow MRR, not just logos)
+
 17. Internal moat & agent hardening
 ☐ Class A (core algorithm, pattern library, IFS) = FOUNDER-ONLY; no engineer touches it
 ☐ All engineers (trainee or senior) operate through hardened agents (on-call, scaling, features)
@@ -153,6 +184,7 @@ The moat is COST ASYMMETRY, not prevention: make replication uneconomic (attacke
 ☐ Red-team the agents themselves (what can they see/log/return about Class A?)
 ☐ Break-glass succession envelope for Class A (sealed/encrypted access; bus-factor mitigation)
 ☐ API-surface defenses: rate limits, enumeration/anomaly detection (IDS/IPS agent), per-tenant sets, output fingerprinting
+
 17a. Counter-distillation defense - O-4 (separate Defense MCP, deceive-don't-block)
 Threat model: the near-certain attack is LLM distillation - harvest (spec->output) pairs, fit a probabilistic mimic. Blocking is a signal (they adapt); deception is silent (they train on poison and can't tell why the clone fails). This attacks the PAYOFF, not just the effort. Runs as its own MCP, physically outside the enclave, so poison can NEVER touch the deterministic path/cache/hash-chain.
 ☐ Stand up a SEPARATE Defense MCP (own account/deploy/blast-radius; NOT Class A; non-deterministic by design). A gateway sentinel routes each request: legit -> Core MCP (enclave); flagged -> Defense MCP.
@@ -166,6 +198,7 @@ Threat model: the near-certain attack is LLM distillation - harvest (spec->outpu
 ☐ Adaptive/Sybil counter: slow, distributed, decoy-deploying harvesters degrade the per-account signal -> aggregate coverage ACROSS accounts (cross-tenant correlation) + per-account caps. Forcing them into slow/distributed/expensive harvesting IS the win (velocity obsoletes what they eventually get).
 ☐ Validate the decoy with the harness: train a model on decoy output in simulation and confirm it FAILS to converge (this is how 13/#3 un-learnable-decoy is proven); include a honeypot-probing attacker (canary specs, cross-account diff) and tune until deception detectability is minimized (this is how 13/#4 is hardened).
 ☐ Stay defensive only: govern what OUR service returns to requests made TO it (degraded/deceptive responses to detected abuse), backed by ToS prohibiting scraping / model-training on outputs. Never reach OUT to the attacker (no beaconing/corrupting their systems).
+
 18. Go-to-market & business plan (current)
 ☐ Canva Premium App launch: first week of August
 ☐ Full product (APIs + features) complete by mid-August (excl. marketplace approval)
@@ -175,12 +208,14 @@ Threat model: the near-certain attack is LLM distillation - harvest (spec->outpu
 ☐ 4-person offsite marketing team (~$2k/mo) + ~$3k ads; ~$5k initial push
 ☐ Recruit Canva-ecosystem creators (educators, VAs, template sellers, small agencies) as resellers
 ☐ Hold M/E ratio ~6 (product built -> distribution is the bottleneck); reinvest all margin
+
 19. Validation gate & reliability (first 1,000)
 ☐ Instrument from customer #1: conversion by channel, churn/retention, NRR/expansion, CAC by channel
 ☐ First 1,000 paying at $99 = validation gate; scale what converts
 ☐ Target ~$1M/month combined within 6 months of hitting 1,000 (target, not forecast until validated)
 ☐ Senior anchor (founder + AI review) for reliability/security/incident response (hosted = critical infra)
 ☐ India trainee hiring: walk-in interviews; ~$10k for 4 trainees / 6 months for feature work via agents
+
 20. Core isolation - Nitro Enclave boundary (ICL-2-D pattern, cloud-native)
 ☐ Separate CORE AWS account (blast-radius isolation from the product account)
 ☐ Parent EC2 on dedicated host / bare metal (single-tenant, no side-channel)
