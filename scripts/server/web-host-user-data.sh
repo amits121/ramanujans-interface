@@ -10,8 +10,9 @@
 # Copyright (c) 2026 Intelligent Cloud Lab Inc.
 set -euxo pipefail
 
-HOST="__HOST__"          # the site's host name, e.g. the label chosen in F-7 plus .techinnovations.io
-SITE="__SITE__"          # the site folder name used by scripts/deploy_site.py, e.g. sample-landing
+HOST="__HOST__"          # the site's host name, e.g. techinnovations.io
+ALIASES="__ALIASES__"    # other names served by the same site, space separated, e.g. www.techinnovations.io (may be empty)
+SITE="__SITE__"          # the site folder name used by scripts/deploy_site.py, e.g. techinnovations
 BUCKET="__BUCKET__"      # the sites bucket, e.g. icl-sites-<account id>
 
 dnf -y update
@@ -26,6 +27,7 @@ ln -sf /opt/certbot/bin/certbot /usr/local/bin/certbot
 mkdir -p /etc/icl-web-host "/var/www/$SITE"
 echo "$BUCKET" > /etc/icl-web-host/bucket
 echo "$HOST" > /etc/icl-web-host/host
+echo "$ALIASES" > /etc/icl-web-host/aliases
 printf '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>%s</title></head><body><p>%s: first deploy pending.</p></body></html>\n' "$HOST" "$HOST" > "/var/www/$SITE/index.html"
 chown -R nginx:nginx /var/www
 
@@ -58,7 +60,7 @@ cat > "/etc/nginx/conf.d/$SITE.conf" <<SITECONF
 server {
     listen 80;
     listen [::]:80;
-    server_name $HOST;
+    server_name $HOST $ALIASES;
     root /var/www/$SITE;
     index index.html;
     add_header X-Content-Type-Options nosniff always;
@@ -89,11 +91,13 @@ chmod 755 /usr/local/bin/site-sync
 
 cat > /usr/local/bin/site-cert <<'CERT'
 #!/bin/bash
-# site-cert <host> <email>: issue the Let's Encrypt certificate for <host> and turn on the HTTPS redirect.
-# Run once the host name resolves to this instance (port 80 must be reachable from the internet).
+# site-cert <host> <email>: issue the Let's Encrypt certificate for <host> and every alias recorded at bootstrap,
+# and turn on the HTTPS redirect. Run once every name resolves to this instance (port 80 reachable from the internet).
 set -euo pipefail
 HOST="${1:?usage: site-cert <host> <email>}"; EMAIL="${2:?usage: site-cert <host> <email>}"
-/usr/local/bin/certbot --nginx -d "$HOST" -m "$EMAIL" --agree-tos --no-eff-email --redirect --non-interactive
+DOMAINS=(-d "$HOST")
+for alias in $(cat /etc/icl-web-host/aliases 2>/dev/null); do DOMAINS+=(-d "$alias"); done
+/usr/local/bin/certbot --nginx "${DOMAINS[@]}" -m "$EMAIL" --agree-tos --no-eff-email --redirect --non-interactive
 nginx -t && systemctl reload nginx
 echo "certificate issued for $HOST"
 CERT

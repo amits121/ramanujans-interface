@@ -31,6 +31,7 @@ Ruling 2026-10-08: an exhaustive, continuously updated library of components and
 ☑ CI gate on push (.github/workflows/ci.yml): engine + library tests, determinism gate per sample, sample site build
 ☐ Generators for the remaining core-tier entries (catalog status 'catalogued'): react-core hooks as D/E/S patterns, Amplify Collection/Autocomplete/Table variants, Material labs elements, Expo camera/notifications/secure-store, Next route handlers and server actions
 ☐ Self-hosted runner on the engine host before any customer specification enters the repository
+☐ Move the private repository and its workflows to a separate GitHub for ICL (founder's ruling 2026-11-09); until then the current private remote stays, pushes allowed, manual workflow dispatch needs the owner
 ☑ Declarations merged once per key; two uses declaring different code under one name are refused (2026-11-09: engine/declarations.py; the Next and Firebase packs moved to declare())
 ☑ Hash-chained generation ledger, no clock, verified by scripts/build_site.py and CI (2026-11-09: engine/ledger.py; signing by the engine host is phase 4)
 ☑ Per-tenant pattern sets: a named list of allowed types, refusal outside it, set id in the cache key (2026-11-09: engine/pattern_sets.py, engine/pattern-sets/site-only.yaml)
@@ -82,7 +83,7 @@ Ordered; each step gates the next. content_hash byte-equality is the acceptance 
 
 6. Hosting & deploy
 Ruling 2026-10-10: site number one on an EC2 web host in the company account (profile icl-2, us-east-1; VPC ICL-2-vpc with public and private subnets and an internet gateway exists; no instances yet). nginx serves the engine's pre-rendered static output; Session Manager only, no port 22, no key pair; the engine never goes on the web host. Console recipe with every value: productization plan, section 6. The founder runs the console steps; the session supplies scripts and verifies read-only (F-8).
-☐ 6.1 Security group icl-web-sg in ICL-2-vpc: 80 and 443 in from anywhere; no 22; outbound all
+☐ 6.1 Security group icl-web-sg in ICL-2-vpc: 80 and 443 in from anywhere; no 22; outbound all (2026-11-09: values read from the account, steps written in plain words for the founder in Documents/ICL-UI-Productization/Tonight-Host-Setup-techinnovations.docx; isolated CLI environment scripts/aws-icl with ~/.aws-icl; bootstrap now serves the www alias)
 ☐ 6.2 Instance role icl-web-host: AmazonSSMManagedInstanceCore + read on the sites bucket
 ☐ 6.3 Sites bucket icl-sites-359428598413: public access blocked, versioning on, encrypted
 ☐ 6.4 Launch icl-web-host: Amazon Linux 2023 arm64, t4g.micro, subnet ICL-2-subnet-public1-us-east-1a with public IP, no key pair, IMDSv2, 20 GB gp3 encrypted, role icl-web-host, user data = scripts/server/web-host-user-data.sh with HOST, SITE, BUCKET filled
