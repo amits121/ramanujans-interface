@@ -105,12 +105,15 @@ def run_sync(iid, site, profile, region):
     sys.exit('site-sync did not finish in time')
 
 
-def verify(host, scheme, rows):
+def verify(host, scheme, rows, address=''):
+    """Fetch every page and asset and compare with the build. With --address the request goes to that IP
+    with the host name in the Host header, so the check works before DNS points at the host."""
     mismatches = 0
     pages = tuple(r for r in sorted(rows) if r.endswith('index.html'))
     for rel in pages + tuple(r for r in sorted(rows) if r.startswith('assets/') and not r.endswith('.gitkeep')):
-        url = f'{scheme}://{host}/' + rel[:-len('index.html')] if rel.endswith('index.html') else f'{scheme}://{host}/{rel}'
-        req = urllib.request.Request(url, headers={'Accept-Encoding': 'identity', 'User-Agent': 'deploy-check'})
+        path = rel[:-len('index.html')] if rel.endswith('index.html') else rel
+        url = f'{scheme}://{address or host}/{path}'
+        req = urllib.request.Request(url, headers={'Accept-Encoding': 'identity', 'User-Agent': 'deploy-check', 'Host': host})
         with urllib.request.urlopen(req, timeout=20) as resp:
             served = sha256_bytes(resp.read())
         ok = served == rows[rel]
@@ -132,6 +135,7 @@ def main():
     ap.add_argument('--description', default='')
     ap.add_argument('--skip-build', action='store_true', help='deploy the existing build/<site>')
     ap.add_argument('--http', action='store_true', help='verify over http (before the certificate exists)')
+    ap.add_argument('--address', default='', help='verify against this IP with the host name in the Host header (before DNS)')
     args = ap.parse_args()
 
     out_dir = os.path.join(ROOT, 'build', args.site)
@@ -150,7 +154,7 @@ def main():
     run_sync(iid, args.site, args.profile, args.region)
 
     scheme = 'http' if args.http else 'https'
-    if verify(args.host, scheme, rows):
+    if verify(args.host, scheme, rows, args.address):
         print(f'deployed {args.site} to {scheme}://{args.host}/  served bytes equal the build')
     else:
         sys.exit('served bytes differ from the build')
