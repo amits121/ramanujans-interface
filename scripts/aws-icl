@@ -1,17 +1,13 @@
 #!/bin/bash
-# aws-icl: the AWS command line with the ICL company account's configuration only.
-# Configuration and credentials live in ~/.aws-icl, apart from any other account's files on this Mac,
-# so the two can never be mixed up. The installed aws binary is shared; only the files differ.
-#
-#   scripts/aws-icl <aws arguments...>        e.g. scripts/aws-icl sts get-caller-identity
-#   scripts/aws-icl run <command...>          run any command (e.g. the deploy script) with this environment
-#   scripts/aws-icl configure                 enter the ICL credentials (founder only; never paste keys elsewhere)
-#
+# aws-icl: run the AWS command line against the company (ICL) account, never the default profile.
+#   scripts/aws-icl sts get-caller-identity          -> must print account 359428598413
+#   scripts/aws-icl run python scripts/deploy_site.py ...   (any command with the ICL profile exported)
+# The profile icl-2 lives in the standard ~/.aws files next to the default (VotersAI) profile, as recorded in
+# Documents/Amit/Credentials/AWS-CLI-Switch-VotersAI-ICL.docx; this wrapper only pins it, so no terminal can
+# fall back to the default profile by accident. No secret material is read or written here.
 # Copyright (c) 2026 Intelligent Cloud Lab Inc.
 set -euo pipefail
-export AWS_CONFIG_FILE="$HOME/.aws-icl/config"
-export AWS_SHARED_CREDENTIALS_FILE="$HOME/.aws-icl/credentials"
-export AWS_PROFILE="${AWS_PROFILE_ICL:-icl}"
+export AWS_PROFILE="${AWS_PROFILE_ICL:-icl-2}"
 export AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION:-us-east-1}"
 export AWS_PAGER=""
 if [ "${1:-}" = "run" ]; then shift; exec "$@"; fi

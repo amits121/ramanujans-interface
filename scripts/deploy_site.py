@@ -6,6 +6,8 @@ through Systems Manager Run Command, then prove the served bytes equal the build
     python scripts/deploy_site.py engine/specs/sample-landing.yaml sample-landing \
         --host inovations.techinnovations.io [--profile icl-2] [--bucket icl-sites-<account>] \
         [--instance-name icl-web-host] [--title "..."] [--description "..."] [--skip-build] [--http]
+    python scripts/deploy_site.py engine/sites/techinnovations.yaml techinnovations --host techinnovations.io
+        (a site manifest builds every page through scripts/build_pages.py; every page is verified byte for byte)
 
 Writes to the company account (the bucket upload and the Run Command) run under the given profile,
 on the founder's word. Nothing here touches the engine: the build is scripts/build_site.py.
@@ -41,12 +43,21 @@ def aws(args, profile, region, parse=True):
 
 
 def build(spec, site, title, description):
+    if is_manifest(spec):
+        subprocess.run([sys.executable, os.path.join(ROOT, 'scripts', 'build_pages.py'), spec], check=True)
+        return
     cmd = [sys.executable, os.path.join(ROOT, 'scripts', 'build_site.py'), spec, site]
     if title:
         cmd += ['--title', title]
     if description:
         cmd += ['--description', description]
     subprocess.run(cmd, check=True)
+
+
+def is_manifest(path):
+    with open(path, 'r', encoding='utf-8') as f:
+        head = f.read(4000)
+    return '\npages:' in head or head.startswith('pages:')
 
 
 def manifest(out_dir):
@@ -96,8 +107,9 @@ def run_sync(iid, site, profile, region):
 
 def verify(host, scheme, rows):
     mismatches = 0
-    for rel in ('index.html',) + tuple(r for r in sorted(rows) if r.startswith('assets/')):
-        url = f'{scheme}://{host}/' + ('' if rel == 'index.html' else rel)
+    pages = tuple(r for r in sorted(rows) if r.endswith('index.html'))
+    for rel in pages + tuple(r for r in sorted(rows) if r.startswith('assets/') and not r.endswith('.gitkeep')):
+        url = f'{scheme}://{host}/' + rel[:-len('index.html')] if rel.endswith('index.html') else f'{scheme}://{host}/{rel}'
         req = urllib.request.Request(url, headers={'Accept-Encoding': 'identity', 'User-Agent': 'deploy-check'})
         with urllib.request.urlopen(req, timeout=20) as resp:
             served = sha256_bytes(resp.read())
