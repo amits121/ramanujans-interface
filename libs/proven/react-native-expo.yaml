@@ -1,0 +1,222 @@
+# Proven register: React Native, Expo and the field-operations modules the field application uses in production.
+# Built from the real imports of the field application's source on 2026-11-09; maintained by scripts/verify_components.py.
+# React Native cannot be loaded in plain Node, so exports are not enumerated here; versions and real usage are tracked.
+register: react-native-expo
+title: React Native, Expo and field-operations modules, proven in the field application
+packages:
+- name: react-native
+  catalog: react-native-expo
+  enumerate: false
+- name: expo
+  catalog: react-native-expo
+  enumerate: false
+- name: expo-router
+  enumerate: false
+- name: expo-status-bar
+  enumerate: false
+- name: expo-haptics
+  enumerate: false
+- name: react-native-safe-area-context
+  enumerate: false
+- name: react-native-webview
+  enumerate: false
+scan_prefixes:
+- react-native
+- expo
+- '@expo'
+- react-native-
+applications:
+- label: field application
+  tree: votersai-canvasser
+first_recorded: '2026-11-09'
+last_verified: '2026-11-09'
+versions:
+  installed:
+    votersai-canvasser:
+      react-native: 0.83.2
+      expo: 55.0.8
+      expo-router: 55.0.7
+      expo-status-bar: 55.0.4
+      expo-haptics: 55.0.9
+      react-native-safe-area-context: 5.6.2
+      react-native-webview: 13.16.1
+  latest:
+    react-native: 0.88.1
+    expo: 58.0.23
+    expo-router: 58.0.30
+    expo-status-bar: 58.0.4
+    expo-haptics: 58.0.7
+    react-native-safe-area-context: 5.11.1
+    react-native-webview: 14.0.1
+components:
+- name: View
+  package: react-native
+  module: react-native
+  pattern: MOB-01, MOB-07
+  files: 8
+  status: proven
+  since: '2026-11-09'
+- name: Text
+  package: react-native
+  module: react-native
+  pattern: MOB-02, MOB-03
+  files: 9
+  status: proven
+  since: '2026-11-09'
+- name: Pressable
+  package: react-native
+  module: react-native
+  pattern: MOB-04
+  files: 9
+  status: proven
+  since: '2026-11-09'
+- name: TextInput
+  package: react-native
+  module: react-native
+  pattern: MOB-05
+  files: 1
+  status: proven
+  since: '2026-11-09'
+- name: FlatList
+  package: react-native
+  module: react-native
+  pattern: MOB-06
+  files: 1
+  status: proven
+  since: '2026-11-09'
+- name: Modal
+  package: react-native
+  module: react-native
+  pattern: MOB-08
+  files: 3
+  status: proven
+  since: '2026-11-09'
+- name: ScrollView
+  package: react-native
+  module: react-native
+  pattern: screen wrapper (mapper)
+  files: 2
+  status: proven
+  since: '2026-11-09'
+- name: StyleSheet
+  package: react-native
+  module: react-native
+  pattern: MOB-00
+  files: 9
+  status: proven
+  since: '2026-11-09'
+- name: ActivityIndicator
+  package: react-native
+  module: react-native
+  pattern: none yet
+  files: 4
+  status: proven
+  since: '2026-11-09'
+- name: Alert
+  package: react-native
+  module: react-native
+  pattern: none yet (imperative API)
+  files: 3
+  status: proven
+  since: '2026-11-09'
+- name: Animated
+  package: react-native
+  module: react-native
+  pattern: none yet
+  files: 1
+  status: proven
+  since: '2026-11-09'
+- name: KeyboardAvoidingView
+  package: react-native
+  module: react-native
+  pattern: none yet
+  files: 1
+  status: proven
+  since: '2026-11-09'
+- name: Linking
+  package: react-native
+  module: react-native
+  pattern: none yet
+  files: 2
+  status: proven
+  since: '2026-11-09'
+- name: Platform
+  package: react-native
+  module: react-native
+  pattern: none yet
+  files: 5
+  status: proven
+  since: '2026-11-09'
+- name: Vibration
+  package: react-native
+  module: react-native
+  pattern: none yet
+  files: 1
+  status: proven
+  since: '2026-11-09'
+- name: Stack
+  package: expo-router
+  module: expo-router
+  pattern: none yet
+  files: 1
+  status: proven
+  since: '2026-11-09'
+- name: router
+  package: expo-router
+  module: expo-router
+  pattern: none yet
+  files: 5
+  status: proven
+  since: '2026-11-09'
+- name: useFocusEffect
+  package: expo-router
+  module: expo-router
+  pattern: none yet
+  files: 3
+  status: proven
+  since: '2026-11-09'
+- name: useLocalSearchParams
+  package: expo-router
+  module: expo-router
+  pattern: none yet
+  files: 1
+  status: proven
+  since: '2026-11-09'
+- name: StatusBar
+  package: expo-status-bar
+  module: expo-status-bar
+  pattern: status-bar type in the mobile pack
+  files: 1
+  status: proven
+  since: '2026-11-09'
+- name: SafeAreaView
+  package: react-native-safe-area-context
+  module: react-native-safe-area-context
+  pattern: screen wrapper (mapper)
+  files: 5
+  status: proven
+  since: '2026-11-09'
+- name: useSafeAreaInsets
+  package: react-native-safe-area-context
+  module: react-native-safe-area-context
+  pattern: none yet
+  files: 1
+  status: proven
+  since: '2026-11-09'
+- name: WebView
+  package: react-native-webview
+  module: react-native-webview
+  pattern: MOB-14
+  files: 1
+  status: proven
+  since: '2026-11-09'
+- name: namespace:Haptics
+  package: expo-haptics
+  module: expo-haptics
+  pattern: none yet (imperative haptics)
+  files: 1
+  status: proven
+  since: '2026-11-09'
+notes:
+- Deprecations for this register come from the Expo SDK upgrade notes, read by the founder at each SDK change; the script
+  tracks versions and usage.

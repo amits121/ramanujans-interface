@@ -1,0 +1,212 @@
+# Proven register: the component-framework UI package, as used by the production web application.
+# Built from the real imports of the source trees on 2026-11-09; maintained by scripts/verify_components.py.
+# status proven = imported by production code; files = number of source files importing it at the last scan.
+register: amplify-ui-react
+title: Component-framework UI package (Amplify UI React) and the Amplify library, proven in production
+packages:
+- name: '@aws-amplify/ui-react'
+  catalog: amplify-ui-react
+- name: aws-amplify
+  catalog: amplify-ui-react
+  enumerate: false
+  note: declared by both web applications; no direct import found in their source on 2026-11-09
+scan_prefixes:
+- '@aws-amplify/ui-react'
+- aws-amplify
+applications:
+- label: production web application (the reduction-to-practice platform)
+  tree: votersai-frontend
+- label: admin application (declares the package, no imports found 2026-11-09)
+  tree: Votersai-UI-Admin
+first_recorded: '2026-11-09'
+last_verified: '2026-11-09'
+versions:
+  installed:
+    votersai-frontend:
+      '@aws-amplify/ui-react': 6.13.2
+      aws-amplify: 6.15.9
+    Votersai-UI-Admin:
+      '@aws-amplify/ui-react': 6.14.0
+      aws-amplify: 6.16.2
+    latest-packages:
+      '@aws-amplify/ui-react': 6.15.7
+      aws-amplify: 6.22.2
+  latest:
+    '@aws-amplify/ui-react': 6.15.7
+    aws-amplify: 6.22.2
+components:
+- name: View
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: layout container (the mapper emits it as the wrapper on this target)
+  files: 23
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: Image
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: AMP-03
+  files: 14
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: Button
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: C-01
+  files: 18
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: Flex
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: AMP-05
+  files: 20
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: Text
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: AMP-02
+  files: 20
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: Heading
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: AMP-01
+  files: 9
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: Divider
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: AMP-07
+  files: 2
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: Loader
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: AMP-09
+  files: 4
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: Alert
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: C-10
+  files: 4
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: CheckboxField
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: C-06
+  files: 1
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: PasswordField
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: AMP-15
+  files: 3
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: SelectField
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: C-03
+  files: 1
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: Table
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: C-08
+  files: 1
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: TableHead
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: C-08
+  files: 1
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: TableBody
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: C-08
+  files: 1
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: TableRow
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: C-08
+  files: 1
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: TableCell
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: C-08
+  files: 1
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: TextAreaField
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: AMP-18
+  files: 1
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+- name: TextField
+  package: '@aws-amplify/ui-react'
+  module: '@aws-amplify/ui-react'
+  pattern: C-02
+  files: 5
+  status: proven
+  since: '2026-11-09'
+  export_present: true
+  deprecated: false
+notes:
+- Every proven component has a registered generator; View is the layout wrapper the mapper emits itself.
+- The stylesheet @aws-amplify/ui-react/styles.css is imported once by the production application (side-effect import).
+- The catalog amplify-ui-react.yaml holds the exhaustive export list (90 entries); this register holds what production uses.

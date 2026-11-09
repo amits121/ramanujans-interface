@@ -1,0 +1,40 @@
+# Proven register: Firebase web SDK and FirebaseUI. Catalogued and generated (pack FB-01..FB-06) but NOT proven:
+# no production usage was found in any of the four application trees on 2026-11-09.
+# Maintained by scripts/verify_components.py; the monthly workflow checks the latest package against the catalog.
+register: firebase
+title: Firebase web SDK and FirebaseUI, catalogued only (no production usage found)
+packages:
+- name: firebase
+  catalog: firebase
+  note: catalog enumerated at 10.14.1 on 2026-10-08; latest major is 13
+  types_packages:
+  - firebase
+  - '@firebase'
+- name: firebaseui
+  catalog: firebase
+scan_prefixes:
+- firebase
+- firebaseui
+- '@react-native-firebase'
+applications:
+- label: production web application
+  tree: votersai-frontend
+- label: admin application
+  tree: Votersai-UI-Admin
+- label: field application
+  tree: votersai-canvasser
+first_recorded: '2026-11-09'
+last_verified: '2026-11-09'
+versions:
+  installed:
+    latest-packages:
+      firebase: 13.2.0
+      firebaseui: 6.1.0
+  latest:
+    firebase: 13.2.0
+    firebaseui: 6.1.0
+components: []
+notes:
+- 'Status catalogued: the six FB patterns use the modular API, which is stable across the major versions, but each monthly
+  run must confirm the catalogued entries still exist in the latest package before the pack is marked proven.'
+- The first component enters this register only when production code imports it (the scan adds it).

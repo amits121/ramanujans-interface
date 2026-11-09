@@ -1,0 +1,33 @@
+# First of every month: install the latest published packages, enumerate their exports, compare
+# with the catalogs and the proven registers, upload the report. A proven component that is
+# missing or deprecated fails the run, which is the alarm.
+name: monthly-components
+on:
+  schedule:
+    - cron: "0 6 1 * *"
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Python dependencies
+        run: pip install pyyaml
+      - name: Install the latest published packages into a scratch tree
+        run: |
+          mkdir -p /tmp/latest && cd /tmp/latest && npm init -y >/dev/null
+          npm install --no-audit --no-fund --legacy-peer-deps react@18 react-dom@18 @aws-amplify/ui-react@latest aws-amplify@latest firebase@latest firebaseui@latest
+      - name: Verify components against catalogs and proven registers
+        run: python scripts/verify_components.py --tree /tmp/latest --latest --no-scan --report-dir libs/proven/reports
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: components-report
+          path: libs/proven/reports/

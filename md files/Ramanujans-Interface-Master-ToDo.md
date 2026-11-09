@@ -40,6 +40,8 @@ _Ruling 2026-10-08: an exhaustive, continuously updated library of components an
 - [x] Hash-chained generation ledger, no clock, verified by scripts/build_site.py and CI (2026-11-09: engine/ledger.py; signing by the engine host is phase 4)
 - [x] Per-tenant pattern sets: a named list of allowed types, refusal outside it, set id in the cache key (2026-11-09: engine/pattern_sets.py, engine/pattern-sets/site-only.yaml)
 - [x] Type check of generated files in strict mode as a gate (2026-11-09: scripts/check_tsx.py, in CI)
+- [x] Proven components kept apart from the catalogs: libs/proven/ registers built from the production trees' real imports (2026-11-09; the component-framework UI package is proven, Firebase is catalogued only, no production use found)
+- [ ] MONTHLY, first of the month: run scripts/verify_components.py against the production trees and the latest packages; read reports/YYYY-MM.md; a deprecated or missing proven component becomes pattern work before any upgrade (the monthly-components workflow runs the same check against the latest packages and uploads the report)
 - [x] Nested components (children) in the specification language (2026-11-09: slots on container patterns, children and slot in schema 1.3.0, recursive imports and handlers; empty slots render nothing)
 
 ## 1a. Determinism fix sequence (DO FIRST - blocks the cache, the hash-chain log, and the enclave)
@@ -146,7 +148,7 @@ _Ruling 2026-10-10: site number one on an EC2 web host in the company account (p
 
 ## 11. Team, offshore & personal
 
-- [ ] Final interviews of ~10 developers (HR does strict vetting first)
+- [x] Offshore hire: DONE, the team is hired in Pune (founder's correction 2026-11-09; the earlier line read "final interviews of ~10 developers, HR vets first")
 - [ ] Plan & prepare short-term family relocation to Pune
 
 ## 12. Marketing (SEPARATE TRACK - not built here)

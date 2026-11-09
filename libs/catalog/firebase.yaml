@@ -126,6 +126,7 @@ entries:
   category: A
   tier: extended
   status: catalogued
+  note: not exported by firebase 13.2.0 (monthly components check 2026-11-09); keep until the replacement is catalogued
 - id: firebase.auth.signInWithEmailAndPassword
   name: signInWithEmailAndPassword
   source: firebase/auth
