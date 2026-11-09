@@ -18,7 +18,7 @@ _Intelligent Cloud Lab | print-and-tick checklist | 2026-07-02_
 - [x] Prove f(spec)=code running in the new ICL home (parse sample YAML -> emit React)
 - [x] pattern-lib-web: package the 16 live patterns (L-01..L-06, C-01..C-10)
 - [x] Add complex component patterns: image, heading/text, nav bar, hero section, feature grid
-- [ ] Expand pattern library from 16 -> 58 patterns (D/E/S/V/A/F/I/X categories) as demand dictates
+- [ ] Expand pattern library from 16 -> 58 patterns (D/E/S/V/A/F/I/X categories) as demand dictates (2026-11-09: the first pattern of each of the eight categories registered in engine/behavior_patterns.py - bound-input, template-text, form, async-status, validator, fetch-on-load, submit-request, status-feedback, list, show-if; library 1.3.0)
 - [x] quality-gates library: accessibility (WCAG) + performance checks, guaranteed by construction
 - [x] verify-preview library: headless-Chrome render + visual diff (reuse existing pipeline)
 - [ ] commercial-core: build ICL's own auth / api / turnstile / bot-protection
@@ -36,7 +36,11 @@ _Ruling 2026-10-08: an exhaustive, continuously updated library of components an
 - [x] CI gate on push (.github/workflows/ci.yml): engine + library tests, determinism gate per sample, sample site build
 - [ ] Generators for the remaining core-tier entries (catalog status 'catalogued'): react-core hooks as D/E/S patterns, Amplify Collection/Autocomplete/Table variants, Material labs elements, Expo camera/notifications/secure-store, Next route handlers and server actions
 - [ ] Self-hosted runner on the engine host before any customer specification enters the repository
-- [ ] Nested components (children) in the specification language - today every component is a leaf
+- [x] Declarations merged once per key; two uses declaring different code under one name are refused (2026-11-09: engine/declarations.py; the Next and Firebase packs moved to declare())
+- [x] Hash-chained generation ledger, no clock, verified by scripts/build_site.py and CI (2026-11-09: engine/ledger.py; signing by the engine host is phase 4)
+- [x] Per-tenant pattern sets: a named list of allowed types, refusal outside it, set id in the cache key (2026-11-09: engine/pattern_sets.py, engine/pattern-sets/site-only.yaml)
+- [x] Type check of generated files in strict mode as a gate (2026-11-09: scripts/check_tsx.py, in CI)
+- [x] Nested components (children) in the specification language (2026-11-09: slots on container patterns, children and slot in schema 1.3.0, recursive imports and handlers; empty slots render nothing)
 
 ## 1a. Determinism fix sequence (DO FIRST - blocks the cache, the hash-chain log, and the enclave)
 
@@ -96,7 +100,7 @@ _Ruling 2026-10-10: site number one on an EC2 web host in the company account (p
 - [ ] 6.3 Sites bucket icl-sites-359428598413: public access blocked, versioning on, encrypted
 - [ ] 6.4 Launch icl-web-host: Amazon Linux 2023 arm64, t4g.micro, subnet ICL-2-subnet-public1-us-east-1a with public IP, no key pair, IMDSv2, 20 GB gp3 encrypted, role icl-web-host, user data = scripts/server/web-host-user-data.sh with HOST, SITE, BUCKET filled
 - [ ] 6.5 Elastic IP allocated and associated with icl-web-host
-- [ ] 6.6 DNS: A record <label>.techinnovations.io -> the Elastic IP, in the account that holds the zone (F-7 names the label; techinnovation.io without the s is parked by a third party, not ours)
+- [ ] 6.6 DNS: A records techinnovations.io and www -> the Elastic IP, in the account that holds the zone (founder 2026-11-09: the site is the apex techinnovations.io; innovations.io is a third party's; the current address 3.222.116.231 answers nothing)
 - [ ] 6.7 Certificate: `sudo site-cert <host> <email>` on the host through Session Manager; HTTPS redirect on; renewal timer active
 - [ ] 6.8 First deploy on the founder's word: `python scripts/deploy_site.py engine/specs/sample-landing.yaml sample-landing --host <host> --profile icl-2`; byte-equal check passes (plan E-2a)
 - [ ] 6.9 Alarms: StatusCheckFailed_System with the recover action; monthly budget alarm

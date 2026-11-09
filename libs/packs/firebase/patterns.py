@@ -2,7 +2,8 @@
 """
 Firebase pack (FB-01 to FB-06): app init, email and Google sign-in, Firestore list,
 Storage upload, FirebaseUI container. Target: firebase (web). Configuration values are
-never written into code: the init block reads environment variables by name.
+never written into code: the init block reads environment variables by name. Props-dependent
+module code, handlers and effects go through each pattern's declare(props, context).
 
 Copyright (c) 2025 Intelligent Cloud Lab Inc.
 All rights reserved.
@@ -90,40 +91,37 @@ def _effect_firebaseui(p: Dict) -> List[str]:
             f'        ui.start(\'#firebaseui-auth-container\', {{ signInOptions: [{opts}], signInSuccessUrl: {url} }});\n    }}, []);']
 
 
-class DynamicPattern(Pattern):
-    """A pattern whose module block, handlers and effects depend on its props."""
+def _declare_app(p: Dict, context: Dict) -> Dict[str, Any]:
+    return {'module': _module_app(p)}
 
-    def __init__(self, *args, module_fn=None, handlers_fn=None, effects_fn=None, **kwargs):
-        super().__init__(*args, **kwargs)
-        object.__setattr__(self, 'module_fn', module_fn)
-        object.__setattr__(self, 'handlers_fn', handlers_fn)
-        object.__setattr__(self, 'effects_fn', effects_fn)
 
-    def generate(self, props: Dict[str, Any]) -> str:
-        if self.module_fn:
-            self.module.clear(); self.module.update(self.module_fn(props))
-        if self.handlers_fn:
-            self.handlers.clear(); self.handlers.update(self.handlers_fn(props))
-        if self.effects_fn:
-            self.effects.clear(); self.effects.extend(self.effects_fn(props))
-        return self.generator(props)
+def _declare_firestore(p: Dict, context: Dict) -> Dict[str, Any]:
+    return {'effects': _effect_firestore(p)}
+
+
+def _declare_upload(p: Dict, context: Dict) -> Dict[str, Any]:
+    return {'handlers': _handler_upload(p)}
+
+
+def _declare_firebaseui(p: Dict, context: Dict) -> Dict[str, Any]:
+    return {'effects': _effect_firebaseui(p)}
 
 
 PATTERNS: List[Pattern] = [
-    DynamicPattern('FB-01', 'App Init', 'A', 'initializeApp from environment variables', app_init,
-                   imports={'firebase/app': ['initializeApp']}, module_fn=_module_app),
+    Pattern('FB-01', 'App Init', 'A', 'initializeApp from environment variables', app_init,
+            imports={'firebase/app': ['initializeApp']}, declare=_declare_app),
     Pattern('FB-02', 'Email Sign-in Form', 'A', 'Email and password sign-in bound to state', auth_email_form,
             imports={'firebase/auth': ['getAuth', 'signInWithEmailAndPassword']}, handlers={'handleEmailSignIn': EMAIL_HANDLER}),
     Pattern('FB-03', 'Google Sign-in Button', 'A', 'Popup sign-in with Google', google_button,
             imports={'firebase/auth': ['getAuth', 'signInWithPopup', 'GoogleAuthProvider']}, handlers={'handleGoogleSignIn': GOOGLE_HANDLER}),
-    DynamicPattern('FB-04', 'Firestore List', 'D', 'Collection fetched into state and listed', firestore_list,
-                   imports={'firebase/firestore': ['getFirestore', 'collection', 'getDocs'], 'react': ['useEffect']}, effects_fn=_effect_firestore),
-    DynamicPattern('FB-05', 'Storage Upload', 'A', 'File input uploading to Storage', storage_upload,
-                   imports={'firebase/storage': ['getStorage', 'ref', 'uploadBytes']}, handlers_fn=_handler_upload),
-    DynamicPattern('FB-06', 'FirebaseUI Auth', 'A', 'FirebaseUI drop-in sign-in container', firebaseui_auth,
-                   imports={'firebaseui': ['*:firebaseui'], 'firebaseui/dist/firebaseui.css': [],
-                            'firebase/auth': ['getAuth', 'GoogleAuthProvider', 'EmailAuthProvider'], 'react': ['useEffect']},
-                   effects_fn=_effect_firebaseui),
+    Pattern('FB-04', 'Firestore List', 'D', 'Collection fetched into state and listed', firestore_list,
+            imports={'firebase/firestore': ['getFirestore', 'collection', 'getDocs'], 'react': ['useEffect']}, declare=_declare_firestore),
+    Pattern('FB-05', 'Storage Upload', 'A', 'File input uploading to Storage', storage_upload,
+            imports={'firebase/storage': ['getStorage', 'ref', 'uploadBytes']}, declare=_declare_upload),
+    Pattern('FB-06', 'FirebaseUI Auth', 'A', 'FirebaseUI drop-in sign-in container', firebaseui_auth,
+            imports={'firebaseui': ['*:firebaseui'], 'firebaseui/dist/firebaseui.css': [],
+                     'firebase/auth': ['getAuth', 'GoogleAuthProvider', 'EmailAuthProvider'], 'react': ['useEffect']},
+            declare=_declare_firebaseui),
 ]
 
 TYPE_MAPPING = {'firebase-app': 'FB-01', 'firebase-email-form': 'FB-02', 'firebase-google-button': 'FB-03',

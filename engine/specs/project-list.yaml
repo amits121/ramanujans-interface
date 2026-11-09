@@ -1,0 +1,48 @@
+# Project list: records loaded when the screen opens, listed inside nested sections, with a
+# template line and a conditional block. Neutral content. Generates on react-static.
+# Copyright (c) 2026 Intelligent Cloud Lab Inc.
+
+screen_id: project-list
+version: "1.0"
+layout: page
+
+state:
+  workspace: "Studio"
+  projects: []
+
+components:
+  - id: head
+    type: text-block
+    props:
+      heading: "Projects"
+      level: 1
+      paragraphs:
+        - "Every project in this workspace, newest first."
+
+  - id: load
+    type: fetch-on-load
+    props: { name: loadProjects, endpoint: /api/projects, state: projects }
+
+  - id: progress
+    type: status-feedback
+    props: { loadingText: "Loading projects" }
+
+  - id: summary
+    type: section
+    props: { heading: "Workspace", anchor: workspace }
+    children:
+      - id: which
+        type: template-text
+        props: { template: "Workspace {workspace}" }
+      - id: ready
+        type: show-if
+        props: { state: status, equals: done }
+        children:
+          - id: projects-list
+            type: list
+            props: { state: projects, fields: [name, owner], empty: "No projects yet" }
+
+accessibility:
+  focusOrder: [head, summary]
+  ariaLabels: true
+  keyboardNav: true

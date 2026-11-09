@@ -12,7 +12,7 @@ Copyright (c) 2025 Intelligent Cloud Lab Inc.
 All rights reserved.
 
 Author: Amit Sarkar
-Version: 1.0.0
+Version: 1.1.0
 """
 
 import os
@@ -103,7 +103,7 @@ class SpecParser:
     
     def get_components(self, spec: Dict[str, Any]) -> List[Dict]:
         """
-        Extract flat list of components from specification.
+        Extract flat list of components from specification, nested children included.
         
         Handles both formats:
             - Flat: spec['components'] list
@@ -115,16 +115,24 @@ class SpecParser:
         Returns:
             List of component dictionaries
         """
-        components = []
+        roots = []
         
         if 'components' in spec:
-            components.extend(spec['components'])
+            roots.extend(spec['components'])
         
         if 'sections' in spec:
             for section_name in ('header', 'body', 'footer'):
-                components.extend(spec['sections'].get(section_name, []))
+                roots.extend(spec['sections'].get(section_name, []))
         
-        return components
+        return self._flatten(roots)
+    
+    def _flatten(self, components: List[Dict]) -> List[Dict]:
+        """Depth-first, document-order list of components and their nested children."""
+        out: List[Dict] = []
+        for comp in components:
+            out.append(comp)
+            out.extend(self._flatten(comp.get('children', [])))
+        return out
     
     def get_component_types(self, spec: Dict[str, Any]) -> Set[str]:
         """

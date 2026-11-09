@@ -2,7 +2,7 @@
 """
 Next.js pack (NXT-01 to NXT-07): Next.js primitives and conventions. Target: next.
 Module-level patterns (metadata, font, dynamic) render nothing in the body and emit
-their code through the pattern's `module` block.
+their code and imports through declare(props, context), merged once per key by the mapper.
 
 Copyright (c) 2025 Intelligent Cloud Lab Inc.
 All rights reserved.
@@ -55,10 +55,6 @@ def form(p: Dict) -> str:
     return f'<Form {act}>{rows}<button type="submit">{t(p.get("submit", "Submit"))}</button></Form>'
 
 
-class _Meta:
-    """Builds module code from props at generation time (pure)."""
-
-
 def _module_metadata(p: Dict) -> Dict[str, str]:
     data = {'title': p['title']}
     if p.get('description'):
@@ -76,33 +72,25 @@ def _module_dynamic(p: Dict) -> Dict[str, str]:
     return {f'next-dynamic-{p["name"]}': f"const {p['name']} = dynamic(() => import({json.dumps(p['path'])}), {{ ssr: {ssr} }});"}
 
 
-class ModulePattern(Pattern):
-    """A pattern whose module block and imports depend on its props."""
+def _declare_metadata(p: Dict, context: Dict) -> Dict[str, Any]:
+    return {'module': _module_metadata(p)}
 
-    def __init__(self, *args, module_fn=None, imports_fn=None, **kwargs):
-        super().__init__(*args, **kwargs)
-        object.__setattr__(self, 'module_fn', module_fn)
-        object.__setattr__(self, 'imports_fn', imports_fn)
 
-    def generate(self, props: Dict[str, Any]) -> str:
-        if self.module_fn:
-            self.module.clear()
-            self.module.update(self.module_fn(props))
-        if self.imports_fn:
-            self.imports.clear()
-            self.imports.update(self.imports_fn(props))
-        return self.generator(props)
+def _declare_font(p: Dict, context: Dict) -> Dict[str, Any]:
+    return {'module': _module_font(p), 'imports': {'next/font/google': [p['family']]}}
+
+
+def _declare_dynamic(p: Dict, context: Dict) -> Dict[str, Any]:
+    return {'module': _module_dynamic(p), 'imports': {'next/dynamic': ['default:dynamic']}}
 
 
 PATTERNS: List[Pattern] = [
     Pattern('NXT-01', 'Image', 'C', 'next/image with explicit size', image, imports={'next/image': ['default:Image']}),
     Pattern('NXT-02', 'Link', 'C', 'next/link', link, imports={'next/link': ['default:Link']}),
     Pattern('NXT-03', 'Script', 'C', 'next/script with strategy', script, imports={'next/script': ['default:Script']}),
-    ModulePattern('NXT-04', 'Metadata', 'X', 'metadata export for the route', metadata, module_fn=_module_metadata),
-    ModulePattern('NXT-05', 'Google Font', 'X', 'next/font/google with className usage', font,
-                  module_fn=_module_font, imports_fn=lambda p: {'next/font/google': [p['family']]}),
-    ModulePattern('NXT-06', 'Dynamic Import', 'F', 'next/dynamic component', dynamic,
-                  module_fn=_module_dynamic, imports_fn=lambda p: {'next/dynamic': ['default:dynamic']}),
+    Pattern('NXT-04', 'Metadata', 'X', 'metadata export for the route', metadata, declare=_declare_metadata),
+    Pattern('NXT-05', 'Google Font', 'X', 'next/font/google with className usage', font, declare=_declare_font),
+    Pattern('NXT-06', 'Dynamic Import', 'F', 'next/dynamic component', dynamic, declare=_declare_dynamic),
     Pattern('NXT-07', 'Form', 'E', 'next/form with labelled fields', form, imports={'next/form': ['default:Form']}),
 ]
 

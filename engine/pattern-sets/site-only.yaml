@@ -1,0 +1,16 @@
+# Pattern set for a hosted-site tenant: the site patterns and nothing else.
+# A specification that names any other type is refused under this set.
+id: site-only
+types:
+  - page
+  - section
+  - image
+  - text-block
+  - nav-bar
+  - hero
+  - feature-grid
+  - footer
+  - contact-form
+  - cta-band
+  - testimonial
+  - faq

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Build one hosted site from a specification: generate (react-static target),
-emit the theme from tokens, copy the base stylesheet, run the static shell build.
+Build one hosted site from a specification: generate (react-static target), record the
+generation in the hash-chained ledger, emit the theme from tokens, copy the base stylesheet,
+run the static shell build.
 
     python scripts/build_site.py engine/specs/sample-landing.yaml sample-landing \
         [--tokens engine/tokens/default.yaml] [--title "..."] [--description "..."]
@@ -27,6 +28,7 @@ sys.path.insert(0, ENGINE)
 
 from cache import ArtifactCache  # noqa: E402
 from gate import run_gate  # noqa: E402
+from ledger import Ledger  # noqa: E402
 from generate import generate  # noqa: E402
 from preview import capture, compare  # noqa: E402
 from quality import check_site  # noqa: E402
@@ -83,6 +85,8 @@ def main():
         sys.exit(2)
     artifact = generate(spec, 'react-static')
     print('cache', ArtifactCache().put(artifact))
+    entry = Ledger(os.path.join(ROOT, 'build', 'ledger.jsonl')).append(artifact, spec['screen_id'], spec['version'])
+    print(f'ledger entry {entry["sequence"]} {entry["entry_hash"]}')
     component = ''.join(w.capitalize() for w in spec['screen_id'].split('-'))
 
     gen_dir = os.path.join(SHELL, 'src', 'generated')

@@ -23,7 +23,7 @@ sys.path.insert(0, ENGINE)
 from spec_parser import SpecParser  # noqa: E402
 from generate import generate, spec_key  # noqa: E402
 
-SPECS = ('login-screen', 'dashboard-screen')
+SPECS = ('login-screen', 'dashboard-screen', 'nested-cards')
 GOLDEN = os.path.join(ENGINE, 'tests', 'golden')
 FORBIDDEN = re.compile(r'\b(19|20)\d{2}-\d{2}-\d{2}[ T]\d{2}:\d{2}')  # any timestamp
 
@@ -60,7 +60,7 @@ class DeterminismTest(unittest.TestCase):
             with self.subTest(spec=name):
                 code = generate(SpecParser().parse(spec_path(name))).code
                 self.assertIsNone(FORBIDDEN.search(code))
-                self.assertIn('Pattern library: 1.2.0', code)
+                self.assertIn('Pattern library: 1.3.0', code)
 
     def test_generation_does_not_mutate_the_spec(self):
         parser = SpecParser()

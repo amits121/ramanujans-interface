@@ -7,7 +7,7 @@ generate twice in this process and once in a fresh process, and verify every
 copy is byte-equal with a stable content hash. Any mismatch is an andon stop:
 the gate reports FAIL and the caller must halt and roll back.
 
-    python gate.py <spec.yaml> [--static] [--expect <content_hash>]
+    python gate.py <spec.yaml> [--static | --target <name>] [--expect <content_hash>]
 
 Copyright (c) 2025 Intelligent Cloud Lab Inc.
 All rights reserved.
@@ -59,10 +59,12 @@ if __name__ == '__main__':
     from spec_parser import SpecParser
 
     if len(sys.argv) < 2:
-        print('Usage: python gate.py <spec.yaml> [--static] [--expect <content_hash>]')
+        print('Usage: python gate.py <spec.yaml> [--static | --target <name>] [--expect <content_hash>]')
         sys.exit(1)
     path = sys.argv[1]
     target = 'react-static' if '--static' in sys.argv else 'react-amplify'
+    if '--target' in sys.argv:
+        target = sys.argv[sys.argv.index('--target') + 1]
     expect = sys.argv[sys.argv.index('--expect') + 1] if '--expect' in sys.argv else None
     report = run_gate(SpecParser().parse(path), target, spec_path=path, expect=expect)
     print(json.dumps(report, indent=2))

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Site Patterns Module (S-01 to S-10, L-07)
+Site Patterns Module (S-01 to S-11, L-07)
 
 The ten patterns a hosted marketing site is assembled from, registered into the
 PatternLibrary without touching the engine or the existing patterns. Output is
@@ -34,6 +34,7 @@ SITE_TYPE_MAPPING = {
     'cta-band': 'S-08',
     'testimonial': 'S-09',
     'faq': 'S-10',
+    'section': 'S-11',
 }
 
 BUTTON = 'site-button site-button-primary'
@@ -155,12 +156,19 @@ def faq(p: Dict) -> str:
     return f'<section className="site-faq">{head}{items}</section>'
 
 
+def section(p: Dict) -> str:
+    """S-11: a plain section that holds nested children, with an optional heading and id."""
+    head = _heading(p.get('level', 2), p['heading']) if p.get('heading') else ''
+    anchor = f' id={_t(p["anchor"])}' if p.get('anchor') else ''
+    return f'<section className="site-section"{anchor}>{head}{{children}}</section>'
+
+
 def page(p: Dict) -> str:
     return '<div className="page">{children}</div>'
 
 
 PATTERNS: List[Pattern] = [
-    Pattern('L-07', 'Page', 'layout', 'Vertical stack of site sections', page),
+    Pattern('L-07', 'Page', 'layout', 'Vertical stack of site sections', page, slots=('children',)),
     Pattern('S-01', 'Image', 'site', 'Image with required alt text and optional caption', image),
     Pattern('S-02', 'Text Block', 'site', 'Optional heading and paragraphs', text_block),
     Pattern('S-03', 'Navigation Bar', 'site', 'Brand, links and optional call to action', nav_bar),
@@ -171,10 +179,11 @@ PATTERNS: List[Pattern] = [
     Pattern('S-08', 'Call to Action Band', 'site', 'Title, text and one action', cta_band),
     Pattern('S-09', 'Testimonial', 'site', 'Quote with author and role', testimonial),
     Pattern('S-10', 'FAQ', 'site', 'Questions as native disclosure elements', faq),
+    Pattern('S-11', 'Section', 'site', 'Section with optional heading that holds nested children', section, slots=('children',)),
 ]
 
 
 def register_site_patterns(library: PatternLibrary) -> None:
-    """Register S-01 to S-10 and L-07. Idempotent."""
+    """Register S-01 to S-11 and L-07. Idempotent."""
     for pattern in PATTERNS:
         library.register(pattern)

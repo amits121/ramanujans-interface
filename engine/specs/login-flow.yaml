@@ -1,0 +1,74 @@
+# Login flow: the behaviour patterns on one screen. Bound inputs and a validator nested inside
+# a form, a POST request, status feedback, and a welcome line shown once the request is done.
+# Neutral content. Generates on react-static and react-amplify.
+# Copyright (c) 2026 Intelligent Cloud Lab Inc.
+
+screen_id: login-flow
+version: "1.0"
+layout: form-stack
+
+state:
+  email: ""
+  password: ""
+  session: null
+
+components:
+  - id: intro
+    type: text-block
+    props:
+      heading: "Sign in"
+      level: 1
+      paragraphs:
+        - "Use your work email and your password."
+
+  - id: status
+    type: async-status
+
+  - id: login-form
+    type: form
+    props:
+      onSubmit: handleLogin
+      validate: validateLogin
+      action: submitLogin
+      ariaLabel: "Sign in"
+      submit: { label: "Sign in" }
+    children:
+      - id: email
+        type: bound-input
+        props: { label: "Email", state: email, type: email, autoComplete: email, required: true }
+      - id: password
+        type: bound-input
+        props: { label: "Password", state: password, type: password, autoComplete: current-password, required: true }
+      - id: checks
+        type: validator
+        props:
+          name: validateLogin
+          fields:
+            - field: email
+              rules:
+                - { type: required, message: "Email is required" }
+                - { type: email, message: "Enter a valid email address" }
+            - field: password
+              rules:
+                - { type: minLength, value: 8, message: "The password needs at least 8 characters" }
+
+  - id: request
+    type: submit-request
+    props: { name: submitLogin, endpoint: /auth/login, method: POST, body: [email, password], state: session }
+
+  - id: feedback
+    type: status-feedback
+    props: { loadingText: "Signing in", doneText: "Signed in" }
+
+  - id: welcome
+    type: show-if
+    props: { state: status, equals: done }
+    children:
+      - id: hello
+        type: template-text
+        props: { template: "Welcome back, {email}." }
+
+accessibility:
+  focusOrder: [email, password, login-form]
+  ariaLabels: true
+  keyboardNav: true

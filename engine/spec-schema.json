@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "UI Screen Specification Schema",
   "description": "JSON Schema for validating YAML UI specifications in the spec-driven UI generation system.",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "type": "object",
   "required": [
     "screen_id",
@@ -133,6 +133,18 @@
         "props": {
           "type": "object",
           "description": "Component-specific properties"
+        },
+        "slot": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "Which slot of the parent this child fills (default: the parent's first slot)"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/component"
+          },
+          "description": "Nested components; allowed only under a pattern that declares slots"
         }
       }
     },

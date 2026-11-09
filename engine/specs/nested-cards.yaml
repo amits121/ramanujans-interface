@@ -1,0 +1,38 @@
+# Nested cards: the core layout and component patterns holding children. A card grid holds
+# two cards; each card holds an alert and a button. Neutral content. Generates on react-amplify.
+# Copyright (c) 2026 Intelligent Cloud Lab Inc.
+
+screen_id: nested-cards
+version: "1.0"
+layout: grid-12
+
+state:
+  selected: null
+
+components:
+  - id: cards
+    type: card-grid
+    props: { columns: 2, gap: "24px" }
+    children:
+      - id: newsletter-card
+        type: card
+        props: { title: "Newsletter" }
+        children:
+          - id: newsletter-note
+            type: alert
+            props: { message: "Reach every subscriber at once.", variation: info }
+          - id: create-newsletter
+            type: button
+            props: { text: "Create", variant: primary, onClick: handleCreateNewsletter }
+      - id: announcement-card
+        type: card
+        props: { title: "Announcement" }
+        children:
+          - id: create-announcement
+            type: button
+            props: { text: "Create", variant: primary, onClick: handleCreateAnnouncement }
+
+accessibility:
+  focusOrder: [create-newsletter, create-announcement]
+  ariaLabels: true
+  keyboardNav: true

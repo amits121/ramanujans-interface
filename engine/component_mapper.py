@@ -10,21 +10,25 @@ Pipeline Position:
 
 Transformation Stages:
     1. Extract metadata (screen_id, version, layout)
-    2. Generate import statements
-    3. Generate state declarations
-    4. Generate JSX body structure
-    5. Assemble complete component file
+    2. Render the component tree (nested children fill the slots of their container)
+    3. Generate import statements, state, handlers, module code and effects
+       from the specification and from what the used patterns declare
+    4. Assemble complete component file
 
 Copyright (c) 2025 Intelligent Cloud Lab Inc.
 All rights reserved.
 
 Author: Amit Sarkar
-Version: 1.0.0
+Version: 1.1.0
 """
 
+import json
 from typing import Dict, Any, List, Set, Optional, Tuple
 
+from declarations import Declarations
+
 HANDLER_KEYS = ('onClick', 'onPress', 'onSubmit', 'onChange', 'onClose', 'onSelect', 'onOpen')
+CHILD_INDENT = '\n' + ' ' * 20
 
 
 class ComponentMapper:
@@ -43,21 +47,17 @@ class ComponentMapper:
     def __init__(self, pattern_library, container: str = 'View', use_amplify: bool = True,
                  container_import: Optional[Tuple[str, List[str]]] = None, flat_wrapper: Optional[str] = None,
                  base_module: Optional[Dict[str, str]] = None):
-        """
-        Initialize mapper with pattern library.
-        
-        Args:
-            pattern_library: PatternLibrary instance
-            container: JSX element used for layout wrappers ('View' or 'div')
-            use_amplify: emit the Amplify UI imports (False for the static target)
-        """
+        """Initialize mapper with pattern library."""
         self.library = pattern_library
         self.container = container
         self.use_amplify = use_amplify
         self.container_import = container_import      # e.g. ('react-native', ['SafeAreaView', 'ScrollView'])
         self.flat_wrapper = flat_wrapper              # template with {layout} and {children}, or None
         self.base_module = base_module or {}          # module-level code every file of this target carries
-        self._used: List[Any] = []                    # patterns used by the current generation, in order
+        self.allowed_types: Optional[Set[str]] = None # a tenant's pattern set, or None for every registered type
+        self._decl = Declarations()                   # what the current generation's patterns declare
+        self._spec_state: Set[str] = set()            # state variables the specification declares
+        self._screen_id = ''
         
         self.type_mapping = {
             # Layout patterns
@@ -97,21 +97,20 @@ class ComponentMapper:
         """Register additional spec types -> pattern ids (patterns are registered, never edited in)."""
         self.type_mapping.update(mapping)
     
+    def restrict_types(self, allowed: Set[str], set_id: str = '') -> None:
+        """Limit generation to a tenant's pattern set: any other type is refused."""
+        self.allowed_types = set(allowed)
+        self.allowed_set_id = set_id
+    
     def generate(self, spec: Dict[str, Any]) -> str:
-        """
-        Generate complete React component from specification.
-        
-        Args:
-            spec: Validated specification dictionary
-            
-        Returns:
-            Complete React component code as string
-        """
+        """Generate complete React component from specification."""
         screen_id = spec['screen_id']
         component_name = self._to_pascal_case(screen_id)
         
-        self._used = []
-        body = self._generate_body(spec['layout'], spec)      # first: records the patterns used
+        self._decl = Declarations(self.base_module)
+        self._spec_state = set(spec.get('state', {}))
+        self._screen_id = screen_id
+        body = self._generate_body(spec['layout'], spec)      # first: records what the patterns declare
         imports = self._generate_imports(spec)
         state_code = self._generate_state(spec.get('state', {}))
         handlers_code = self._generate_handlers(spec)
@@ -122,48 +121,31 @@ class ComponentMapper:
                               module_code, effects_code)
     
     def _to_pascal_case(self, kebab_string: str) -> str:
-        """
-        Convert kebab-case to PascalCase.
-        
-        Args:
-            kebab_string: String in kebab-case format
-            
-        Returns:
-            String in PascalCase format
-        """
+        """Convert kebab-case to PascalCase."""
         return ''.join(word.capitalize() for word in kebab_string.split('-'))
     
     def _get_all_components(self, spec: Dict[str, Any]) -> List[Dict]:
-        """
-        Extract all components from specification.
-        
-        Args:
-            spec: Specification dictionary
-            
-        Returns:
-            Flat list of component dictionaries
-        """
-        components = []
+        """Extract all components from specification, nested children included, in document order (depth first)."""
+        roots: List[Dict] = []
         
         if 'components' in spec:
-            components.extend(spec['components'])
+            roots.extend(spec['components'])
         
         if 'sections' in spec:
             for section_name in ('header', 'body', 'footer'):  # step 3: fixed section order
-                components.extend(spec['sections'].get(section_name, []))
+                roots.extend(spec['sections'].get(section_name, []))
         
-        return components
+        return self._flatten(roots)
+    
+    def _flatten(self, components: List[Dict]) -> List[Dict]:
+        out: List[Dict] = []
+        for comp in components:
+            out.append(comp)
+            out.extend(self._flatten(comp.get('children', [])))
+        return out
     
     def _get_handlers(self, spec: Dict[str, Any]) -> Set[str]:
-        """
-        Extract all onClick handler names from specification.
-        
-        Args:
-            spec: Specification dictionary
-            
-        Returns:
-            Set of handler function names
-        """
+        """Extract all handler names named in specification props."""
         handlers = set()
         components = self._get_all_components(spec)
         
@@ -177,22 +159,9 @@ class ComponentMapper:
         return handlers
     
     def _generate_handlers(self, spec: Dict[str, Any]) -> str:
-        """
-        Generate stub handler functions.
-        
-        Args:
-            spec: Specification dictionary
-            
-        Returns:
-            Handler function declarations as string
-        """
-        handlers = self._get_handlers(spec)
-        
-        provided: Dict[str, str] = {}
-        for pattern in self._used:
-            for name, code in pattern.handlers.items():
-                provided.setdefault(name, code)
-        handlers = set(handlers) | set(provided)   # a handler a pattern declares is always emitted
+        """Generate handler functions: bodies the patterns declare, stubs for the rest."""
+        provided = self._decl.handlers
+        handlers = self._get_handlers(spec) | set(provided) | self._decl.references
         if not handlers:
             return ''
         
@@ -210,31 +179,15 @@ class ComponentMapper:
     
     def _generate_module(self) -> str:
         """Module-level code declared by the used patterns, once per key, keys sorted."""
-        blocks: Dict[str, str] = dict(self.base_module)
-        for pattern in self._used:
-            for key, code in pattern.module.items():
-                blocks.setdefault(key, code)
+        blocks = self._decl.module
         return '\n\n'.join(blocks[k] for k in sorted(blocks))
     
     def _generate_effects(self) -> str:
         """Effect blocks declared by the used patterns, in use order, each once."""
-        seen: List[str] = []
-        for pattern in self._used:
-            for code in pattern.effects:
-                if code not in seen:
-                    seen.append(code)
-        return '\n\n'.join(seen)
+        return '\n\n'.join(self._decl.effects)
     
     def _generate_imports(self, spec: Dict[str, Any]) -> str:
-        """
-        Generate import statements for component.
-        
-        Args:
-            spec: Specification dictionary
-            
-        Returns:
-            Import statements as string
-        """
+        """Generate import statements for component."""
         modules: Dict[str, Set[str]] = {'react': {'useState'}}
         
         if self.use_amplify:
@@ -246,9 +199,8 @@ class ComponentMapper:
         elif self.container_import:
             modules.setdefault(self.container_import[0], set()).update(self.container_import[1])
         
-        for pattern in self._used:
-            for module, names in pattern.imports.items():
-                modules.setdefault(module, set()).update(names)
+        for module, names in self._decl.imports.items():
+            modules.setdefault(module, set()).update(names)
         
         lines = []
         react_names = sorted(modules.pop('react'))
@@ -269,61 +221,37 @@ class ComponentMapper:
         return '\n'.join(lines)
     
     def _generate_state(self, state: Dict[str, Any]) -> str:
-        """
-        Generate useState declarations.
-        
-        Args:
-            state: State variables dictionary
-            
-        Returns:
-            State declarations as string
-        """
-        if not state:
-            return ''
-        
+        """Generate useState declarations: the specification's variables first (its order), then the variables the patterns declare and the specification does not."""
         lines = []
         for key, value in state.items():
-            js_value = self._to_js_value(value)
-            setter_name = f"set{key[0].upper()}{key[1:]}"
-            lines.append(f"    const [{key}, {setter_name}] = useState({js_value});")
-        
+            lines.append(f"    const [{key}, {self._setter(key)}] = {self._use_state(value)};")
+        for key, rhs in self._decl.state.items():
+            if key not in state:
+                lines.append(f"    const [{key}, {self._setter(key)}] = {rhs};")
         return '\n'.join(lines)
     
-    def _to_js_value(self, value: Any) -> str:
-        """
-        Convert Python value to JavaScript literal.
-        
-        Args:
-            value: Python value
-            
-        Returns:
-            JavaScript literal string
-        """
+    @staticmethod
+    def _setter(key: str) -> str:
+        return f"set{key[0].upper()}{key[1:]}"
+    
+    def _use_state(self, value: Any) -> str:
+        """The useState call for an initial value, typed from the value (type inference for state): strings, booleans and numbers infer themselves; lists, objects and null carry an explicit type so the generated code stays well typed."""
         if value is None:
-            return 'null'
+            return 'useState<unknown>(null)'
         elif isinstance(value, bool):
-            return 'true' if value else 'false'
+            return f"useState({'true' if value else 'false'})"
         elif isinstance(value, str):
-            return f"'{value}'"
+            return f'useState({json.dumps(value, ensure_ascii=False)})'
         elif isinstance(value, (int, float)):
-            return str(value)
+            return f'useState({value})'
         elif isinstance(value, list):
-            return '[]'
+            return 'useState<Array<Record<string, unknown>>>([])'
         elif isinstance(value, dict):
-            return '{}'
-        return 'null'
+            return 'useState<Record<string, unknown>>({})'
+        return 'useState<unknown>(null)'
     
     def _generate_body(self, layout: str, spec: Dict[str, Any]) -> str:
-        """
-        Generate JSX body structure.
-        
-        Args:
-            layout: Layout type identifier
-            spec: Specification dictionary
-            
-        Returns:
-            JSX body as string
-        """
+        """Generate JSX body structure."""
         if 'sections' in spec:
             return self._generate_sectioned_body(layout, spec['sections'])
         elif 'components' in spec:
@@ -331,16 +259,7 @@ class ComponentMapper:
         return f'<{self.container}>No components defined</{self.container}>'
     
     def _generate_sectioned_body(self, layout: str, sections: Dict[str, List]) -> str:
-        """
-        Generate body with header/body/footer sections.
-        
-        Args:
-            layout: Layout type identifier
-            sections: Sections dictionary
-            
-        Returns:
-            Sectioned JSX body as string
-        """
+        """Generate body with header/body/footer sections."""
         section_jsx = {}
         
         for section_name in ('header', 'body', 'footer'):  # step 3: fixed section order
@@ -366,16 +285,7 @@ class ComponentMapper:
             </{c}>'''
     
     def _generate_flat_body(self, layout: str, components: List[Dict]) -> str:
-        """
-        Generate body with flat component list.
-        
-        Args:
-            layout: Layout type identifier
-            components: List of component dictionaries
-            
-        Returns:
-            Flat JSX body as string
-        """
+        """Generate body with flat component list."""
         rendered = [self._render_component(comp) for comp in components]
         children = '\n                '.join(r for r in rendered if r)
         
@@ -387,50 +297,56 @@ class ComponentMapper:
             </{c}>'''
     
     def _render_component(self, comp: Dict[str, Any]) -> str:
-        """
-        Render single component using pattern library.
-        
-        Args:
-            comp: Component dictionary
-            
-        Returns:
-            Generated JSX for component
-        """
+        """Render one component, its children first, using the pattern library."""
         comp_type = comp.get('type', '')
         props = comp.get('props', {})
         comp_id = comp.get('id', '')
+        children = comp.get('children', [])
         
         props = dict(props)  # step 2: never mutate the caller's spec
         if 'name' not in props:
             props['name'] = comp_id
         
         pattern_id = self.type_mapping.get(comp_type)
-        
+        if self.allowed_types is not None and comp_type not in self.allowed_types:
+            raise ValueError(f'component type "{comp_type}" (component {comp_id}) is not in pattern set '
+                             f'"{self.allowed_set_id}"')
         if not pattern_id:
             raise ValueError(f'unknown component type "{comp_type}" (component {comp_id}): no pattern registered')
         
         pattern = self.library.get(pattern_id)
-        if all(p.pattern_id != pattern.pattern_id for p in self._used):
-            self._used.append(pattern)
-        return pattern.generate(props)
+        origin = f'{pattern.pattern_id} on component {comp_id}'
+        if children and not pattern.slots:
+            raise ValueError(f'component {comp_id} of type "{comp_type}" takes no children')
+        
+        filled: Dict[str, List[str]] = {slot: [] for slot in pattern.slots}
+        for child in children:
+            slot = child.get('slot', pattern.slots[0])
+            if slot not in filled:
+                raise ValueError(f'component {child.get("id", "")} names slot "{slot}", which {pattern.pattern_id} '
+                                 f'does not have (slots: {", ".join(pattern.slots)})')
+            filled[slot].append(self._render_component(child))      # children first: they declare before the parent
+        
+        text = json.dumps(props, sort_keys=True, ensure_ascii=False)
+        for slot in pattern.slots:
+            if '{' + slot + '}' in text:
+                raise ValueError(f'component {comp_id}: a property contains the placeholder "{{{slot}}}" of its own slot')
+        
+        self._decl.add_pattern(pattern, origin)
+        if pattern.declare:
+            context = {'component_id': comp_id, 'screen_id': self._screen_id,
+                       'state': frozenset(self._spec_state | set(self._decl.state_names()))}
+            self._decl.add(pattern.declare(props, context), origin)
+        
+        out = pattern.generate(props)
+        for slot in pattern.slots:
+            out = out.replace('{' + slot + '}', CHILD_INDENT.join(r for r in filled[slot] if r))
+        return out
     
     def _assemble(self, component_name: str, imports: str,
                   state_code: str, handlers_code: str, body: str, spec: Dict,
                   module_code: str = '', effects_code: str = '') -> str:
-        """
-        Assemble complete React component file.
-        
-        Args:
-            component_name: PascalCase component name
-            imports: Import statements
-            state_code: State declarations
-            handlers_code: Event handler functions
-            body: JSX body structure
-            spec: Original specification
-            
-        Returns:
-            Complete component code as string
-        """
+        """Assemble complete React component file."""
         pattern_lib_version = self.library.version  # step 1: version, never the clock
         screen_id = spec['screen_id']
         version = spec['version']

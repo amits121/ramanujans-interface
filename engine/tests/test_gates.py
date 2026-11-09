@@ -46,6 +46,15 @@ class GateTest(unittest.TestCase):
         self.assertFalse(report['checks']['matches_expected_hash'])
 
 
+    def test_command_line_honours_the_target_flag(self):
+        import subprocess
+        sample = os.path.join(os.path.dirname(ENGINE), 'libs', 'specs', 'sample-next.yaml')
+        result = subprocess.run([sys.executable, os.path.join(ENGINE, 'gate.py'), sample, '--target', 'next'],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('GATE PASS', result.stdout)
+
+
 class QualityTest(unittest.TestCase):
 
     def test_good_html_passes_every_check(self):

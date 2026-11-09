@@ -11,14 +11,17 @@ Pipeline Position:
 Pattern Categories:
     L-01 to L-06: Layout patterns
     C-01 to C-10: Component patterns
-    D-01 to D-06: Data binding patterns (future)
-    E-01 to E-06: Event patterns (future)
-    S-01 to S-05: State patterns (future)
-    V-01 to V-06: Validation patterns (future)
-    A-01 to A-05: API integration patterns (future)
-    F-01 to F-05: Feedback patterns (future)
-    I-01 to I-05: Iteration patterns (future)
-    X-01 to X-04: Conditional patterns (future)
+    S-01 to S-11, L-07: Site patterns (site_patterns.py)
+    D, E, ST, V, A, F, I, X: Behaviour patterns, one per category (behavior_patterns.py)
+    AMP, NXT, MAT, FB, MOB: Library packs (libs/packs)
+
+Nesting: a pattern that carries children declares its slots, e.g. ('children',) or
+('header', 'body', 'footer'); its output holds one {slot} placeholder per slot and the
+mapper fills each with the rendered children of that slot (empty when none).
+
+Declarations: a pattern whose imports, module code, handlers, effects or state depend
+on its props supplies `declare(props, context)`; the mapper merges every use once per
+key and refuses two uses that declare different code under one key.
 
 Copyright (c) 2025 Intelligent Cloud Lab Inc.
 All rights reserved.
@@ -27,22 +30,13 @@ Author: Amit Sarkar
 Version: 1.0.0
 """
 
-from typing import Dict, Any, Callable, List
+from typing import Dict, Any, Callable, List, Optional, Tuple
 from dataclasses import dataclass, field
 
 
 @dataclass
 class Pattern:
-    """
-    Single pattern definition.
-    
-    Attributes:
-        pattern_id: Unique identifier (e.g., 'C-01')
-        name: Human-readable name (e.g., 'Button')
-        category: Pattern category (e.g., 'component')
-        description: Brief description of pattern purpose
-        generator: Function that generates code from props
-    """
+    """Single pattern definition."""
     pattern_id: str
     name: str
     category: str
@@ -52,21 +46,15 @@ class Pattern:
     module: Dict[str, str] = field(default_factory=dict)          # key -> module-level code, emitted once per key
     handlers: Dict[str, str] = field(default_factory=dict)        # handler name -> function expression
     effects: List[str] = field(default_factory=list)              # code blocks placed inside the component
+    slots: Tuple[str, ...] = ()                                   # placeholders for nested children, e.g. ('children',)
+    declare: Optional[Callable[..., Dict[str, Any]]] = None       # (props, context) -> per-use declarations
     
     def generate(self, props: Dict[str, Any]) -> str:
-        """
-        Generate code with given properties.
-        
-        Args:
-            props: Component properties dictionary
-            
-        Returns:
-            Generated JSX code string
-        """
+        """Generate code with given properties."""
         return self.generator(props)
 
 
-PATTERN_LIBRARY_VERSION = '1.2.0'
+PATTERN_LIBRARY_VERSION = '1.3.0'
 
 
 class PatternLibrary:
@@ -104,7 +92,8 @@ class PatternLibrary:
             name='Grid 12-Column',
             category='layout',
             description='Responsive 12-column grid layout',
-            generator=grid_12
+            generator=grid_12,
+            slots=('children',)
         ))
         
         # L-02: Sidebar + Main
@@ -121,7 +110,8 @@ class PatternLibrary:
             name='Sidebar + Main',
             category='layout',
             description='Two-column sidebar layout',
-            generator=sidebar_main
+            generator=sidebar_main,
+            slots=('sidebar', 'main')
         ))
         
         # L-03: Header + Body + Footer
@@ -138,7 +128,8 @@ class PatternLibrary:
             name='Header Body Footer',
             category='layout',
             description='Standard page layout with header, body, footer',
-            generator=header_body_footer
+            generator=header_body_footer,
+            slots=('header', 'body', 'footer')
         ))
         
         # L-04: Card Grid
@@ -159,7 +150,8 @@ class PatternLibrary:
             name='Card Grid',
             category='layout',
             description='Responsive grid of cards',
-            generator=card_grid
+            generator=card_grid,
+            slots=('children',)
         ))
         
         # L-05: Form Stack
@@ -182,7 +174,8 @@ class PatternLibrary:
             name='Form Stack',
             category='layout',
             description='Vertical form layout',
-            generator=form_stack
+            generator=form_stack,
+            slots=('children',)
         ))
         
         # L-06: Split Panel
@@ -200,7 +193,8 @@ class PatternLibrary:
             name='Split Panel',
             category='layout',
             description='Two-panel split layout',
-            generator=split_panel
+            generator=split_panel,
+            slots=('left', 'right')
         ))
     
     def _register_components(self):
@@ -374,16 +368,16 @@ class PatternLibrary:
             title = props.get('title', '')
             padding = props.get('padding', 'medium')
             
-            if title:
-                return f'<Card padding="{padding}"><Heading level={{4}}>{title}</Heading></Card>'
-            return f'<Card padding="{padding}"></Card>'
+            heading = f'<Heading level={{4}}>{title}</Heading>' if title else ''
+            return f'<Card padding="{padding}">{heading}{{children}}</Card>'
         
         self.register(Pattern(
             pattern_id='C-07',
             name='Card',
             category='component',
             description='Container card with optional title',
-            generator=card
+            generator=card,
+            slots=('children',)
         ))
         
         # C-08: Data Table
@@ -426,7 +420,8 @@ class PatternLibrary:
             name='Modal',
             category='component',
             description='Modal dialog overlay',
-            generator=modal
+            generator=modal,
+            slots=('children',)
         ))
         
         # C-10: Alert
@@ -451,52 +446,22 @@ class PatternLibrary:
         ))
     
     def register(self, pattern: Pattern) -> None:
-        """
-        Register pattern in library.
-        
-        Args:
-            pattern: Pattern object to register
-        """
+        """Register pattern in library."""
         self._patterns[pattern.pattern_id] = pattern
     
     def get(self, pattern_id: str) -> Pattern:
-        """
-        Retrieve pattern by identifier.
-        
-        Args:
-            pattern_id: Pattern identifier string
-            
-        Returns:
-            Pattern object
-            
-        Raises:
-            KeyError: Pattern not found
-        """
+        """Retrieve pattern by identifier."""
         if pattern_id not in self._patterns:
             raise KeyError(f"Pattern not found: {pattern_id}")
         return self._patterns[pattern_id]
     
     def generate(self, pattern_id: str, props: Dict[str, Any]) -> str:
-        """
-        Generate code for pattern with given properties.
-        
-        Args:
-            pattern_id: Pattern identifier string
-            props: Component properties dictionary
-            
-        Returns:
-            Generated JSX code string
-        """
+        """Generate code for pattern with given properties."""
         pattern = self.get(pattern_id)
         return pattern.generate(props)
     
     def list_patterns(self) -> Dict[str, str]:
-        """
-        List all registered patterns.
-        
-        Returns:
-            Dictionary mapping pattern IDs to categories
-        """
+        """List all registered patterns."""
         return {pid: p.category for pid, p in self._patterns.items()}
 
 

@@ -37,15 +37,13 @@ def link(p: Dict) -> str:
 
 
 def flex(p: Dict) -> str:
-    req(p, 'AMP-05', 'items')
-    items = ''.join(f'<Text>{t(i)}</Text>' for i in p['items'])
-    return f'<Flex{attrs({"direction": p.get("direction", "row"), "gap": p.get("gap", "1rem"), "wrap": p.get("wrap")})}>{items}</Flex>'
+    items = ''.join(f'<Text>{t(i)}</Text>' for i in p.get('items', []))
+    return f'<Flex{attrs({"direction": p.get("direction", "row"), "gap": p.get("gap", "1rem"), "wrap": p.get("wrap")})}>{items}{{children}}</Flex>'
 
 
 def grid(p: Dict) -> str:
-    req(p, 'AMP-06', 'items')
-    items = ''.join(f'<Text>{t(i)}</Text>' for i in p['items'])
-    return f'<Grid{attrs({"templateColumns": p.get("templateColumns", "1fr 1fr"), "gap": p.get("gap", "1rem")})}>{items}</Grid>'
+    items = ''.join(f'<Text>{t(i)}</Text>' for i in p.get('items', []))
+    return f'<Grid{attrs({"templateColumns": p.get("templateColumns", "1fr 1fr"), "gap": p.get("gap", "1rem")})}>{items}{{children}}</Grid>'
 
 
 def divider(p: Dict) -> str:
@@ -152,8 +150,8 @@ PATTERNS: List[Pattern] = [
     Pattern('AMP-02', 'Text', 'C', 'Paragraph text', text, imports=_ui('Text')),
     Pattern('AMP-03', 'Image', 'C', 'Image with alt text', image, imports=_ui('Image')),
     Pattern('AMP-04', 'Link', 'C', 'Link, optionally external', link, imports=_ui('Link')),
-    Pattern('AMP-05', 'Flex', 'L', 'Flex row or column of text items', flex, imports=_ui('Flex', 'Text')),
-    Pattern('AMP-06', 'Grid', 'L', 'Grid of text items', grid, imports=_ui('Grid', 'Text')),
+    Pattern('AMP-05', 'Flex', 'L', 'Flex row or column of text items and nested children', flex, imports=_ui('Flex', 'Text'), slots=('children',)),
+    Pattern('AMP-06', 'Grid', 'L', 'Grid of text items and nested children', grid, imports=_ui('Grid', 'Text'), slots=('children',)),
     Pattern('AMP-07', 'Divider', 'C', 'Divider', divider, imports=_ui('Divider')),
     Pattern('AMP-08', 'Badge', 'C', 'Badge with variation', badge, imports=_ui('Badge')),
     Pattern('AMP-09', 'Loader', 'F', 'Loading indicator', loader, imports=_ui('Loader')),

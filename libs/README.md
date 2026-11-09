@@ -34,3 +34,17 @@ client, never exposed through the API, never shared with a partner. Customers re
 Add the component to its catalog first (tier, category). Write the generator in the pack.
 Add the sample. Run `python -m unittest discover -s libs/tests`. Record the new golden hash.
 Bump `PATTERN_LIBRARY_VERSION` when the registered set changes.
+
+## Nesting and declarations (library 1.3.0)
+
+A pattern that holds other components declares `slots`, e.g. `slots=('children',)` or
+`slots=('header', 'body', 'footer')`, and its output carries one `{slot}` placeholder per slot.
+The mapper fills each placeholder with the rendered children of that slot and leaves it empty
+when there are none. A pattern without slots refuses children.
+
+A pattern whose imports, module code, handlers, effects or state depend on its props supplies
+`declare(props, context) -> dict` with any of the keys `imports`, `module`, `handlers`, `effects`,
+`state` (variable -> full useState right-hand side) and `references` (handler names that must
+exist). The mapper merges declarations once per key; two uses declaring different code under
+one key are refused. `context['state']` holds the state variables declared so far (the
+specification's plus those of earlier patterns), so a pattern can refuse an undeclared variable.

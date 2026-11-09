@@ -20,17 +20,22 @@ jobs:
           node-version: "22"
       - name: Python dependencies
         run: pip install pyyaml jsonschema pillow
-      - name: Engine tests (determinism, site patterns, gates)
+      - name: Engine tests (determinism, nesting, behaviour, ledger, pattern sets, site patterns, gates)
         run: python -m unittest discover -s engine/tests -v
       - name: Library tests (catalogs, packs, targets)
         run: python -m unittest discover -s libs/tests -v
       - name: Determinism gate on every sample specification
         run: |
-          for spec in engine/specs/login-screen.yaml engine/specs/dashboard-screen.yaml; do python engine/gate.py "$spec"; done
-          python engine/gate.py engine/specs/sample-landing.yaml --static
+          for spec in engine/specs/login-screen.yaml engine/specs/dashboard-screen.yaml engine/specs/nested-cards.yaml engine/specs/login-flow.yaml; do python engine/gate.py "$spec"; done
+          for spec in engine/specs/sample-landing.yaml engine/specs/login-flow.yaml engine/specs/project-list.yaml; do python engine/gate.py "$spec" --static; done
+          python engine/generate.py engine/specs/sample-landing.yaml --static --pattern-set engine/pattern-sets/site-only.yaml --hash-only
           for t in react-amplify next material firebase react-native; do
             f=libs/specs/sample-$(echo $t | sed 's/react-amplify/amplify/; s/react-native/mobile/').yaml
             python engine/gate.py "$f" --target "$t" >/dev/null && echo "gate pass $t"
           done
       - name: Build the sample site (static, pre-rendered, quality gates)
         run: python scripts/build_site.py engine/specs/sample-landing.yaml sample-landing --title "Sample Studio"
+      - name: Type-check the generated files of the static samples
+        run: python scripts/check_tsx.py engine/specs/login-flow.yaml:react-static engine/specs/project-list.yaml:react-static engine/specs/sample-landing.yaml:react-static
+      - name: Verify the build ledger
+        run: python engine/ledger.py build/ledger.jsonl
