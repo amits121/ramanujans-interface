@@ -15,6 +15,7 @@ Copyright (c) 2025 Intelligent Cloud Lab Inc.
 
 import argparse
 import hashlib
+import html as html_lib
 import os
 import re
 import shutil
@@ -63,6 +64,17 @@ def prerender(out_dir, env):
     shutil.rmtree(ssr_dir, ignore_errors=True)
 
 
+def link_font_stylesheet(out_dir, href):
+    """Add the theme's font stylesheet (font.stylesheet in the tokens) to the head; the page stays script free."""
+    index = os.path.join(out_dir, 'index.html')
+    with open(index, 'r', encoding='utf-8') as f:
+        html = f.read()
+    link = ('<link rel="preconnect" href="https://fonts.googleapis.com" />'
+            f'<link rel="stylesheet" href="{html_lib.escape(href, quote=True)}" />')
+    with open(index, 'w', encoding='utf-8') as f:
+        f.write(html.replace('</head>', link + '</head>', 1))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('spec')
@@ -97,8 +109,9 @@ def main():
         f.write(artifact.code)
     with open(os.path.join(gen_dir, 'Page.tsx'), 'w', encoding='utf-8') as f:
         f.write(f"export {{ default }} from './{component}';\n")
+    tokens = load_tokens(args.tokens)
     with open(os.path.join(gen_dir, 'theme.css'), 'w', encoding='utf-8') as f:
-        f.write(css_from_tokens(load_tokens(args.tokens)))
+        f.write(css_from_tokens(tokens))
     shutil.copyfile(os.path.join(ENGINE, 'site', 'site.css'), os.path.join(gen_dir, 'site.css'))
 
     public_assets = os.path.join(SHELL, 'public', 'assets')
@@ -121,6 +134,8 @@ def main():
     subprocess.run(['npx', 'vite', 'build', '--outDir', out_dir], cwd=SHELL, check=True, env=env)
     if not args.no_prerender:
         prerender(out_dir, env)
+    if tokens['font'].get('stylesheet'):
+        link_font_stylesheet(out_dir, tokens['font']['stylesheet'])
 
     quality = check_site(out_dir)
     for name, (ok, detail) in quality['checks'].items():

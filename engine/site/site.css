@@ -1,4 +1,7 @@
-/* Base styles for the site patterns S-01 to S-10. Values come from theme.css custom properties. */
+/* Base styles for the site patterns S-01 to S-11. Values come from theme.css custom properties.
+   Optional theme hooks (fall back to the base values when a theme does not set them): --color-nav-background,
+   --color-nav-text, --color-nav-button-background, --color-nav-button-text, --color-footer-background,
+   --color-footer-text, --color-heading-accent, --radius-button, --text-transform-button, --letter-spacing-button. */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
@@ -12,7 +15,7 @@ body {
 img { max-width: 100%; height: auto; display: block; }
 h1, h2, h3, h4 { margin: 0 0 var(--space-md); line-height: var(--line-height-heading); font-weight: var(--font-weight-bold); }
 h1 { font-size: var(--font-size-h1); }
-h2 { font-size: var(--font-size-h2); }
+h2 { font-size: var(--font-size-h2); color: var(--color-heading-accent, inherit); }
 h3 { font-size: var(--font-size-h3); font-weight: var(--font-weight-semibold); }
 h4 { font-size: var(--font-size-h4); font-weight: var(--font-weight-semibold); }
 p { margin: 0 0 var(--space-md); }
@@ -25,8 +28,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .page > section, .page > header, .page > footer, .page > figure { padding-top: var(--space-xxl); padding-bottom: var(--space-xxl); }
 
 .site-button {
-  display: inline-block; min-width: 120px; padding: 0 var(--space-md); line-height: 48px; text-align: center;
-  border-radius: var(--radius-md); font-size: var(--font-size-button); font-weight: var(--font-weight-semibold);
+  display: inline-block; min-width: 120px; padding: 0 var(--space-lg); line-height: 48px; text-align: center;
+  border-radius: var(--radius-button, var(--radius-md)); font-size: var(--font-size-button); font-weight: var(--font-weight-semibold);
+  text-transform: var(--text-transform-button, none); letter-spacing: var(--letter-spacing-button, normal);
   text-decoration: none; border: 1px solid transparent; cursor: pointer;
 }
 .site-button-primary { background: var(--color-primary); color: var(--color-surface); }
@@ -34,13 +38,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .site-button-primary:active { background: var(--color-primary-active); }
 .site-button-secondary { background: transparent; color: var(--color-primary); border-color: var(--color-primary); }
 
-.site-nav { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); padding-top: var(--space-sm); padding-bottom: var(--space-sm); background: var(--color-surface); box-shadow: var(--shadow-sm); }
-.site-nav-brand { font-weight: var(--font-weight-bold); text-decoration: none; color: var(--color-text-primary); }
+.site-nav { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); padding-top: var(--space-sm); padding-bottom: var(--space-sm); background: var(--color-nav-background, var(--color-surface)); box-shadow: var(--shadow-sm); }
+.site-nav-brand { font-weight: var(--font-weight-bold); text-decoration: none; color: var(--color-nav-text, var(--color-text-primary)); }
 .site-nav-links { display: flex; flex-wrap: wrap; gap: var(--space-md); list-style: none; margin: 0 auto 0 0; padding: 0; }
-.site-nav-links a { text-decoration: none; color: var(--color-text-secondary); line-height: 44px; }
+.site-nav-links a { text-decoration: none; color: var(--color-nav-text, var(--color-text-secondary)); line-height: 44px; }
+.site-nav .site-button-primary { background: var(--color-nav-button-background, var(--color-primary)); color: var(--color-nav-button-text, var(--color-surface)); }
 
 .site-hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-lg); align-items: center; }
-.site-hero-subtitle { font-size: var(--font-size-body-large); color: var(--color-text-secondary); }
+.site-hero-subtitle { font-size: var(--font-size-body-large); color: var(--color-heading-accent, var(--color-text-secondary)); }
 .site-hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 .site-hero-image { width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); }
 
@@ -56,6 +61,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .site-faq-item summary { cursor: pointer; font-weight: var(--font-weight-semibold); line-height: 44px; }
 
 .site-cta { background: var(--color-primary); color: var(--color-surface); text-align: center; }
+.site-cta h2 { color: inherit; }
 .site-cta .site-button-primary { background: var(--color-surface); color: var(--color-primary); }
 
 .site-form { display: grid; gap: var(--space-sm); max-width: 560px; }
@@ -66,8 +72,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .site-form textarea { padding: var(--space-sm) var(--space-md); }
 .site-form input:focus, .site-form textarea:focus { border-color: var(--color-border-focus); }
 
-.site-footer { background: var(--color-surface); border-top: 1px solid var(--color-border); color: var(--color-text-secondary); font-size: var(--font-size-body-small); }
-.site-footer-brand { font-weight: var(--font-weight-bold); color: var(--color-text-primary); margin-bottom: var(--space-sm); }
+.site-footer { background: var(--color-footer-background, var(--color-surface)); border-top: 1px solid var(--color-border); color: var(--color-footer-text, var(--color-text-secondary)); font-size: var(--font-size-body-small); }
+.site-footer-brand { font-weight: var(--font-weight-bold); color: var(--color-footer-text, var(--color-text-primary)); margin-bottom: var(--space-sm); }
+.site-footer a { color: var(--color-footer-text, var(--color-primary)); }
 .site-footer-links, .site-social { display: flex; flex-wrap: wrap; gap: var(--space-md); list-style: none; padding: 0; margin: 0 0 var(--space-sm); }
 
 @media (min-width: 1024px) {

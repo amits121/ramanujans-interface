@@ -1,72 +1,86 @@
-# Default design tokens: the generic set from the December 2025 token specification.
-# A site supplies its own theme file with the same keys; the generator never invents values.
-# Copyright (c) 2025 Intelligent Cloud Lab Inc.
+# Brand theme for techinnovations.io and every other company site: the colour combination the founder
+# ruled on 2026-11-09, read from the company's existing WordPress site (MIT red on white, plenty of white
+# space) so that sites, blogs and social media share one look. The generator never invents values.
+# Copyright (c) 2026 Intelligent Cloud Lab Inc.
 
 name: techinnovations
 version: "1.0"
 
 color:
-  primary: "#3B5BDB"
-  primary_hover: "#3552C5"
-  primary_active: "#3249AF"
-  secondary: "#4B5563"
-  secondary_hover: "#374151"
-  danger: "#FF4757"
-  danger_hover: "#E63E4D"
-  success: "#2ED573"
-  warning: "#FFA502"
-  info: "#3B82F6"
-  background: "#F8F9FA"
+  primary: "#750014"            # MIT red: header, footer, buttons, call-to-action band, links
+  primary_hover: "#5E0010"
+  primary_active: "#4A000D"
+  secondary: "#8B959E"          # silver grey: bands, decorative text, large captions
+  secondary_hover: "#76818A"
+  danger: "#FF1423"             # bright red of the same palette
+  danger_hover: "#E0101F"
+  success: "#2E7D32"
+  warning: "#B26A00"
+  info: "#1F5C99"
+  background: "#FFFFFF"         # white page, white cards: the white space is the design
   surface: "#FFFFFF"
-  text_primary: "#1B2838"
-  text_secondary: "#6B7280"
-  text_disabled: "#9CA3AF"
-  border: "#E5E7EB"
-  border_focus: "#3B5BDB"
-  border_error: "#FF4757"
+  text_primary: "#000000"       # black headlines and body text, as on the existing site
+  text_secondary: "#5B6670"     # the silver grey darkened until small text reads at 5.9:1 on white
+  text_disabled: "#8B959E"
+  border: "#DCE0E3"             # a light tint of the silver grey
+  border_focus: "#750014"
+  border_error: "#FF1423"
+  heading_accent: "#750014"     # second-level headings and the hero sub-line in MIT red
+  nav_background: "#750014"     # solid MIT red header with white links
+  nav_text: "#FFFFFF"
+  nav_button_background: "#FFFFFF"
+  nav_button_text: "#750014"
+  footer_background: "#750014"  # solid MIT red footer with white text
+  footer_text: "#FFFFFF"
 
 font:
-  family: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+  family: "'Open Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+  stylesheet: "https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap"
   size:            # pixels, [mobile, desktop]
-    h1: [28, 36]
-    h2: [24, 28]
-    h3: [20, 22]
+    h1: [32, 48]
+    h2: [26, 34]
+    h3: [20, 24]
     h4: [18, 20]
-    body_large: [18, 18]
-    body: [16, 16]
+    body_large: [18, 20]
+    body: [16, 17]
     body_small: [14, 14]
     label: [14, 14]
-    button: [16, 16]
+    button: [14, 14]
   weight:
     regular: 400
-    medium: 500
-    semibold: 600
-    bold: 700
+    medium: 600
+    semibold: 700
+    bold: 800
   line_height:
-    heading: 1.25
-    body: 1.5
+    heading: 1.2
+    body: 1.7
+  transform:
+    button: uppercase          # pill buttons with bold upper-case text, as on the existing site
+  letter_spacing:
+    button: 0.06em
 
-space:               # pixels
+space:               # pixels; the large steps give the sections their white space
   xs: 4
   sm: 8
   md: 16
   lg: 24
-  xl: 32
-  xxl: 48
-  xxxl: 64
+  xl: 40
+  xxl: 80
+  xxxl: 120
 
 radius:              # pixels
   none: 0
   sm: 4
   md: 8
-  lg: 12
-  xl: 16
+  lg: 16
+  xl: 24
+  button: 999        # pill
 
 shadow:
-  sm: "0 1px 2px rgba(0,0,0,0.05)"
-  md: "0 4px 6px rgba(0,0,0,0.1)"
-  lg: "0 10px 15px rgba(0,0,0,0.1)"
-  xl: "0 20px 25px rgba(0,0,0,0.15)"
+  sm: "0 1px 2px rgba(0,0,0,0.04)"
+  md: "0 4px 8px rgba(0,0,0,0.06)"
+  lg: "0 12px 24px rgba(0,0,0,0.08)"
+  xl: "0 20px 32px rgba(0,0,0,0.10)"
 
 breakpoint:          # pixels
   desktop: 1024

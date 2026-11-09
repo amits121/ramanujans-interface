@@ -5,6 +5,9 @@ Design Tokens Module
 Turns a theme file (YAML, see tokens/default.yaml) into CSS custom properties.
 Pure: css_from_tokens() depends only on the token dictionary; keys are emitted
 in sorted order so the stylesheet is byte-identical for identical tokens.
+Optional keys a theme may add: any extra colour (for example nav_background, footer_text,
+heading_accent, emitted as --color-<key>), radius.button, font.transform.<key>,
+font.letter_spacing.<key>; font.stylesheet (a URL) is read by the site build, not emitted here.
 
 Pipeline Position:
     theme.yaml -> [tokens] -> theme.css   (consumed by site/site.css and the patterns)
@@ -60,6 +63,10 @@ def css_from_tokens(tokens: Dict[str, Any]) -> str:
         root.append(f'  {_var("font_weight_" + key)}: {tokens["font"]["weight"][key]};')
     for key in sorted(tokens['font']['line_height']):
         root.append(f'  {_var("line_height_" + key)}: {tokens["font"]["line_height"][key]};')
+    for key in sorted(tokens['font'].get('transform', {})):        # optional, e.g. button: uppercase
+        root.append(f'  {_var("text_transform_" + key)}: {tokens["font"]["transform"][key]};')
+    for key in sorted(tokens['font'].get('letter_spacing', {})):   # optional, e.g. button: 0.06em
+        root.append(f'  {_var("letter_spacing_" + key)}: {tokens["font"]["letter_spacing"][key]};')
     for group in ('space', 'radius'):
         for key in sorted(tokens[group]):
             root.append(f'  {_var(group + "_" + key)}: {tokens[group][key]}px;')

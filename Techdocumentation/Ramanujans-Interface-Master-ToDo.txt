@@ -106,12 +106,12 @@ Ruling 2026-10-10: site number one on an EC2 web host in the company account (pr
 ☐ Submit all three (our side) by Aug 15
 
 8. WP -> React migration (first use cases = dogfood + case studies + alpha)
-☐ Restart one WordPress instance briefly OR locate DB/XML backups (content access)
+☐ Restart one WordPress instance briefly OR locate DB/XML backups (content access) (2026-11-09: the company site www.intelligentcloudlab.com still answers, certificate expired 2026-07-12; its pages, media and menu are readable through /wp-json; the founder ruled its content is NOT migrated, the new site's content will be entirely different)
 ☐ Confirm each site type: brochure/marketing (easy) vs dynamic (forms / WooCommerce / membership)
 ☐ Site #1 (semi-manual): build & validate spec-core + ingest + design-tokens against it
 ☐ Per site x6: extract content (WP REST /wp-json or XML export)
 ☐ Per site x6: capture design -> screenshot -> vision-ingest -> SPEC (or map to L/C patterns)
-☐ Per site x6: extract theme tokens (colors / fonts) -> design-tokens
+☐ Per site x6: extract theme tokens (colors / fonts) -> design-tokens (2026-11-09: done for the company site, the first of six: MIT red on white, Open Sans, pill buttons -> engine/tokens/techinnovations.yaml, the theme of every company site, blog and social presence by the founder's ruling)
 ☐ Per site x6: generate React via engine + populate content
 ☐ Per site x6: deploy to nginx on ICL EC2
 ☐ Write case studies: migration speed, cost savings (WP servers -> static), perf/SEO gains

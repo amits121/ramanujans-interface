@@ -117,6 +117,18 @@ class SitePatternTest(unittest.TestCase):
         names = re.findall(r'--color-[a-z-]+', css.split('@media')[0])
         self.assertEqual(names, sorted(names))
 
+    def test_optional_token_keys_emit_only_when_present(self):
+        base = load_tokens(TOKENS)
+        self.assertNotIn('--text-transform-', css_from_tokens(base))
+        self.assertNotIn('--letter-spacing-', css_from_tokens(base))
+        brand = load_tokens(os.path.join(ENGINE, 'tokens', 'techinnovations.yaml'))
+        css = css_from_tokens(brand)
+        for line in ('--color-nav-background: #750014;', '--color-heading-accent: #750014;',
+                     '--text-transform-button: uppercase;', '--letter-spacing-button: 0.06em;',
+                     '--radius-button: 999px;'):
+            self.assertIn(line, css)
+        self.assertNotIn('stylesheet', css)   # the font link is the build's job, not the theme stylesheet's
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
