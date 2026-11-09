@@ -98,13 +98,13 @@ _2026-10-08: phase 2 done - S-01..S-10 site patterns + L-07 page registered (eng
 
 _Ruling 2026-10-10: site number one on an EC2 web host in the company account (profile icl-2, us-east-1; VPC ICL-2-vpc with public and private subnets and an internet gateway exists; no instances yet). nginx serves the engine's pre-rendered static output; Session Manager only, no port 22, no key pair; the engine never goes on the web host. Console recipe with every value: productization plan, section 6. The founder runs the console steps; the session supplies scripts and verifies read-only (F-8)._
 
-- [ ] 6.1 Security group icl-web-sg in ICL-2-vpc: 80 and 443 in from anywhere; no 22; outbound all (2026-11-09: values read from the account, steps written in plain words for the founder in Documents/ICL-UI-Productization/Tonight-Host-Setup-techinnovations.docx; isolated CLI environment scripts/aws-icl with ~/.aws-icl; bootstrap now serves the www alias)
-- [ ] 6.2 Instance role icl-web-host: AmazonSSMManagedInstanceCore + read on the sites bucket
-- [ ] 6.3 Sites bucket icl-sites-359428598413: public access blocked, versioning on, encrypted
-- [ ] 6.4 Launch icl-web-host: Amazon Linux 2023 arm64, t4g.micro, subnet ICL-2-subnet-public1-us-east-1a with public IP, no key pair, IMDSv2, 20 GB gp3 encrypted, role icl-web-host, user data = scripts/server/web-host-user-data.sh with HOST, SITE, BUCKET filled
-- [ ] 6.5 Elastic IP allocated and associated with icl-web-host
-- [ ] 6.6 DNS: A records techinnovations.io and www -> the Elastic IP, in the account that holds the zone (founder 2026-11-09: the site is the apex techinnovations.io; innovations.io is a third party's; the current address 3.222.116.231 answers nothing)
-- [ ] 6.7 Certificate: `sudo site-cert <host> <email>` on the host through Session Manager; HTTPS redirect on; renewal timer active
+- [x] 6.1 Security group icl-web-sg in ICL-2-vpc: 80 and 443 in from anywhere; no 22; outbound all (2026-11-09: values read from the account, steps written in plain words for the founder in Documents/ICL-UI-Productization/Tonight-Host-Setup-techinnovations.docx; isolated CLI environment scripts/aws-icl with ~/.aws-icl; bootstrap now serves the www alias) DONE 2026-11-10 by the founder: sg-07cf07a657a134406
+- [x] 6.2 Instance role icl-web-host: AmazonSSMManagedInstanceCore + read on the sites bucket (DONE 2026-11-10: role icl-web-host with AmazonSSMManagedInstanceCore and inline icl-sites-read)
+- [x] 6.3 Sites bucket icl-sites-359428598413: public access blocked, versioning on, encrypted (DONE 2026-11-10: icl-sites-359428598413, private, versioned, SSE-S3)
+- [x] 6.4 Launch icl-web-host: Amazon Linux 2023 arm64, t4g.micro, subnet ICL-2-subnet-public1-us-east-1a with public IP, no key pair, IMDSv2, 20 GB gp3 encrypted, role icl-web-host, user data = scripts/server/web-host-user-data.sh with HOST, SITE, BUCKET filled (DONE 2026-11-10: i-08a0a6342556c9bea t4g.micro, bootstrap finished, SSM online; key pair icl-website assigned but port 22 closed)
+- [x] 6.5 Elastic IP allocated and associated with icl-web-host (DONE 2026-11-10: 52.203.85.18; a second idle address 3.220.125.24 is to be released)
+- [ ] 6.6 DNS: A records techinnovations.io and www -> the Elastic IP, in the account that holds the zone (founder 2026-11-09: the site is the apex techinnovations.io; innovations.io is a third party's; the current address 3.222.116.231 answers nothing) (2026-11-10: new public zone Z012694417G3QZ60HKG99 in the company account with both A records to 52.203.85.18; GoDaddy nameservers set to the zone; registry delegation still pending at 01:50 IST)
+- [ ] 6.7 Certificate: `sudo site-cert <host> <email>` on the host through Session Manager; HTTPS redirect on; renewal timer active (waits for the delegation; the founder runs sudo site-cert techinnovations.io <email> over Session Manager)
 - [ ] 6.8 First deploy on the founder's word: `python scripts/deploy_site.py engine/specs/sample-landing.yaml sample-landing --host <host> --profile icl-2`; byte-equal check passes (plan E-2a)
 - [ ] 6.9 Alarms: StatusCheckFailed_System with the recover action; monthly budget alarm
 - [x] nginx config for static sites (inside the bootstrap, 2026-10-10)
@@ -130,6 +130,7 @@ _Ruling 2026-10-10: site number one on an EC2 web host in the company account (p
 - [ ] Per site x6: capture design -> screenshot -> vision-ingest -> SPEC (or map to L/C patterns)
 - [ ] Per site x6: extract theme tokens (colors / fonts) -> design-tokens (2026-11-09: done for the company site, the first of six: MIT red on white, Open Sans, pill buttons -> engine/tokens/techinnovations.yaml, the theme of every company site, blog and social presence by the founder's ruling)
 - [ ] Per site x6: generate React via engine + populate content
+- [x] techinnovations.io: 41 pages from the founder's Word page documents through scripts/pages_from_docx.py (sentence case, proper-noun list, emphasis rules, Word bold) and scripts/build_pages.py (gate, ledger, quality per page); publication patterns S-12 data table, S-13 citations, S-14 cascading menu, S-15 footer site map, S-16 page header (DONE 2026-11-10, commit f2ce02d; deploy waits for DNS and the founder's word)
 - [ ] Per site x6: deploy to nginx on ICL EC2
 - [ ] Write case studies: migration speed, cost savings (WP servers -> static), perf/SEO gains
 - [ ] Capture the speed-up curve (Site 1 days -> Site 6 hours) as the headline metric
