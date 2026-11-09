@@ -6,7 +6,7 @@ Turns a theme file (YAML, see tokens/default.yaml) into CSS custom properties.
 Pure: css_from_tokens() depends only on the token dictionary; keys are emitted
 in sorted order so the stylesheet is byte-identical for identical tokens.
 Optional keys a theme may add: any extra colour (for example nav_background, footer_text,
-heading_accent, emitted as --color-<key>), radius.button, font.transform.<key>,
+heading_accent, emitted as --color-<key>), radius.button, font.heading_family, font.transform.<key>,
 font.letter_spacing.<key>; font.stylesheet (a URL) is read by the site build, not emitted here.
 
 Pipeline Position:
@@ -57,6 +57,8 @@ def css_from_tokens(tokens: Dict[str, Any]) -> str:
     for key in sorted(tokens['color']):
         root.append(f'  {_var("color_" + key)}: {tokens["color"][key]};')
     root.append(f'  {_var("font_family")}: {tokens["font"]["family"]};')
+    if tokens['font'].get('heading_family'):                          # optional second typeface for headings
+        root.append(f'  {_var("font_family_heading")}: {tokens["font"]["heading_family"]};')
     for key in sorted(tokens['font']['size']):
         root.append(f'  {_var("font_size_" + key)}: {tokens["font"]["size"][key][0]}px;')
     for key in sorted(tokens['font']['weight']):

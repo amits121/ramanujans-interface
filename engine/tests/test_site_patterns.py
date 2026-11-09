@@ -17,6 +17,7 @@ sys.path.insert(0, ENGINE)
 from generate import generate  # noqa: E402
 from pattern_library import PatternLibrary  # noqa: E402
 from site_patterns import register_site_patterns, SITE_TYPE_MAPPING  # noqa: E402
+from site_text import _rich  # noqa: E402
 from spec_parser import SpecParser  # noqa: E402
 from tokens import css_from_tokens, load_tokens  # noqa: E402
 
@@ -35,6 +36,11 @@ MINIMAL = {
     'S-08': {'title': 'T', 'cta': {'label': 'Go', 'href': '/'}},
     'S-09': {'quote': 'q', 'author': 'a'},
     'S-10': {'items': [{'q': 'Q?', 'a': 'A.'}]},
+    'S-12': {'columns': ['a', 'b'], 'rows': [['1', '2']]},
+    'S-13': {'heading': 'Sources', 'items': ['One.']},
+    'S-14': {'brand': {'label': 'B'}, 'items': [{'label': 'Home', 'href': '/'}]},
+    'S-15': {'columns': [{'heading': 'C', 'links': [{'label': 'x', 'href': '/x'}]}], 'note': 'n'},
+    'S-16': {'title': 'T'},
 }
 
 
@@ -128,6 +134,29 @@ class SitePatternTest(unittest.TestCase):
                      '--radius-button: 999px;'):
             self.assertIn(line, css)
         self.assertNotIn('stylesheet', css)   # the font link is the build's job, not the theme stylesheet's
+
+
+    def test_rich_text_bold_and_refusals(self):
+        self.assertEqual(_rich('plain'), '{"plain"}')
+        self.assertEqual(_rich('a **b** c'), '{"a "}<strong>{"b"}</strong>{" c"}')
+        with self.assertRaises(ValueError):
+            _rich('odd ** mark')
+
+    def test_publication_patterns_render_structure(self):
+        lib = library()
+        table = lib.generate('S-12', {'caption': 'Cap', 'columns': ['k', 'v'], 'rows': [['x', '**1**']]})
+        self.assertIn('<th scope="row">{"x"}</th><td><strong>{"1"}</strong></td>', table)
+        with self.assertRaises(ValueError):
+            lib.generate('S-12', {'columns': ['k', 'v'], 'rows': [['x']]})
+        menu = lib.generate('S-14', {'brand': {'label': 'B'}, 'items': [
+            {'label': 'Yardstick', 'href': '/yardstick', 'page_label': 'Yardstick overview', 'children': [
+                {'label': 'Sectors', 'children': [{'label': 'AI', 'href': '/yardstick/sectors/ai'}]}]}]})
+        self.assertEqual(menu.count('<details className="site-menu-group">'), 2)
+        self.assertIn('<a href={"/yardstick"}>{"Yardstick overview"}</a>', menu)
+        with self.assertRaises(ValueError):
+            lib.generate('S-14', {'brand': {'label': 'B'}, 'items': [{'label': 'dead end'}]})
+        header = lib.generate('S-16', {'title': 'T', 'standfirst': 'S', 'meta': [{'label': 'L', 'text': 'M'}]})
+        self.assertIn('<h1>{"T"}</h1><p className="site-standfirst">{"S"}</p><dl', header)
 
 
 if __name__ == '__main__':

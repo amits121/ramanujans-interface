@@ -34,8 +34,8 @@ color:
   footer_text: "#FFFFFF"
 
 font:
-  family: "'Open Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-  stylesheet: "https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap"
+  family: "'IBM Plex Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"   # founder 2026-11-10: a professional publication typeface
+  stylesheet: "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
   size:            # pixels, [mobile, desktop]
     h1: [32, 48]
     h2: [26, 34]
@@ -48,9 +48,9 @@ font:
     button: [14, 14]
   weight:
     regular: 400
-    medium: 600
-    semibold: 700
-    bold: 800
+    medium: 500
+    semibold: 600
+    bold: 700
   line_height:
     heading: 1.2
     body: 1.7

@@ -1,0 +1,68 @@
+# techinnovations.io navigation taxonomy, transcribed from the founder's site tree document
+# (Techinnovations_Website_Site_Tree_and_Map.docx, section two and the site map table). Labels are his page
+# titles. A node with "href" is itself a page; "page_label" is the title of that page in the cascade. Items whose
+# page has no content document yet are left out of the built menu and footer until the content arrives.
+brand:
+  label: techinnovations.io
+  href: /
+footer_note: "© 2026 Intelligent Cloud Lab Inc."
+items:
+  - label: Home
+    href: /
+  - label: Global frontier
+    href: /frontier
+    page_label: Global frontier overview
+    children:
+      - { label: "The 20,000 year century", href: /frontier/accelerating-returns }
+      - { label: Converging platforms 2030, href: /frontier/converging-platforms }
+      - { label: Limits of probabilistic scaling, href: /frontier/llm-scaling-limits }
+      - { label: Deterministic neuro-symbolic AI, href: /frontier/deterministic-systems }
+      - { label: Extreme environment compute, href: /frontier/extreme-compute }
+  - label: The yardstick
+    href: /yardstick
+    page_label: Sovereign benchmark overview
+    children:
+      - { label: Comparative metrics dashboard, href: /yardstick/comparative-data }
+      - label: 14 critical innovation sectors
+        href: /yardstick/sectors
+        page_label: 14 critical innovation sectors overview
+        children:
+          - { label: Deterministic and certifiable AI, href: /yardstick/sectors/ai }
+          - { label: Autonomous cyber-physical systems, href: /yardstick/sectors/autonomous }
+          - { label: Sovereign space logistics, href: /yardstick/sectors/space }
+          - { label: Space and ocean data centers, href: /yardstick/sectors/compute }
+          - { label: Rare earths and critical minerals, href: /yardstick/sectors/minerals }
+          - { label: Agriculture and post-harvest resilience, href: /yardstick/sectors/agriculture }
+          - { label: Climate and stored clean energy, href: /yardstick/sectors/energy }
+          - { label: Semiconductors and advanced packaging, href: /yardstick/sectors/semiconductors }
+          - { label: Biotechnology and novel molecules, href: /yardstick/sectors/biotech }
+          - { label: Quantum computing and physics, href: /yardstick/sectors/quantum }
+          - { label: Digital public infrastructure, href: /yardstick/sectors/dpi }
+          - { label: "Manufacturing, robotics and electric mobility", href: /yardstick/sectors/robotics }
+          - { label: Healthcare and medical devices, href: /yardstick/sectors/healthcare }
+          - { label: Advanced materials and oceans, href: /yardstick/sectors/materials }
+      - { label: The examination funnel diagnostic, href: /yardstick/root-cause }
+      - { label: Institutional and diaspora capital, href: /yardstick/institutions }
+  - label: Research analysis
+    href: /research
+    page_label: Research lab publication hub
+    children:
+      - { label: AI assistance and human persistence, href: /research/ai-persistence }
+      - { label: Pre-training saturation and peak data, href: /research/peak-data }
+      - { label: MCP and enterprise query governance, href: /research/agent-governance }
+      - { label: High assurance autonomous control, href: /research/high-assurance }
+      - { label: LinkedIn newsletter complete archive, href: /research/newsletter }
+  - label: Invent in India
+    href: /invent-in-india
+    page_label: Invent in India national movement
+    children:
+      - { label: The Pune innovation hub, href: /invent-in-india/pune-hub }
+      - { label: The 100 hub national rollout, href: /invent-in-india/100-hubs }
+      - { label: The break it challenge portal, href: /invent-in-india/challenge }
+      - { label: The Fremont hardware testbed, href: /invent-in-india/fremont-rig }
+      - { label: Innovators without borders, href: /invent-in-india/diaspora-bridge }
+  - label: Leadership and institutional governance
+    children:
+      - { label: Founder biography and engineering record, href: /about/founder }
+      - { label: Institutional and academic partners, href: /about/partners }
+      - { label: Inquiry and enterprise licensing, href: /about/contact }

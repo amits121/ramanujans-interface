@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Site Patterns Module (S-01 to S-11, L-07)
+Site Patterns Module (S-01 to S-11, L-07; S-12 to S-16 join from publication_patterns)
 
 The ten patterns a hosted marketing site is assembled from, registered into the
 PatternLibrary without touching the engine or the existing patterns. Output is
@@ -17,10 +17,11 @@ Author: Amit Sarkar
 Version: 1.0.0
 """
 
-import json
 from typing import Any, Dict, List
 
 from pattern_library import Pattern, PatternLibrary
+from publication_patterns import PATTERNS as PUBLICATION_PATTERNS, PUBLICATION_TYPE_MAPPING
+from site_text import BUTTON, BUTTON_SECONDARY, _heading, _link, _req, _rich, _t
 
 SITE_TYPE_MAPPING = {
     'page': 'L-07',
@@ -35,31 +36,8 @@ SITE_TYPE_MAPPING = {
     'testimonial': 'S-09',
     'faq': 'S-10',
     'section': 'S-11',
+    **PUBLICATION_TYPE_MAPPING,
 }
-
-BUTTON = 'site-button site-button-primary'
-BUTTON_SECONDARY = 'site-button site-button-secondary'
-
-
-def _t(value: Any) -> str:
-    """JSX-safe text: {"..."}."""
-    return '{' + json.dumps(str(value), ensure_ascii=False) + '}'
-
-
-def _req(props: Dict[str, Any], pattern_id: str, *keys: str) -> None:
-    for key in keys:
-        if key not in props or props[key] in ('', None, []):
-            raise ValueError(f'{pattern_id} requires "{key}"')
-
-
-def _link(item: Dict[str, Any], css: str = '') -> str:
-    cls = f' className="{css}"' if css else ''
-    return f'<a{cls} href={_t(item["href"])}>{_t(item["label"])}</a>'
-
-
-def _heading(level: int, text: Any) -> str:
-    level = min(max(int(level), 1), 4)
-    return f'<h{level}>{_t(text)}</h{level}>'
 
 
 # ---- generators -------------------------------------------------------------------------------
@@ -74,7 +52,7 @@ def image(p: Dict) -> str:
 def text_block(p: Dict) -> str:
     _req(p, 'S-02', 'paragraphs')
     head = _heading(p.get('level', 2), p['heading']) if p.get('heading') else ''
-    body = ''.join(f'<p>{_t(t)}</p>' for t in p['paragraphs'])
+    body = ''.join(f'<p>{_rich(t)}</p>' for t in p['paragraphs'])
     return f'<section className="site-text">{head}{body}</section>'
 
 
@@ -184,6 +162,6 @@ PATTERNS: List[Pattern] = [
 
 
 def register_site_patterns(library: PatternLibrary) -> None:
-    """Register S-01 to S-11 and L-07. Idempotent."""
-    for pattern in PATTERNS:
+    """Register S-01 to S-16 and L-07. Idempotent."""
+    for pattern in PATTERNS + PUBLICATION_PATTERNS:
         library.register(pattern)
