@@ -285,6 +285,12 @@ def prune(items, existing):
     return out
 
 
+def footer_links(item):
+    for node in [item] + list(item.get('children') or []):
+        if node.get('href'):
+            yield {'label': node.get('page_label', node['label']), 'href': node['href']}
+
+
 def flatten(items):
     for item in items:
         if item.get('href'):
@@ -322,7 +328,9 @@ def main():
         sys.exit('two documents share one url path')
     items = prune(menu['items'], existing)
     menu_props = {'brand': menu['brand'], 'items': items}
-    columns = [{'heading': item['label'], 'links': list(flatten([item]))} for item in items if item['label'] != 'Home']
+    # footer columns carry a group's own page and its direct children only; deeper pages (the fourteen sectors) are
+    # reached through their overview page, which keeps the footer short
+    columns = [{'heading': item['label'], 'links': list(footer_links(item))} for item in items if item['label'] != 'Home']
     footer_props = {'brand': menu['brand']['label'], 'columns': columns, 'note': menu['footer_note']}
 
     os.makedirs(args.spec_dir, exist_ok=True)

@@ -97,9 +97,17 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .page > .site-table { padding-top: var(--space-lg); padding-bottom: var(--space-lg); }
 .page > .site-citations { padding-top: var(--space-xl); }
 .site-table { margin: 0; }
-/* reading column: header, text, citations and figures sit in one centred measure; tables, hero, menu and footer keep the 1120px frame */
-.page > .site-page-header, .page > .site-text, .page > .site-citations, .page > .site-image, .page > .site-contact, .page > .site-hero:not(.site-hero-with-image) {
-  padding-left: max(var(--space-md), calc((100% - 720px) / 2)); padding-right: max(var(--space-md), calc((100% - 720px) / 2));
+/* content column: header, text, tables, citations, figures, form and an image-less hero share one centred 920px column;
+   menu, footer and a hero with a picture keep the 1120px frame. Text blocks of three or more paragraphs flow in two
+   columns on wide screens; shorter blocks stay in one. */
+.page > .site-page-header, .page > .site-text, .page > .site-table, .page > .site-citations, .page > .site-image, .page > .site-contact, .page > .site-hero:not(.site-hero-with-image) {
+  padding-left: max(var(--space-md), calc((100% - 920px) / 2)); padding-right: max(var(--space-md), calc((100% - 920px) / 2));
+}
+@media (min-width: 1024px) {
+  .site-text:has(p:nth-of-type(3)) { columns: 2; column-gap: var(--space-xl); }
+  .site-text:has(p:nth-of-type(3)) > h2, .site-text:has(p:nth-of-type(3)) > h3 { column-span: all; }
+  .site-text:has(p:nth-of-type(3)) p { break-inside: avoid; }
+  .site-text:has(p:nth-of-type(3)) p:last-child { margin-bottom: 0; }
 }
 .page > .site-image { padding-top: 0; padding-bottom: var(--space-lg); }
 .page > .site-contact { padding-top: var(--space-lg); padding-bottom: var(--space-lg); }
@@ -131,10 +139,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .site-menu-sub a { display: block; line-height: 40px; color: inherit; text-decoration: none; }
 .site-menu-sub .site-menu-sub { padding-left: var(--space-md); }
 .site-menu .site-button-primary { background: var(--color-nav-button-background, var(--color-primary)); color: var(--color-nav-button-text, var(--color-surface)); }
-.site-footer-columns { display: grid; gap: var(--space-lg); grid-template-columns: minmax(0, 1fr); margin-bottom: var(--space-lg); }
-.site-footer-column h2 { font-size: var(--font-size-body); color: inherit; margin-bottom: var(--space-sm); }
+.page > .site-footer-map { padding-top: var(--space-xl); padding-bottom: var(--space-lg); }
+.site-footer-columns { display: grid; gap: var(--space-md) var(--space-lg); grid-template-columns: minmax(0, 1fr); margin-bottom: var(--space-md); }
+.site-footer-column h2 { font-size: var(--font-size-body); color: inherit; margin-bottom: var(--space-xs); }
 .site-footer-column ul { list-style: none; margin: 0; padding: 0; }
-.site-footer-column li { margin-bottom: var(--space-xs); }
+.site-footer-column li { margin-bottom: 2px; font-size: var(--font-size-body-small); line-height: 1.5; }
 .site-footer-map a { color: inherit; }
 @media (min-width: 1024px) {
   .site-menu-list { flex-direction: row; width: auto; margin-left: auto; gap: var(--space-md); }

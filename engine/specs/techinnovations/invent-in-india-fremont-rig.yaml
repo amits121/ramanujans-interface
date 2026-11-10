@@ -207,34 +207,6 @@ components:
         href: /yardstick/comparative-data
       - label: 14 critical innovation sectors overview
         href: /yardstick/sectors
-      - label: Deterministic and certifiable AI
-        href: /yardstick/sectors/ai
-      - label: Autonomous cyber-physical systems
-        href: /yardstick/sectors/autonomous
-      - label: Sovereign space logistics
-        href: /yardstick/sectors/space
-      - label: Space and ocean data centers
-        href: /yardstick/sectors/compute
-      - label: Rare earths and critical minerals
-        href: /yardstick/sectors/minerals
-      - label: Agriculture and post-harvest resilience
-        href: /yardstick/sectors/agriculture
-      - label: Climate and stored clean energy
-        href: /yardstick/sectors/energy
-      - label: Semiconductors and advanced packaging
-        href: /yardstick/sectors/semiconductors
-      - label: Biotechnology and novel molecules
-        href: /yardstick/sectors/biotech
-      - label: Quantum computing and physics
-        href: /yardstick/sectors/quantum
-      - label: Digital public infrastructure
-        href: /yardstick/sectors/dpi
-      - label: Manufacturing, robotics and electric mobility
-        href: /yardstick/sectors/robotics
-      - label: Healthcare and medical devices
-        href: /yardstick/sectors/healthcare
-      - label: Advanced materials and oceans
-        href: /yardstick/sectors/materials
       - label: The examination funnel diagnostic
         href: /yardstick/root-cause
       - label: Institutional and diaspora capital
