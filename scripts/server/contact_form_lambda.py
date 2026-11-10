@@ -37,13 +37,17 @@ def handler(event, context):
         return page(400, 'Please give your name, a valid email address and a message of at least ten characters.')
     if os.environ.get('TURNSTILE_SECRET') and not turnstile_ok(form.get('cf-turnstile-response', [''])[0], event):
         return page(400, 'The verification did not pass. Please go back and try again.')
-    ses.send_email(
-        FromEmailAddress=os.environ['FROM_ADDRESS'],
-        Destination={'ToAddresses': [os.environ['TO_ADDRESS']]},
-        ReplyToAddresses=[fields['email']],
-        Content={'Simple': {
-            'Subject': {'Data': f'{os.environ.get("SITE_URL", "site")} contact: {fields["name"]}'},
-            'Body': {'Text': {'Data': f'From: {fields["name"]} <{fields["email"]}>\n\n{fields["message"]}\n'}}}})
+    try:
+        ses.send_email(
+            FromEmailAddress=os.environ['FROM_ADDRESS'],
+            Destination={'ToAddresses': [os.environ['TO_ADDRESS']]},
+            ReplyToAddresses=[fields['email']],
+            Content={'Simple': {
+                'Subject': {'Data': f'{os.environ.get("SITE_URL", "site")} contact: {fields["name"]}'},
+                'Body': {'Text': {'Data': f'From: {fields["name"]} <{fields["email"]}>\n\n{fields["message"]}\n'}}}})
+    except Exception as exc:                                  # SES refused (unverified address, quota): say so, never a bare 500
+        print(f'send failed: {type(exc).__name__}: {exc}')
+        return page(503, 'The message could not be sent right now. Please try again later.')
     return page(200, 'Message received. All inquiries receive structured technical responses within two business days.')
 
 
