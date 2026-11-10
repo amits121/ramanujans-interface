@@ -66,7 +66,10 @@ def site_menu(p: Dict) -> str:
     b = p['brand']
     logo = (f'<img className="site-menu-logo" src={_t(b["logo"]["src"])} alt={_t(b["logo"]["alt"])} />'
             if b.get('logo') else '')
-    brand = f'<a className="site-menu-brand" href={_t(b.get("href", "/"))}>{logo}{_t(b["label"])}</a>'
+    if not b.get('label') and not (b.get('logo') and b['logo'].get('alt')):
+        raise ValueError('S-14 brand needs a label, or a logo with alt text')
+    label = _t(b['label']) if b.get('label') else ''
+    brand = f'<a className="site-menu-brand" href={_t(b.get("href", "/"))}>{logo}{label}</a>'
     cta = _link(p['cta'], BUTTON) if p.get('cta') else ''
     return (f'<nav className="site-menu" aria-label="Main">{brand}'
             f'<ul className="site-menu-list">{_menu_items(p["items"], "S-14")}</ul>{cta}</nav>')

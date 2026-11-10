@@ -327,7 +327,10 @@ def main():
     if len(existing) != len(pages):
         sys.exit('two documents share one url path')
     items = prune(menu['items'], existing)
-    menu_props = {'brand': menu['brand'], 'items': items}
+    brand = menu['brand']
+    if brand.get('logo'):                                  # with a logo the header shows the logo alone (founder, 2026-11-10)
+        brand = {k: v for k, v in brand.items() if k != 'label'}
+    menu_props = {'brand': brand, 'items': items}
     # footer columns carry a group's own page and its direct children only; deeper pages (the fourteen sectors) are
     # reached through their overview page, which keeps the footer short
     columns = [{'heading': item['label'], 'links': list(footer_links(item))} for item in items if item['label'] != 'Home']

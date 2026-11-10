@@ -55,8 +55,13 @@ class _Audit(HTMLParser):
             self.viewport = True
         elif tag in HEADINGS:
             self.headings.append(int(tag[1]))
-        elif tag == 'img' and not (a.get('alt') or '').strip():
-            self.images_without_alt += 1
+        elif tag == 'img':
+            alt = (a.get('alt') or '').strip()
+            if not alt:
+                self.images_without_alt += 1
+            elif self._text_stack:                       # an image's alt text names the link or button around it
+                t, text = self._text_stack[-1]
+                self._text_stack[-1] = (t, text + alt)
         elif tag == 'script' and a.get('src') not in ALLOWED_SCRIPT_SOURCES:
             self.scripts += 1
         elif tag == 'nav' and not (a.get('aria-label') or a.get('aria-labelledby')):

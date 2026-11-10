@@ -7,11 +7,10 @@ components:
   type: site-menu
   props:
     brand:
-      label: techinnovations.io
       href: /
       logo:
-        src: /assets/logo-mark.png
-        alt: TechInnovation mark
+        src: /assets/logo-full.png
+        alt: TechInnovation, innovate and thrive
     items:
     - label: Home
       href: /

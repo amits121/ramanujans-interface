@@ -161,6 +161,19 @@ class SitePatternTest(unittest.TestCase):
         self.assertFalse(check_html(base.format('<script>alert(1)</script>'))['no_script'][0])
         self.assertFalse(check_html(base.format('<script src="https://example.com/x.js"></script>'))['no_script'][0])
 
+    def test_menu_brand_logo_alone_and_image_link_text(self):
+        lib = PatternLibrary(); register_site_patterns(lib)
+        items = [{'label': 'Home', 'href': '/'}]
+        logo_only = lib.generate('S-14', {'brand': {'href': '/', 'logo': {'src': '/assets/l.png', 'alt': 'Brand'}}, 'items': items})
+        self.assertIn('<a className="site-menu-brand" href={"/"}><img className="site-menu-logo"', logo_only)
+        self.assertNotIn('</img>{"', logo_only)
+        with self.assertRaises(ValueError):
+            lib.generate('S-14', {'brand': {'href': '/'}, 'items': items})
+        from quality import check_html
+        base = '<html lang="en"><head><title>t</title><meta name="viewport" content="x" /></head><body><h1>h</h1>{}</body></html>'
+        self.assertTrue(check_html(base.format('<a href="/"><img src="l.png" alt="Brand" /></a>'))['links_have_text'][0])
+        self.assertFalse(check_html(base.format('<a href="/"><img src="l.png" alt="" /></a>'))['links_have_text'][0])
+
     def test_rich_text_bold_and_refusals(self):
         self.assertEqual(_rich('plain'), '{"plain"}')
         self.assertEqual(_rich('a **b** c'), '{"a "}<strong>{"b"}</strong>{" c"}')
