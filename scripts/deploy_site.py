@@ -22,7 +22,9 @@ import os
 import subprocess
 import sys
 import time
-import urllib.request
+import http.client
+import socket
+import ssl
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -105,17 +107,32 @@ def run_sync(iid, site, profile, region):
     sys.exit('site-sync did not finish in time')
 
 
+def fetch(host, scheme, path, address=''):
+    """GET one path from the site. With address the TCP connection goes to that IP while the host name is kept
+    for the Host header and for the TLS server name, so the check works before DNS points at the host,
+    over http and over https alike."""
+    conn = (http.client.HTTPSConnection if scheme == 'https' else http.client.HTTPConnection)(host, timeout=20)
+    if address:
+        sock = socket.create_connection((address, 443 if scheme == 'https' else 80), timeout=20)
+        if scheme == 'https':
+            sock = ssl.create_default_context().wrap_socket(sock, server_hostname=host)
+        conn.sock = sock                      # http.client skips connect() when the socket is already there
+    conn.request('GET', '/' + path, headers={'Accept-Encoding': 'identity', 'User-Agent': 'deploy-check', 'Host': host})
+    resp = conn.getresponse()
+    body = resp.read()
+    conn.close()
+    if resp.status != 200:
+        sys.exit(f'{scheme}://{host}/{path} via {address or host}: HTTP {resp.status}')
+    return body
+
+
 def verify(host, scheme, rows, address=''):
-    """Fetch every page and asset and compare with the build. With --address the request goes to that IP
-    with the host name in the Host header, so the check works before DNS points at the host."""
+    """Fetch every page and asset and compare with the build (see fetch for --address)."""
     mismatches = 0
     pages = tuple(r for r in sorted(rows) if r.endswith('index.html'))
     for rel in pages + tuple(r for r in sorted(rows) if r.startswith('assets/') and not r.endswith('.gitkeep')):
         path = rel[:-len('index.html')] if rel.endswith('index.html') else rel
-        url = f'{scheme}://{address or host}/{path}'
-        req = urllib.request.Request(url, headers={'Accept-Encoding': 'identity', 'User-Agent': 'deploy-check', 'Host': host})
-        with urllib.request.urlopen(req, timeout=20) as resp:
-            served = sha256_bytes(resp.read())
+        served = sha256_bytes(fetch(host, scheme, path, address))
         ok = served == rows[rel]
         mismatches += 0 if ok else 1
         print(f'  {"MATCH" if ok else "DIFFER"}  {rel}  served {served[:16]}  build {rows[rel][:16]}')
