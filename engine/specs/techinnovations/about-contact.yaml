@@ -176,7 +176,7 @@ components:
 - id: form-5
   type: contact-form
   props:
-    action: /contact/send
+    action: https://3tqrxdlib32xxrd6hacgtcqiq40fggem.lambda-url.us-east-1.on.aws/
     heading: Contact us
 - id: section-6
   type: text-block

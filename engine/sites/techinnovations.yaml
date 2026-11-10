@@ -9,12 +9,12 @@ pages:
   description: The twenty-first century represents an exponential convergence of computational, robotic, and energy architectures
     requiring totally math-driven deterministic verification rather than probabilistic assumption or neuro-symbolic transfer
     learning
-  preview: true
 - path: /about/contact
   spec: engine/specs/techinnovations/about-contact.yaml
   title: Inquiry and enterprise licensing
   description: Centralized contact and licensing portal for deterministic AI technology, innovation hub sponsorship, and open
     challenge registration
+  preview: true
 - path: /about/founder
   spec: engine/specs/techinnovations/about-founder.yaml
   title: 'About us: leadership and core innovation team'
@@ -25,7 +25,6 @@ pages:
   title: Institutional and academic partners
   description: Collaborative public-private governance uniting premier national laboratories, media organizations, and academic
     institutions
-  preview: true
 - path: /frontier
   spec: engine/specs/techinnovations/frontier.yaml
   title: Global frontier overview
@@ -121,7 +120,6 @@ pages:
   title: Sovereign benchmark overview
   description: Make in India built the physical factory; Invent in India must build the foundational laboratory, closing the
     structural innovation gap through sovereign intellectual property
-  preview: true
 - path: /yardstick/comparative-data
   spec: engine/specs/techinnovations/yardstick-comparative-data.yaml
   title: Comparative metrics dashboard
@@ -152,7 +150,6 @@ pages:
   title: Deterministic and certifiable AI
   description: Sovereign defense and safety-critical industry require autonomy systems whose actions can be formally certified
     before execution, eliminating hallucination and probabilistic drift.
-  preview: true
 - path: /yardstick/sectors/autonomous
   spec: engine/specs/techinnovations/yardstick-sectors-autonomous.yaml
   title: Autonomous cyber-physical systems
