@@ -9,6 +9,9 @@ components:
     brand:
       label: techinnovations.io
       href: /
+      logo:
+        src: /assets/logo-mark.png
+        alt: TechInnovation mark
     items:
     - label: Home
       href: /

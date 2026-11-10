@@ -5,6 +5,9 @@
 brand:
   label: techinnovations.io
   href: /
+  logo:
+    src: /assets/logo-mark.png
+    alt: TechInnovation mark
 footer_note: "© 2026 techinnovations.io"
 items:
   - label: Home
