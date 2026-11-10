@@ -5,7 +5,7 @@
 brand:
   label: techinnovations.io
   href: /
-footer_note: "© 2026 Intelligent Cloud Lab Inc."
+footer_note: "© 2026 techinnovations.io"
 items:
   - label: Home
     href: /
@@ -16,7 +16,7 @@ items:
       - { label: "The 20,000 year century", href: /frontier/accelerating-returns }
       - { label: Converging platforms 2030, href: /frontier/converging-platforms }
       - { label: Limits of probabilistic scaling, href: /frontier/llm-scaling-limits }
-      - { label: Deterministic neuro-symbolic AI, href: /frontier/deterministic-systems }
+      - { label: Deterministic AI, href: /frontier/deterministic-systems }
       - { label: Extreme environment compute, href: /frontier/extreme-compute }
   - label: The yardstick
     href: /yardstick

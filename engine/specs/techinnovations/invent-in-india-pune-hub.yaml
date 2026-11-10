@@ -22,7 +22,7 @@ components:
         href: /frontier/converging-platforms
       - label: Limits of probabilistic scaling
         href: /frontier/llm-scaling-limits
-      - label: Deterministic neuro-symbolic AI
+      - label: Deterministic AI
         href: /frontier/deterministic-systems
       - label: Extreme environment compute
         href: /frontier/extreme-compute
@@ -141,8 +141,8 @@ components:
     paragraphs:
     - The Pune innovation hub establishes an immediate hiring channel, recruiting engineering talent and providing young engineers
       with immediate exposure to world-class architectural practices.
-    - By bridging sovereign computing heritage with modern deterministic neuro-symbolic systems, the Pune hub establishes
-      the working template that will be replicated across one hundred regional hubs nationwide.
+    - By bridging sovereign computing heritage with modern deterministic systems, the Pune hub establishes the working template
+      that will be replicated across one hundred regional hubs nationwide.
     heading: Recruitment and the engineering channel
     level: 2
 - id: table-4
@@ -196,7 +196,7 @@ components:
         href: /frontier/converging-platforms
       - label: Limits of probabilistic scaling
         href: /frontier/llm-scaling-limits
-      - label: Deterministic neuro-symbolic AI
+      - label: Deterministic AI
         href: /frontier/deterministic-systems
       - label: Extreme environment compute
         href: /frontier/extreme-compute
@@ -276,7 +276,7 @@ components:
         href: /about/partners
       - label: Inquiry and enterprise licensing
         href: /about/contact
-    note: © 2026 Intelligent Cloud Lab Inc.
+    note: © 2026 techinnovations.io
 accessibility:
   focusOrder:
   - menu

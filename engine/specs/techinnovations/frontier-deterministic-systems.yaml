@@ -22,7 +22,7 @@ components:
         href: /frontier/converging-platforms
       - label: Limits of probabilistic scaling
         href: /frontier/llm-scaling-limits
-      - label: Deterministic neuro-symbolic AI
+      - label: Deterministic AI
         href: /frontier/deterministic-systems
       - label: Extreme environment compute
         href: /frontier/extreme-compute
@@ -128,9 +128,8 @@ components:
   type: text-block
   props:
     paragraphs:
-    - The architectural solution pioneered by Intelligent Cloud Lab rejects neuro-symbolic transfer learning. Instead, it
-      places the existing large language model algorithm directly onto an unbreakable mathematical foundation, making the
-      entire decision process totally math-driven.
+    - The architectural solution rejects neuro-symbolic transfer learning. Instead, it places the existing large language
+      model algorithm directly onto an unbreakable mathematical foundation, making the entire decision process totally math-driven.
     - This approach treats the probabilistic model strictly as an open-set proposal mechanism, while mapping its outputs into
       a formal metric space governed by the Banach fixed point theorem and contraction mappings. Just as the chaos game demonstrates
       that complete randomness can be mathematically constrained to generate a perfectly deterministic fractal set such as
@@ -216,7 +215,7 @@ components:
         href: /frontier/converging-platforms
       - label: Limits of probabilistic scaling
         href: /frontier/llm-scaling-limits
-      - label: Deterministic neuro-symbolic AI
+      - label: Deterministic AI
         href: /frontier/deterministic-systems
       - label: Extreme environment compute
         href: /frontier/extreme-compute
@@ -296,7 +295,7 @@ components:
         href: /about/partners
       - label: Inquiry and enterprise licensing
         href: /about/contact
-    note: © 2026 Intelligent Cloud Lab Inc.
+    note: © 2026 techinnovations.io
 accessibility:
   focusOrder:
   - menu

@@ -22,7 +22,7 @@ components:
         href: /frontier/converging-platforms
       - label: Limits of probabilistic scaling
         href: /frontier/llm-scaling-limits
-      - label: Deterministic neuro-symbolic AI
+      - label: Deterministic AI
         href: /frontier/deterministic-systems
       - label: Extreme environment compute
         href: /frontier/extreme-compute
@@ -194,7 +194,7 @@ components:
         href: /frontier/converging-platforms
       - label: Limits of probabilistic scaling
         href: /frontier/llm-scaling-limits
-      - label: Deterministic neuro-symbolic AI
+      - label: Deterministic AI
         href: /frontier/deterministic-systems
       - label: Extreme environment compute
         href: /frontier/extreme-compute
@@ -274,7 +274,7 @@ components:
         href: /about/partners
       - label: Inquiry and enterprise licensing
         href: /about/contact
-    note: © 2026 Intelligent Cloud Lab Inc.
+    note: © 2026 techinnovations.io
 accessibility:
   focusOrder:
   - menu

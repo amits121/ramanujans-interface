@@ -22,7 +22,7 @@ components:
         href: /frontier/converging-platforms
       - label: Limits of probabilistic scaling
         href: /frontier/llm-scaling-limits
-      - label: Deterministic neuro-symbolic AI
+      - label: Deterministic AI
         href: /frontier/deterministic-systems
       - label: Extreme environment compute
         href: /frontier/extreme-compute
@@ -115,11 +115,11 @@ components:
   type: text-block
   props:
     paragraphs:
-    - techinnovations.io and Intelligent Cloud Lab represent a collective of elite Silicon Valley engineering professionals
-      with deep roots in foundational computing, aerospace, artificial intelligence, and hyperscale cloud infrastructure.
-    - 'The organizational mission is twofold: delivering breakthrough deterministic neuro-symbolic systems that eliminate
-      probabilistic hallucination in enterprise computing, and bridging cutting-edge Silicon Valley research with sovereign
-      innovation laboratories in India.'
+    - techinnovations.io represents a collective of elite Silicon Valley engineering professionals with deep roots in foundational
+      computing, aerospace, artificial intelligence, and hyperscale cloud infrastructure.
+    - 'The organizational mission is twofold: delivering breakthrough deterministic systems that eliminate probabilistic hallucination
+      in enterprise computing, and bridging cutting-edge Silicon Valley research with sovereign innovation laboratories in
+      India.'
     heading: Executive overview and organizational story
     level: 2
 - id: section-2
@@ -193,7 +193,7 @@ components:
         href: /frontier/converging-platforms
       - label: Limits of probabilistic scaling
         href: /frontier/llm-scaling-limits
-      - label: Deterministic neuro-symbolic AI
+      - label: Deterministic AI
         href: /frontier/deterministic-systems
       - label: Extreme environment compute
         href: /frontier/extreme-compute
@@ -273,7 +273,7 @@ components:
         href: /about/partners
       - label: Inquiry and enterprise licensing
         href: /about/contact
-    note: © 2026 Intelligent Cloud Lab Inc.
+    note: © 2026 techinnovations.io
 accessibility:
   focusOrder:
   - menu

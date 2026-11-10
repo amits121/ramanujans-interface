@@ -22,7 +22,7 @@ components:
         href: /frontier/converging-platforms
       - label: Limits of probabilistic scaling
         href: /frontier/llm-scaling-limits
-      - label: Deterministic neuro-symbolic AI
+      - label: Deterministic AI
         href: /frontier/deterministic-systems
       - label: Extreme environment compute
         href: /frontier/extreme-compute
@@ -212,7 +212,7 @@ components:
     items:
     - 'Sarkar, A., & Rodrigues, S. (2026). Invent in India: from Make in India to Invent in India, then Make in India. White
       paper final draft.'
-    - Intelligent Cloud Lab Inc. (2026). Innovation summit meeting deck (v2, 13 October 2026).
+    - Sarkar, A. (2026). Innovation summit meeting deck (v2, 13 October 2026).
 - id: footer
   type: footer-sitemap
   props:
@@ -228,7 +228,7 @@ components:
         href: /frontier/converging-platforms
       - label: Limits of probabilistic scaling
         href: /frontier/llm-scaling-limits
-      - label: Deterministic neuro-symbolic AI
+      - label: Deterministic AI
         href: /frontier/deterministic-systems
       - label: Extreme environment compute
         href: /frontier/extreme-compute
@@ -308,7 +308,7 @@ components:
         href: /about/partners
       - label: Inquiry and enterprise licensing
         href: /about/contact
-    note: © 2026 Intelligent Cloud Lab Inc.
+    note: © 2026 techinnovations.io
 accessibility:
   focusOrder:
   - menu

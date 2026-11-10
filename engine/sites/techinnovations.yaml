@@ -15,7 +15,6 @@ pages:
   title: Inquiry and enterprise licensing
   description: Centralized contact and licensing portal for deterministic AI technology, innovation hub sponsorship, and open
     challenge registration
-  preview: true
 - path: /about/founder
   spec: engine/specs/techinnovations/about-founder.yaml
   title: 'About us: leadership and core innovation team'
@@ -48,6 +47,7 @@ pages:
   title: 'Mathematically driven deterministic AI: grounding algorithms on formal mathematical foundations'
   description: Opposing neuro-symbolic transfer learning in favor of placing the existing large language model algorithm directly
     on a rigorous mathematical foundation, making it totally math-driven
+  preview: true
 - path: /frontier/extreme-compute
   spec: engine/specs/techinnovations/frontier-extreme-compute.yaml
   title: Extreme environment compute
@@ -123,7 +123,6 @@ pages:
   title: Sovereign benchmark overview
   description: Make in India built the physical factory; Invent in India must build the foundational laboratory, closing the
     structural innovation gap through sovereign intellectual property
-  preview: true
 - path: /yardstick/comparative-data
   spec: engine/specs/techinnovations/yardstick-comparative-data.yaml
   title: Comparative metrics dashboard
