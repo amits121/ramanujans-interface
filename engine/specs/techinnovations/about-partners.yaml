@@ -126,8 +126,8 @@ components:
   type: text-block
   props:
     paragraphs:
-    - Dr Savio Rodrigues, managing director and chief executive officer of Kaydence Media Ventures Pvt Ltd, serves as the
-      co-organizer of the Pune innovation summit and co-founder of the Invent in India movement.
+    - Dr Savio Rodrigues, managing director and chief executive officer of Kaydence Media Ventures Pvt Ltd, Goa, serves as
+      the co-organizer of the proposed summit at Lucknow and co-founder of the Invent in India movement.
     - Kaydence Media Ventures oversees national communications, institutional stakeholder outreach, corporate partnership
       syndication, and national media execution, ensuring that the movement's message reaches industry leaders, policymakers,
       and young innovators across the country.
@@ -171,7 +171,7 @@ components:
   props:
     heading: Authentic research sources and citations
     items:
-    - Kaydence Media Ventures Pvt Ltd. (2026). Letter of intent for joint collaboration on Pune innovation summit.
+    - Kaydence Media Ventures Pvt Ltd, Goa. (2026). Letter of intent for joint collaboration on the proposed summit at Lucknow.
     - Institutional governance protocols and memorandum of understanding register.
 - id: footer
   type: footer-sitemap
