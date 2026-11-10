@@ -136,7 +136,7 @@ components:
     columns:
     - Verification attribute
     - Probabilistic LLM autonomy
-    - Deterministic neuro-symbolic stack
+    - Deterministic stack
     rows:
     - - Decision determinism
       - Probabilistic (non-repeatable)
