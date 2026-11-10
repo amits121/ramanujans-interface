@@ -110,11 +110,7 @@ components:
     title: LinkedIn newsletter complete archive
     standfirst: Comprehensive repository of technical newsletters authored by founder Amit Sarkar, extending public essays
       with complete mathematical proofs and executable code notebooks
-    meta:
-    - label: Target audience
-      text: LinkedIn newsletter subscribers, technology founders, and research engineers
-    - label: Primary sources
-      text: LinkedIn newsletter series by Amit Sarkar
+    meta: []
 - id: section-1
   type: text-block
   props:

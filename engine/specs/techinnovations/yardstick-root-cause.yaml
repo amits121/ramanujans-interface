@@ -110,11 +110,7 @@ components:
     title: The examination funnel diagnostic
     standfirst: An educational pipeline optimized exclusively for rote recall entrance examinations suppresses intuition and
       eliminates the raw talent required for foundational invention
-    meta:
-    - label: Target audience
-      text: Education reformers, university faculty, parents, and secondary school leaders
-    - label: Primary sources
-      text: NEP 2020, NCRB 2022, Delhi High Court 2025, Supreme Court of India 2025, PISA 2009
+    meta: []
 - id: section-1
   type: text-block
   props:

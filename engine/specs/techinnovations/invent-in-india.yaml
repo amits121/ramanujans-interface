@@ -110,11 +110,7 @@ components:
     title: Invent in India national movement
     standfirst: A sovereign national movement to transform India from an assembly and service economy into a foundational
       invention powerhouse
-    meta:
-    - label: Target audience
-      text: Indian citizens, scientists, industrial leaders, university students, and the global diaspora
-    - label: Primary sources
-      text: Invent in India white paper final draft 2026 by Amit Sarkar and Dr Savio Rodrigues
+    meta: []
 - id: section-1
   type: text-block
   props:

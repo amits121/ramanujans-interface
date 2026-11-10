@@ -110,11 +110,7 @@ components:
     title: The Fremont hardware testbed
     standfirst: The Fremont hardware-in-the-loop laboratory provides dual-jetson real-time execution of the deterministic
       cyber-physical bridge, streamed live over an encrypted link
-    meta:
-    - label: Target audience
-      text: Embedded systems engineers, robotics architects, and defense hardware evaluators
-    - label: Primary sources
-      text: Hil testbed design and build documentation, tailnet telemetry records
+    meta: []
 - id: section-1
   type: text-block
   props:

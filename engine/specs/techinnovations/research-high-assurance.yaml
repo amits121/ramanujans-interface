@@ -110,11 +110,7 @@ components:
     title: High assurance autonomous control
     standfirst: Autonomous flight and robotic systems must employ bounded dynamical systems and contraction mapping principles
       to guarantee physical safety boundaries
-    meta:
-    - label: Target audience
-      text: Guidance, navigation, and control engineers, roboticists, and aerospace certification authorities
-    - label: Primary sources
-      text: Banach fixed point theorem, lyapunov stability criteria, FAA DO-178C class A, FAA proposed 14 cfr part 108
+    meta: []
 - id: section-1
   type: text-block
   props:

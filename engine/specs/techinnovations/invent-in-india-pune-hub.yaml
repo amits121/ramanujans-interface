@@ -110,11 +110,7 @@ components:
     title: The Pune innovation hub
     standfirst: The Pune innovation hub represents the physical reference laboratory proving that sovereign invention can
       be seeded, funded, and scaled on domestic soil
-    meta:
-    - label: Target audience
-      text: Pune industrialists, university students, and researchers
-    - label: Primary sources
-      text: Innovation summit concept note 2026
+    meta: []
 - id: section-1
   type: text-block
   props:

@@ -110,11 +110,7 @@ components:
     title: Space and ocean data centers
     standfirst: Terrestrial land, cooling water, and electrical bottlenecks dictate the deployment of orbital and undersea
       sovereign compute infrastructure.
-    meta:
-    - label: Target audience
-      text: Domain specialists, industry executives, researchers, and venture investors
-    - label: Primary sources
-      text: Project Natick, Google Project Suncatcher 2025, International Energy Agency
+    meta: []
 - id: section-1
   type: text-block
   props:

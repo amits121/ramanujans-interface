@@ -110,11 +110,7 @@ components:
     title: Institutional and diaspora capital
     standfirst: The diaspora's extraordinary economic contribution in the west proves that talent thrives given the laboratory;
       domestic institutions must introduce publication-tested tenure and corporate endowments
-    meta:
-    - label: Target audience
-      text: Higher education chancellors, diaspora philanthropists, and venture capital syndicates
-    - label: Primary sources
-      text: Indiaspora BCG 2024, Ministry of Education 2025 parliament answers, QS World University Rankings 2026
+    meta: []
 - id: section-1
   type: text-block
   props:

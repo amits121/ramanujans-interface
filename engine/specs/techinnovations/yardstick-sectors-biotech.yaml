@@ -110,11 +110,7 @@ components:
     title: Biotechnology and novel molecules
     standfirst: The domestic pharmaceutical sector must transition from high-volume generic formulation manufacturing to original
       new chemical entity discovery.
-    meta:
-    - label: Target audience
-      text: Domain specialists, industry executives, researchers, and venture investors
-    - label: Primary sources
-      text: Department of Biotechnology, US FDA Orange Book, Pharmexcil reports
+    meta: []
 - id: section-1
   type: text-block
   props:

@@ -110,11 +110,7 @@ components:
     title: Innovators without borders
     standfirst: Institutionalizing a bilateral bridge connecting Silicon Valley engineering capital and technical mentorship
       directly to accredited Indian innovation hubs
-    meta:
-    - label: Target audience
-      text: Indian American technology executives, venture partners, researchers, and returned diaspora founders
-    - label: Primary sources
-      text: Indiaspora BCG report 2024, Invent in India white paper final draft
+    meta: []
 - id: section-1
   type: text-block
   props:

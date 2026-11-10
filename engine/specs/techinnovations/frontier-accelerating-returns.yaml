@@ -110,11 +110,7 @@ components:
     title: The 20,000 year century
     standfirst: The rate of technological progress is not linear but exponential, driven by positive feedback loops where
       outputs of an innovation cycle become inputs for the next
-    meta:
-    - label: Target audience
-      text: Computational scientists, quantitative economists, and technology strategists
-    - label: Primary sources
-      text: Kurzweil 2001, moore 1965, Nordhaus 2007
+    meta: []
 - id: section-1
   type: text-block
   props:

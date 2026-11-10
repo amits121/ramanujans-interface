@@ -110,11 +110,7 @@ components:
     title: Global frontier overview
     standfirst: Exponential technological compounding is forcing a fundamental paradigm shift from probabilistic generative
       models and neuro-symbolic transfer learning to totally math-driven architectures
-    meta:
-    - label: Target audience
-      text: Global engineering leaders, deep-tech founders, and institutional allocators
-    - label: Primary sources
-      text: Kurzweil 2001, ARK Invest Big Ideas 2024, Sutskever NeurIPS 2024, Banach 1922
+    meta: []
 - id: section-1
   type: text-block
   props:

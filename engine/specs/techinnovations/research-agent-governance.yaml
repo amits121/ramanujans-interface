@@ -110,11 +110,7 @@ components:
     title: MCP and enterprise query governance
     standfirst: Autonomous AI agents executing analytical queries via Model Context Protocol expose critical data exfiltration
       vulnerabilities without deterministic query interception layers
-    meta:
-    - label: Target audience
-      text: Cloud security officers, chief information security officers, and enterprise database engineers
-    - label: Primary sources
-      text: Anthropic Model Context Protocol specification, Wiz research ClickHouse security audit, aws summit 2026 devdemo
+    meta: []
 - id: section-1
   type: text-block
   props:

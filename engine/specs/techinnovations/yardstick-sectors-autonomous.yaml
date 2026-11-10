@@ -110,11 +110,7 @@ components:
     title: Autonomous cyber-physical systems
     standfirst: Indigenous robotic and drone flight controllers must execute on verified sovereign hardware-in-the-loop testbeds
       without foreign firmware dependencies.
-    meta:
-    - label: Target audience
-      text: Domain specialists, industry executives, researchers, and venture investors
-    - label: Primary sources
-      text: FAA proposed 14 cfr part 108 bvlos, ArduPilot sitl, PX4 autopilot
+    meta: []
 - id: section-1
   type: text-block
   props:

@@ -110,11 +110,7 @@ components:
     title: Institutional and academic partners
     standfirst: Collaborative public-private governance uniting premier national laboratories, media organizations, and academic
       institutions
-    meta:
-    - label: Target audience
-      text: University chancellors, research directors, corporate sponsors, and government agencies
-    - label: Primary sources
-      text: Kaydence Media Ventures letter of intent
+    meta: []
 - id: section-1
   type: text-block
   props:
@@ -126,8 +122,6 @@ components:
   type: text-block
   props:
     paragraphs:
-    - Dr Savio Rodrigues, managing director and chief executive officer of Kaydence Media Ventures Pvt Ltd, Goa, serves as
-      the co-organizer of the proposed summit at Lucknow and co-founder of the Invent in India movement.
     - Kaydence Media Ventures oversees national communications, institutional stakeholder outreach, corporate partnership
       syndication, and national media execution, ensuring that the movement's message reaches industry leaders, policymakers,
       and young innovators across the country.
@@ -150,20 +144,16 @@ components:
     caption: Institutional governance and organizational roles
     columns:
     - Organization
-    - Leadership and primary representatives
     - Institutional role in the movement
     - Primary operational responsibility
     rows:
     - - Intelligent Cloud Lab Inc.
-      - Amit Sarkar, founder and chief executive officer
       - Founding deep-tech inventor and first proof-case
       - Laboratory rig hardware, deterministic architectures, summit content
     - - Kaydence Media Ventures
-      - Dr Savio Rodrigues, managing director and CEO
       - Co-organizer and national communications leader
       - Institutional outreach, corporate partnerships, media execution
     - - Academic partner network
-      - Participating university deans and faculty
       - Publishing and graduate research partners
       - Co-development of peer-reviewed papers and thesis validation
 - id: citations

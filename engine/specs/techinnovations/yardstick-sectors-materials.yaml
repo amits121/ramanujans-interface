@@ -110,11 +110,7 @@ components:
     title: Advanced materials and oceans
     standfirst: Developing sovereign structural composites, high-entropy alloys, and deep ocean exploration technologies for
       aerospace and defense.
-    meta:
-    - label: Target audience
-      text: Domain specialists, industry executives, researchers, and venture investors
-    - label: Primary sources
-      text: Ministry of Earth Sciences, Deep Ocean Mission reports, CSIR laboratories
+    meta: []
 - id: section-1
   type: text-block
   props:

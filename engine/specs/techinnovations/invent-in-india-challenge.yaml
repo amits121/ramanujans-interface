@@ -110,11 +110,7 @@ components:
     title: The Break It Challenge portal
     standfirst: An open-door, non-degree evaluation challenge awarding one lakh rupees to the first innovator who can breach
       a deterministic autonomy safety gate or tamper with its audit log
-    meta:
-    - label: Target audience
-      text: Independent software developers, hardware hackers, engineering students, and cybersecurity researchers
-    - label: Primary sources
-      text: Break It Challenge rules draft 1 (7 October 2026)
+    meta: []
 - id: section-1
   type: text-block
   props:

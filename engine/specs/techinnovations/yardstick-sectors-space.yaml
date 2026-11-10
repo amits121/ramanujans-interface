@@ -110,11 +110,7 @@ components:
     title: Sovereign space logistics
     standfirst: India must leverage its launch economics to capture twenty-five percent of global small-satellite commercial
       deployments while fielding deep-space payloads.
-    meta:
-    - label: Target audience
-      text: Domain specialists, industry executives, researchers, and venture investors
-    - label: Primary sources
-      text: ISRO annual report 2025, IN-SPACe dashboard 2025
+    meta: []
 - id: section-1
   type: text-block
   props:

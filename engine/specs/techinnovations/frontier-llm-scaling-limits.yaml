@@ -110,11 +110,7 @@ components:
     title: Limits of probabilistic scaling
     standfirst: Probabilistic large language models face fundamental thermodynamic, electrical, and data scaling walls that
       require placing generative algorithms directly on a rigorous mathematical foundation
-    meta:
-    - label: Target audience
-      text: AI researchers, infrastructure architects, and machine learning engineers
-    - label: Primary sources
-      text: Sutskever NeurIPS 2024, LeCun 2025, International Energy Agency 2024, Epoch AI 2024
+    meta: []
 - id: section-1
   type: text-block
   props:

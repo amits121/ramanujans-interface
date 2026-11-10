@@ -110,11 +110,7 @@ components:
     title: Semiconductors and advanced packaging
     standfirst: True semiconductor independence is won at the architectural design and advanced packaging layer rather than
       solely through capital-intensive foundry silicon.
-    meta:
-    - label: Target audience
-      text: Domain specialists, industry executives, researchers, and venture investors
-    - label: Primary sources
-      text: India Semiconductor Mission, IEEE Transactions on Advanced Packaging
+    meta: []
 - id: section-1
   type: text-block
   props:

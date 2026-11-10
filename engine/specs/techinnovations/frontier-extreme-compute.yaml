@@ -110,11 +110,7 @@ components:
     title: Extreme environment compute
     standfirst: Terrestrial land, water, and power bottlenecks will compel hyperscale computing infrastructure to migrate
       into orbital space and marine ocean environments
-    meta:
-    - label: Target audience
-      text: Hyperscale infrastructure directors, satellite engineers, and energy grid analysts
-    - label: Primary sources
-      text: Project Natick Microsoft 2020, Google Project Suncatcher 2025, Starcloud 2025, IEA data center review
+    meta: []
 - id: section-1
   type: text-block
   props:

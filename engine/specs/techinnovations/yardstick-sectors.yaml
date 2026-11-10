@@ -110,11 +110,7 @@ components:
     title: 14 critical innovation sectors overview
     standfirst: National technological sovereignty requires measurable, ten-year milestone tracking across fourteen foundational
       technology domains
-    meta:
-    - label: Target audience
-      text: Cabinet committees, industrial confederations, defense leadership, and academic deans
-    - label: Primary sources
-      text: Invent in India white paper final draft 2026, innovation summit deck 2026
+    meta: []
 - id: section-1
   type: text-block
   props:

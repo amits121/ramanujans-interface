@@ -110,11 +110,7 @@ components:
     title: 'About us: leadership and core innovation team'
     standfirst: Uniting over three decades of aerospace and Silicon Valley engineering excellence with elite innovators across
       deterministic AI, cloud infrastructure, and distributed systems
-    meta:
-    - label: Target audience
-      text: Venture capital allocators, enterprise partners, academic institutions, and technology press
-    - label: Primary sources
-      text: Intelligent cloud guru leadership records, USPTO patent registers, HAL engineering records
+    meta: []
 - id: section-1
   type: text-block
   props:
@@ -133,64 +129,9 @@ components:
     - The leadership and specialist roster brings together decades of hands-on architectural experience across the world technology
       capital in Silicon Valley. The team composition is modular, allowing strategic inclusion of advisors and laboratory
       specialists across designated focus domains.
-    - Amit Sarkar serves as the chief vision and innovation officer, founder, and principal inventor. His engineering career
-      spans more than three decades at the absolute frontier of computational, aerospace, and software systems.
-    - He began his career as a design engineer at Hindustan Aeronautics Limited, performing structural analysis and airframe
-      engineering on India's indigenous light combat aircraft Tejas program, and moved to the United States for higher studies.
-    - 'In 1999, sarkar transitioned to Silicon Valley, building foundational infrastructure across three historic technology
-      cycles: the dot-com boom, the mobile smartphone revolution, and the modern artificial intelligence wave.'
-    - As an aws community builder and enterprise software architect, he designed and deployed large-scale cloud-native data
-      pipelines, analytics engines, and machine learning platforms. His deterministic architectures currently operate in live
-      production across United States election infrastructure—one of the most heavily audited and adversarial software environments
-      in the world.
-    - Sarkar has personally authored and filed ten proprietary provisional patent applications in the United States, spanning
-      deterministic artificial intelligence verification, autonomous avionics bridges, and multi-tenant database governance,
-      named in tribute to srinivasa ramanujan, prasanta chandra Mahalanobis, and alan turing.
-    - Chandra wagh serves as innovation advisor, providing high-level strategic counsel, enterprise governance, and ecosystem
-      bridging across Silicon Valley and international markets. With extensive leadership in technology strategy, wagh advises
-      on corporate scaling, institutional partnerships, and aligning deep-tech research with enterprise software adoption.
-    - Nageshwar pille serves as innovation lab specialist, focusing on advanced cloud computing, enterprise microservices,
-      and distributed systems architecture. His technical domain covers scalable backend infrastructure, resilient data pipelines,
-      and implementing high-throughput cloud environments supporting mission-critical enterprise workflows.
-    - Venkatesh rajagopalan serves as innovation lab specialist, focusing on artificial intelligence, machine learning operations,
-      and deep learning architectures. His work centers on deploying advanced neural models, vector database integration,
-      and evaluating autonomous agent execution under enterprise production constraints.
-    - Mukund vasudevan serves as innovation lab specialist, specializing in cloud-native platforms, serverless architectures,
-      and modern application orchestration. His technical contributions focus on seamless full-stack deployment, edge integration,
-      and optimizing cloud resource allocation for high-velocity software engineering teams.
     heading: Core leadership and innovation team
     level: 2
 - id: table-3
-  type: data-table
-  props:
-    caption: Leadership team directory and core engineering specializations
-    columns:
-    - Team member
-    - Primary role and title
-    - Core engineering specialization
-    - Silicon Valley tenure and profile
-    rows:
-    - - Amit Sarkar
-      - Chief vision and innovation officer / founder
-      - Deterministic AI, aerospace avionics, cloud data systems
-      - 30+ years engineering (HAL, us studies, sv since 1999); 10 patents
-    - - Chandra wagh
-      - Innovation advisor
-      - Enterprise strategy, executive advisory, corporate governance
-      - Senior Silicon Valley technology advisor and strategist
-    - - Nageshwar pille
-      - Innovation lab specialist
-      - Distributed systems, enterprise microservices, cloud pipelines
-      - 10+ years Silicon Valley cloud infrastructure engineering
-    - - Venkatesh rajagopalan
-      - Innovation lab specialist
-      - Artificial intelligence, deep learning, vector databases
-      - 10+ years machine learning and computational systems
-    - - Mukund vasudevan
-      - Innovation lab specialist
-      - Serverless computing, application orchestration, edge platforms
-      - 10+ years full-stack cloud and serverless architecture
-- id: table-4
   type: data-table
   props:
     caption: Founder foundational patent portfolio summary
@@ -340,7 +281,6 @@ accessibility:
   - section-1
   - section-2
   - table-3
-  - table-4
   - citations
   - footer
   ariaLabels: true

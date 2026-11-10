@@ -110,11 +110,7 @@ components:
     title: Comparative metrics dashboard
     standfirst: Empirical tracking of research intensity, patent examination velocity, and human capital concentration across
       leading sovereign innovation systems
-    meta:
-    - label: Target audience
-      text: Quantitative policy analysts, economists, and sovereign wealth managers
-    - label: Primary sources
-      text: UNESCO 2024, DST R and D statistics at a glance, US NSF indicators 2024
+    meta: []
 - id: section-1
   type: text-block
   props:

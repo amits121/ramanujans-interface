@@ -110,11 +110,7 @@ components:
     title: Deterministic and certifiable AI
     standfirst: Sovereign defense and safety-critical industry require autonomy systems whose actions can be formally certified
       before execution, eliminating hallucination and probabilistic drift.
-    meta:
-    - label: Target audience
-      text: Domain specialists, industry executives, researchers, and venture investors
-    - label: Primary sources
-      text: CEMILAC, FAA DO-178C, DO-333, formal methods literature
+    meta: []
 - id: section-1
   type: text-block
   props:

@@ -110,11 +110,7 @@ components:
     title: Sovereign benchmark overview
     standfirst: Make in India built the physical factory; Invent in India must build the foundational laboratory, closing
       the structural innovation gap through sovereign intellectual property
-    meta:
-    - label: Target audience
-      text: Cabinet secretaries, industrial leaders, university chancellors, and national science media
-    - label: Primary sources
-      text: Economic Survey 2026, UNESCO Institute for Statistics, NCSES 2023, WIPO 2025
+    meta: []
 - id: section-1
   type: text-block
   props:

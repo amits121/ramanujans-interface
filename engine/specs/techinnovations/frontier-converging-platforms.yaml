@@ -110,11 +110,7 @@ components:
     title: Converging platforms 2030
     standfirst: The simultaneous maturation and cross-catalysis of five foundational innovation platforms will generate over
       two hundred trillion dollars in enterprise value by 2030
-    meta:
-    - label: Target audience
-      text: Venture capital partners, enterprise strategists, and industrial economists
-    - label: Primary sources
-      text: ARK Invest Big Ideas 2024, wood 2024 TED talk, McKinsey Global Institute
+    meta: []
 - id: section-1
   type: text-block
   props:

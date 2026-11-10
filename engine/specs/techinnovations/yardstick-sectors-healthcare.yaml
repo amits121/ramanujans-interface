@@ -110,11 +110,7 @@ components:
     title: Healthcare and medical devices
     standfirst: Eliminating dependence on imported medical diagnostics and surgical instrumentation through domestically engineered
       biomedical equipment.
-    meta:
-    - label: Target audience
-      text: Domain specialists, industry executives, researchers, and venture investors
-    - label: Primary sources
-      text: Central Drugs Standard Control Organisation, World Health Organization medical device registry
+    meta: []
 - id: section-1
   type: text-block
   props:

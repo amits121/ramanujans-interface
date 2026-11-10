@@ -110,11 +110,7 @@ components:
     title: Pre-training saturation and peak data
     standfirst: The exhaustion of unique human textual tokens terminates brute-force pre-training scaling, compelling a shift
       toward architectural constraints and formal reasoning
-    meta:
-    - label: Target audience
-      text: Deep learning scientists, data infrastructure leads, and computational linguists
-    - label: Primary sources
-      text: Sutskever NeurIPS 2024, Epoch AI data projections 2024, chinchilla scaling laws 2022
+    meta: []
 - id: section-1
   type: text-block
   props:

@@ -110,11 +110,7 @@ components:
     title: Inquiry and enterprise licensing
     standfirst: Centralized contact and licensing portal for deterministic AI technology, innovation hub sponsorship, and
       open challenge registration
-    meta:
-    - label: Target audience
-      text: Enterprise licensing directors, prospective hub sponsors, challenge entrants, and press
-    - label: Primary sources
-      text: Commercial enterprise licensing terms and guidelines
+    meta: []
 - id: section-1
   type: text-block
   props:
@@ -142,7 +138,7 @@ components:
   props:
     paragraphs:
     - Representatives of academic institutions, government ministries, and the national press can coordinate directly with
-      the media secretariat directed by Dr Savio Rodrigues.
+      the media secretariat.
     - All inquiries receive structured technical responses within two business days, maintaining strict adherence to intellectual
       property firewall boundaries.
     heading: Media, communications, and institutional inquiries

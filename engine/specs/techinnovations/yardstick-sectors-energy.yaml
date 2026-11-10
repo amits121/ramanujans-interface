@@ -110,11 +110,7 @@ components:
     title: Climate and stored clean energy
     standfirst: Achieving the world's most economical stored solar kilowatt-hour requires domestic battery chemistry patents
       and long-duration thermal storage.
-    meta:
-    - label: Target audience
-      text: Domain specialists, industry executives, researchers, and venture investors
-    - label: Primary sources
-      text: Ministry of New and Renewable Energy, IRENA 2024, NITI Aayog energy dashboard
+    meta: []
 - id: section-1
   type: text-block
   props:

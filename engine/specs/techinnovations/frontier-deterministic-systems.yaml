@@ -110,11 +110,7 @@ components:
     title: 'Mathematically driven deterministic AI: grounding algorithms on formal mathematical foundations'
     standfirst: Opposing neuro-symbolic transfer learning in favor of placing the existing large language model algorithm
       directly on a rigorous mathematical foundation, making it totally math-driven
-    meta:
-    - label: Target audience
-      text: Mission-critical software architects, aerospace systems engineers, control theorists, and compliance officers
-    - label: Primary sources
-      text: Banach fixed point theorem 1922, lyapunov stability 1892, FAA DO-178C class A, DO-333 formal methods
+    meta: []
 - id: section-1
   type: text-block
   props:

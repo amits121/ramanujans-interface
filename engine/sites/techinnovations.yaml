@@ -15,11 +15,13 @@ pages:
   title: Inquiry and enterprise licensing
   description: Centralized contact and licensing portal for deterministic AI technology, innovation hub sponsorship, and open
     challenge registration
+  preview: true
 - path: /about/founder
   spec: engine/specs/techinnovations/about-founder.yaml
   title: 'About us: leadership and core innovation team'
   description: Uniting over three decades of aerospace and Silicon Valley engineering excellence with elite innovators across
     deterministic AI, cloud infrastructure, and distributed systems
+  preview: true
 - path: /about/partners
   spec: engine/specs/techinnovations/about-partners.yaml
   title: Institutional and academic partners
@@ -66,7 +68,6 @@ pages:
   title: The 100 hub national rollout
   description: Scaling from the Pune reference hub to one hundred accredited regional hubs across ten initial industrial clusters
     by December 2027
-  preview: true
 - path: /invent-in-india/challenge
   spec: engine/specs/techinnovations/invent-in-india-challenge.yaml
   title: The Break It Challenge portal
@@ -82,13 +83,11 @@ pages:
   title: The Fremont hardware testbed
   description: The Fremont hardware-in-the-loop laboratory provides dual-jetson real-time execution of the deterministic cyber-physical
     bridge, streamed live over an encrypted link
-  preview: true
 - path: /invent-in-india/pune-hub
   spec: engine/specs/techinnovations/invent-in-india-pune-hub.yaml
   title: The Pune innovation hub
   description: The Pune innovation hub represents the physical reference laboratory proving that sovereign invention can be
     seeded, funded, and scaled on domestic soil
-  preview: true
 - path: /research
   spec: engine/specs/techinnovations/research.yaml
   title: Research lab publication hub
@@ -155,7 +154,6 @@ pages:
   title: Deterministic and certifiable AI
   description: Sovereign defense and safety-critical industry require autonomy systems whose actions can be formally certified
     before execution, eliminating hallucination and probabilistic drift.
-  preview: true
 - path: /yardstick/sectors/autonomous
   spec: engine/specs/techinnovations/yardstick-sectors-autonomous.yaml
   title: Autonomous cyber-physical systems

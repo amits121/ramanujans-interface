@@ -110,11 +110,7 @@ components:
     title: Rare earths and critical minerals
     standfirst: Sovereign defense and automotive electrification demand complete domestic chemical separation, refining, and
       permanent magnet fabrication.
-    meta:
-    - label: Target audience
-      text: Domain specialists, industry executives, researchers, and venture investors
-    - label: Primary sources
-      text: Ministry of Mines, National Critical Mineral Mission, IREL Limited
+    meta: []
 - id: section-1
   type: text-block
   props:

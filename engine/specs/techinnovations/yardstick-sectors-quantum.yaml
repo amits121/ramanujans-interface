@@ -110,11 +110,7 @@ components:
     title: Quantum computing and physics
     standfirst: Building top-tier quantum citation density and sovereign quantum key distribution networks safeguards national
       communications.
-    meta:
-    - label: Target audience
-      text: Domain specialists, industry executives, researchers, and venture investors
-    - label: Primary sources
-      text: National Quantum Mission, arXiv quantum physics benchmarks
+    meta: []
 - id: section-1
   type: text-block
   props:

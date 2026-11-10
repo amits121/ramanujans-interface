@@ -110,11 +110,7 @@ components:
     title: Digital public infrastructure
     standfirst: The India Stack must evolve from a domestic operational success into an international technical standard adopted
       by sovereign nations.
-    meta:
-    - label: Target audience
-      text: Domain specialists, industry executives, researchers, and venture investors
-    - label: Primary sources
-      text: National Payments Corporation of India, Bank for International Settlements
+    meta: []
 - id: section-1
   type: text-block
   props:

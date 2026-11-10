@@ -216,11 +216,11 @@ def spec_for(page, menu_props, footer_props, case):
     if meta.get('hero_title'):
         components.append({'id': 'hero', 'type': 'hero', 'props': hero_props(page, case)})
     else:
+        # the audience and source lines are the founder's internal notes (ruling 2026-11-10); they never reach the page
         components.append({'id': 'header', 'type': 'page-header', 'props': {
             'title': page['title'],
             'standfirst': case(meta['thesis']) if meta.get('thesis') else '',
-            'meta': [{'label': 'Target audience', 'text': case(meta['audience'])} for _ in [0] if meta.get('audience')]
-                    + [{'label': 'Primary sources', 'text': case(meta['source'])} for _ in [0] if meta.get('source')]}})
+            'meta': []}})
         if meta.get('image'):
             components.append({'id': 'image', 'type': 'image', 'props': image_props(meta['image'], case)})
     n = 0

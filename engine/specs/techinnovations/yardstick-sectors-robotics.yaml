@@ -110,11 +110,7 @@ components:
     title: Manufacturing, robotics and electric mobility
     standfirst: Domestic manufacturing competitiveness requires the end-to-end design and fabrication of industrial automation
       robotics and advanced battery packs.
-    meta:
-    - label: Target audience
-      text: Domain specialists, industry executives, researchers, and venture investors
-    - label: Primary sources
-      text: International Federation of Robotics 2024, NITI Aayog electric mobility
+    meta: []
 - id: section-1
   type: text-block
   props:

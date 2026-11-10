@@ -110,11 +110,7 @@ components:
     title: Research lab publication hub
     standfirst: Rigorous peer-reviewed deconstruction of frontier preprints and architectural papers, separating empirical
       reality from generative marketing hype
-    meta:
-    - label: Target audience
-      text: Machine learning researchers, systems engineers, and computational scientists
-    - label: Primary sources
-      text: MIT, Oxford, Carnegie Mellon, Stanford, arXiv preprints
+    meta: []
 - id: section-1
   type: text-block
   props:

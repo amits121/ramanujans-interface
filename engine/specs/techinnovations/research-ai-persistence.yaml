@@ -110,11 +110,7 @@ components:
     title: AI assistance and human persistence
     standfirst: Continuous generative code suggestions significantly erode engineer persistence and independent problem-solving
       when confronted with novel out-of-distribution bugs
-    meta:
-    - label: Target audience
-      text: Engineering vice presidents, chief technology officers, and engineering managers
-    - label: Primary sources
-      text: MIT, Oxford, Carnegie Mellon, UCLA joint empirical study (June 2025)
+    meta: []
 - id: section-1
   type: text-block
   props:

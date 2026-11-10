@@ -110,11 +110,7 @@ components:
     title: The 100 hub national rollout
     standfirst: Scaling from the Pune reference hub to one hundred accredited regional hubs across ten initial industrial
       clusters by December 2027
-    meta:
-    - label: Target audience
-      text: State chief ministers, municipal development corporations, and national corporate sponsors
-    - label: Primary sources
-      text: Invent in India national rollout blueprint 2026
+    meta: []
 - id: section-1
   type: text-block
   props:
