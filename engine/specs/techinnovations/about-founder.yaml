@@ -134,7 +134,7 @@ components:
 - id: table-3
   type: data-table
   props:
-    caption: Founder foundational patent portfolio summary
+    caption: ''
     columns:
     - Platform trademark
     - Core invention and technical claim
@@ -144,31 +144,31 @@ components:
     - - Ramanujan engine (specforge)
       - Spec-driven deterministic ui and state orchestration
       - Enterprise web and mobile applications
-      - Provisional filed
+      - Patent pending
     - - Turing crucible (enigma gauntlet)
       - Computational determinism validation engine
       - Mission-critical software stress testing
-      - Provisional filed
+      - Patent pending
     - - Turing crucible (avionics bridge)
       - Deterministic avionics bridge and geofence containment
       - Autonomous drones and aerospace avionics
-      - Provisional filed
+      - Patent pending
     - - Ramanujan engine (queryshield)
       - Deterministic database query interception and security
       - Multi-tenant enterprise cloud databases
-      - Provisional filed
+      - Patent pending
     - - Mahalanobis route engine
       - Statistical distance navigation and terrain matching
       - Gps-denied autonomous vehicle navigation
-      - Provisional filed
+      - Patent pending
     - - Edge terrain engine
       - Topographical obstacle avoidance under real-time bounds
       - Autonomous unmanned ground and aerial vehicles
-      - Provisional filed
+      - Patent pending
     - - Ramanujan engine (ux governance)
       - Deterministic ux scoring, friction mapping, access guard
       - Formal compliance and enterprise web governance
-      - Provisionals filed
+      - Patent pending
 - id: citations
   type: citations
   props:

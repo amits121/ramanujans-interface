@@ -9,7 +9,6 @@ pages:
   description: The twenty-first century represents an exponential convergence of computational, robotic, and energy architectures
     requiring totally math-driven deterministic verification rather than probabilistic assumption or neuro-symbolic transfer
     learning
-  preview: true
 - path: /about/contact
   spec: engine/specs/techinnovations/about-contact.yaml
   title: Inquiry and enterprise licensing
@@ -26,7 +25,6 @@ pages:
   title: Institutional and academic partners
   description: Collaborative public-private governance uniting premier national laboratories, media organizations, and academic
     institutions
-  preview: true
 - path: /frontier
   spec: engine/specs/techinnovations/frontier.yaml
   title: Global frontier overview
@@ -47,7 +45,6 @@ pages:
   title: 'Mathematically driven deterministic AI: grounding algorithms on formal mathematical foundations'
   description: Opposing neuro-symbolic transfer learning in favor of placing the existing large language model algorithm directly
     on a rigorous mathematical foundation, making it totally math-driven
-  preview: true
 - path: /frontier/extreme-compute
   spec: engine/specs/techinnovations/frontier-extreme-compute.yaml
   title: Extreme environment compute
