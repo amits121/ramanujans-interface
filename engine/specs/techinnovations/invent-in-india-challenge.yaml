@@ -128,7 +128,7 @@ components:
   props:
     paragraphs:
     - 'Round one of the challenge, launched on 14 November 2026 in Pune, presents a concrete challenge: break the deterministic
-      autonomy of a quadcopter drone running on our hardware-in-the-loop testbed.'
+      autonomy of a quadcopter drone.'
     - An adversarial participant attempts to force the simulated aircraft to cross a strictly published virtual geofence boundary,
       or to tamper with the telemetry log without the hash chain detecting it. A bounty of one lakh rupees is awarded to the
       first individual or team that accomplishes either objective under verified witness review.
@@ -139,7 +139,7 @@ components:
   props:
     paragraphs:
     - Every attempt is automatically ingested, executed, and recorded in a tamper-evident cryptographic ledger. To ensure
-      absolute fairness, claimed breaks must reliably replay in simulation and on the physical hardware rig.
+      absolute fairness, claimed breaks must reliably replay in simulation.
     - Evaluation is overseen by an independent three-member judging panel comprising one senior scientist from the centre
       for development of advanced computing, one independent academic control systems expert, and one representative of the
       innovation hub.
@@ -170,7 +170,7 @@ components:
       - Alter flight log or telemetry without invalidating hash chain
       - Verified if sha-256 hash chain validates altered record
     - - Reproduction requirement
-      - Claimed break must replay identically on physical Jetson rig
+      - Claimed break must replay identically
       - Executed before 3-member independent judging panel
 - id: citations
   type: citations

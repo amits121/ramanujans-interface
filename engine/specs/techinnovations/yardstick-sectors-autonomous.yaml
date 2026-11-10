@@ -148,9 +148,6 @@ components:
     - - Flight control firmware
       - Unverified third-party open source
       - Formally verified deterministic flight controller
-    - - Hardware testbed
-      - Commercial benchtop simulation
-      - Sovereign dual-processor hardware-in-the-loop rig
 - id: citations
   type: citations
   props:

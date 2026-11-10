@@ -59,7 +59,6 @@ pages:
   title: Invent in India national movement
   description: A sovereign national movement to transform India from an assembly and service economy into a foundational invention
     powerhouse
-  preview: true
 - path: /invent-in-india/100-hubs
   spec: engine/specs/techinnovations/invent-in-india-100-hubs.yaml
   title: The 100 hub national rollout
@@ -70,6 +69,7 @@ pages:
   title: The Break It Challenge portal
   description: An open-door, non-degree evaluation challenge awarding one lakh rupees to the first innovator who can breach
     a deterministic autonomy safety gate or tamper with its audit log
+  preview: true
 - path: /invent-in-india/diaspora-bridge
   spec: engine/specs/techinnovations/invent-in-india-diaspora-bridge.yaml
   title: Innovators without borders

@@ -155,10 +155,6 @@ components:
     - Compliance status
     - Significance
     rows:
-    - - Physical testing laboratory
-      - Jetson hardware-in-the-loop autonomous rig
-      - Verified and operational
-      - Provides real physical testing, not bench simulations
     - - Academic publishing partner
       - Savitribai Phule Pune University network
       - Joint publications scheduled

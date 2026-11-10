@@ -158,8 +158,7 @@ components:
       technology domains.'
     - '**Third**, the cutting-edge research laboratory delivers peer-reviewed paper analyses, deconstructing preprints from
       the Massachusetts Institute of Technology, Oxford, Stanford, and leading research institutes.'
-    - '**Fourth**, the Open Door initiative tracks the Break It Challenge, providing public audit trails and hardware-in-the-loop
-      validation of deterministic safety gates.'
+    - '**Fourth**, the Open Door initiative tracks the Break It Challenge, providing public audit trails.'
     heading: Platform content pillars and continuous monitoring
     level: 2
 - id: table-4
