@@ -24,6 +24,8 @@ jobs:
         run: python -m unittest discover -s engine/tests -v
       - name: Library tests (catalogs, packs, targets)
         run: python -m unittest discover -s libs/tests -v
+      - name: goldens are committed (a missing golden records and skips, which must not pass here)
+        run: test -z "$(git status --porcelain engine/tests/golden libs/tests/golden)"
       - name: Determinism gate on every sample specification
         run: |
           for spec in engine/specs/login-screen.yaml engine/specs/dashboard-screen.yaml engine/specs/nested-cards.yaml engine/specs/login-flow.yaml; do python engine/gate.py "$spec"; done
