@@ -75,6 +75,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .site-form textarea { padding: var(--space-sm) var(--space-md); }
 .site-form input:focus, .site-form textarea:focus { border-color: var(--color-border-focus); }
+.site-form .cf-turnstile { min-height: 65px; }
 
 .site-footer { background: var(--color-footer-background, var(--color-surface)); border-top: 1px solid var(--color-border); color: var(--color-footer-text, var(--color-text-secondary)); font-size: var(--font-size-body-small); }
 .site-footer-brand { font-weight: var(--font-weight-bold); color: var(--color-footer-text, var(--color-text-primary)); margin-bottom: var(--space-sm); }

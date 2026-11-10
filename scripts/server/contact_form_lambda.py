@@ -6,7 +6,8 @@ browser. The function validates the three fields, sends one email through Amazon
 sender's address as reply-to, and answers with a small confirmation page in the site's colours.
 
 Environment: TO_ADDRESS (where messages go), FROM_ADDRESS (an SES verified identity, e.g. contact@techinnovations.io),
-SITE_URL (e.g. https://techinnovations.io), CONTACT_PATH (default /about/contact/).
+SITE_URL (e.g. https://techinnovations.io), CONTACT_PATH (default /about/contact/), TURNSTILE_SECRET (the Cloudflare
+Turnstile secret key; when set, every submission must carry a token that Cloudflare confirms).
 Role: ses:SendEmail on the sending identity. Reserved concurrency 2 keeps a flood from costing anything.
 
 Copyright (c) 2026 Intelligent Cloud Lab Inc.
@@ -15,7 +16,9 @@ import base64
 import html
 import os
 import re
+import json
 import urllib.parse
+import urllib.request
 
 import boto3
 
@@ -32,6 +35,8 @@ def handler(event, context):
     fields = {k: form.get(k, [''])[0].strip()[:LIMITS[k]] for k in LIMITS}
     if not fields['name'] or not EMAIL.match(fields['email']) or len(fields['message']) < 10:
         return page(400, 'Please give your name, a valid email address and a message of at least ten characters.')
+    if os.environ.get('TURNSTILE_SECRET') and not turnstile_ok(form.get('cf-turnstile-response', [''])[0], event):
+        return page(400, 'The verification did not pass. Please go back and try again.')
     ses.send_email(
         FromEmailAddress=os.environ['FROM_ADDRESS'],
         Destination={'ToAddresses': [os.environ['TO_ADDRESS']]},
@@ -40,6 +45,23 @@ def handler(event, context):
             'Subject': {'Data': f'{os.environ.get("SITE_URL", "site")} contact: {fields["name"]}'},
             'Body': {'Text': {'Data': f'From: {fields["name"]} <{fields["email"]}>\n\n{fields["message"]}\n'}}}})
     return page(200, 'Message received. All inquiries receive structured technical responses within two business days.')
+
+
+def turnstile_ok(token, event):
+    """Cloudflare Turnstile: the page's widget puts a token in the form; Cloudflare confirms it server side."""
+    if not token:
+        return False
+    data = {'secret': os.environ['TURNSTILE_SECRET'], 'response': token[:2048]}
+    ip = (event.get('requestContext') or {}).get('http', {}).get('sourceIp')
+    if ip:
+        data['remoteip'] = ip
+    req = urllib.request.Request('https://challenges.cloudflare.com/turnstile/v0/siteverify',
+                                 data=urllib.parse.urlencode(data).encode(), method='POST')
+    try:
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            return bool(json.load(resp).get('success'))
+    except (OSError, ValueError):
+        return False
 
 
 def page(status, text):

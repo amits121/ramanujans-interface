@@ -104,7 +104,8 @@ def contact_form(p: Dict) -> str:
     labels = {'name': 'Name', 'email': 'Email', 'message': 'Message', 'submit': 'Send', **p.get('labels', {})}
     head = _heading(2, p['heading']) if p.get('heading') else ''
     turnstile = (f'<div className="cf-turnstile" data-sitekey={_t(p["turnstile_site_key"])}></div>'
-                 if p.get('turnstile_site_key') else '')
+                 f'<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>'
+                 if p.get('turnstile_site_key') else '')      # the loader is the one script the quality check allows
     return (f'<section className="site-contact">{head}<form className="site-form" method="post" action={_t(p["action"])}>'
             f'<label htmlFor="contact-name">{_t(labels["name"])}</label>'
             f'<input id="contact-name" name="name" type="text" required />'

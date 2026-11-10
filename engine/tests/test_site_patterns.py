@@ -148,6 +148,19 @@ class SitePatternTest(unittest.TestCase):
         self.assertIn('className="site-hero site-hero-with-image"', full)
         self.assertIn('site-hero-image', full)
 
+    def test_contact_form_turnstile_and_script_allow_list(self):
+        lib = PatternLibrary(); register_site_patterns(lib)
+        plain = lib.generate('S-07', {'action': '/send'})
+        self.assertNotIn('<script', plain)
+        with_key = lib.generate('S-07', {'action': '/send', 'turnstile_site_key': 'k'})
+        self.assertIn('className="cf-turnstile" data-sitekey={"k"}', with_key)
+        self.assertIn('<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>', with_key)
+        from quality import check_html
+        base = '<html lang="en"><head><title>t</title><meta name="viewport" content="x" /></head><body><h1>h</h1>{}</body></html>'
+        self.assertTrue(check_html(base.format('<script src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>'))['no_script'][0])
+        self.assertFalse(check_html(base.format('<script>alert(1)</script>'))['no_script'][0])
+        self.assertFalse(check_html(base.format('<script src="https://example.com/x.js"></script>'))['no_script'][0])
+
     def test_rich_text_bold_and_refusals(self):
         self.assertEqual(_rich('plain'), '{"plain"}')
         self.assertEqual(_rich('a **b** c'), '{"a "}<strong>{"b"}</strong>{" c"}')

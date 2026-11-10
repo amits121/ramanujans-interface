@@ -6,7 +6,7 @@ Deterministic checks on the static output (no browser, no network):
   accessibility: html lang, title, viewport, exactly one h1, no skipped heading
                  levels, every image has alt text, every form control has a label,
                  navigation is labelled, links and buttons have text
-  performance:   no script shipped, HTML and CSS within budget
+  performance:   no script shipped (the Turnstile loader is the one allowed external script), HTML and CSS within budget
 
     python quality.py <build-dir> [--html-max BYTES] [--css-max BYTES]
 
@@ -26,6 +26,9 @@ from typing import Any, Dict, List, Tuple
 HTML_MAX = 60_000
 CSS_MAX = 40_000
 HEADINGS = ('h1', 'h2', 'h3', 'h4', 'h5', 'h6')
+# The only script a page may load: Cloudflare Turnstile for the contact form (S-07). Everything else, inline or
+# external, fails the no_script check.
+ALLOWED_SCRIPT_SOURCES = ('https://challenges.cloudflare.com/turnstile/v0/api.js',)
 
 
 class _Audit(HTMLParser):
@@ -54,7 +57,7 @@ class _Audit(HTMLParser):
             self.headings.append(int(tag[1]))
         elif tag == 'img' and not (a.get('alt') or '').strip():
             self.images_without_alt += 1
-        elif tag == 'script':
+        elif tag == 'script' and a.get('src') not in ALLOWED_SCRIPT_SOURCES:
             self.scripts += 1
         elif tag == 'nav' and not (a.get('aria-label') or a.get('aria-labelledby')):
             self.nav_unlabelled += 1
