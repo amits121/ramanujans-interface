@@ -180,6 +180,7 @@ components:
   props:
     action: https://3tqrxdlib32xxrd6hacgtcqiq40fggem.lambda-url.us-east-1.on.aws/
     heading: Contact us
+    turnstile_site_key: 0x4AAAAAAF7jLLP49xbyyZdS
 - id: section-6
   type: text-block
   props:

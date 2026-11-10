@@ -9,12 +9,12 @@ pages:
   description: The twenty-first century represents an exponential convergence of computational, robotic, and energy architectures
     requiring totally math-driven deterministic verification rather than probabilistic assumption or neuro-symbolic transfer
     learning
-  preview: true
 - path: /about/contact
   spec: engine/specs/techinnovations/about-contact.yaml
   title: Inquiry and enterprise licensing
   description: Centralized contact and licensing portal for deterministic AI technology, innovation hub sponsorship, and open
     challenge registration
+  preview: true
 - path: /about/founder
   spec: engine/specs/techinnovations/about-founder.yaml
   title: 'About us: leadership and core innovation team'
