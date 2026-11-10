@@ -14,7 +14,6 @@ pages:
   title: Inquiry and enterprise licensing
   description: Centralized contact and licensing portal for deterministic AI technology, innovation hub sponsorship, and open
     challenge registration
-  preview: true
 - path: /about/founder
   spec: engine/specs/techinnovations/about-founder.yaml
   title: 'About us: leadership and core innovation team'
@@ -60,6 +59,7 @@ pages:
   title: Invent in India national movement
   description: A sovereign national movement to transform India from an assembly and service economy into a foundational invention
     powerhouse
+  preview: true
 - path: /invent-in-india/100-hubs
   spec: engine/specs/techinnovations/invent-in-india-100-hubs.yaml
   title: The 100 hub national rollout
@@ -75,11 +75,6 @@ pages:
   title: Innovators without borders
   description: Institutionalizing a bilateral bridge connecting Silicon Valley engineering capital and technical mentorship
     directly to accredited Indian innovation hubs
-- path: /invent-in-india/fremont-rig
-  spec: engine/specs/techinnovations/invent-in-india-fremont-rig.yaml
-  title: The Fremont hardware testbed
-  description: The Fremont hardware-in-the-loop laboratory provides dual-jetson real-time execution of the deterministic cyber-physical
-    bridge, streamed live over an encrypted link
 - path: /invent-in-india/pune-hub
   spec: engine/specs/techinnovations/invent-in-india-pune-hub.yaml
   title: The Pune innovation hub

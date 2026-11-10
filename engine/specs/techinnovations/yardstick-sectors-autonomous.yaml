@@ -94,8 +94,6 @@ components:
         href: /invent-in-india/100-hubs
       - label: The break it challenge portal
         href: /invent-in-india/challenge
-      - label: The Fremont hardware testbed
-        href: /invent-in-india/fremont-rig
       - label: Innovators without borders
         href: /invent-in-india/diaspora-bridge
     - label: Leadership and institutional governance
@@ -215,8 +213,6 @@ components:
         href: /invent-in-india/100-hubs
       - label: The break it challenge portal
         href: /invent-in-india/challenge
-      - label: The Fremont hardware testbed
-        href: /invent-in-india/fremont-rig
       - label: Innovators without borders
         href: /invent-in-india/diaspora-bridge
     - heading: Leadership and institutional governance

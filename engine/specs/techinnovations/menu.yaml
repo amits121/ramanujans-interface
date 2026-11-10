@@ -62,7 +62,6 @@ items:
       - { label: The Pune innovation hub, href: /invent-in-india/pune-hub }
       - { label: The 100 hub national rollout, href: /invent-in-india/100-hubs }
       - { label: The break it challenge portal, href: /invent-in-india/challenge }
-      - { label: The Fremont hardware testbed, href: /invent-in-india/fremont-rig }
       - { label: Innovators without borders, href: /invent-in-india/diaspora-bridge }
   - label: Leadership and institutional governance
     children:
