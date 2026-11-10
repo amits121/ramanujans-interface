@@ -119,8 +119,8 @@ components:
   type: text-block
   props:
     paragraphs:
-    - In June 2025, researchers from the Massachusetts Institute of Technology, the university of Oxford, Carnegie Mellon
-      university, and the university of california los angeles published a landmark empirical study titled AI assistance reduces
+    - In June 2025, researchers from the Massachusetts Institute of Technology, the University of Oxford, Carnegie Mellon
+      university, and the University of California Los Angeles published a landmark empirical study titled AI assistance reduces
       persistence and hurts independent performance.
     - 'The researchers evaluated professional software engineers tasked with complex algorithmic debugging under two conditions:
       unassisted baseline versus continuous generative code completion. While assisted developers completed standard boilerplate
@@ -188,7 +188,7 @@ components:
   props:
     heading: Authentic research sources and citations
     items:
-    - Massachusetts Institute of Technology, university of Oxford, Carnegie Mellon university, & UCLA. (2025). AI assistance
+    - Massachusetts Institute of Technology, University of Oxford, Carnegie Mellon university, & UCLA. (2025). AI assistance
       reduces persistence and hurts independent performance. Working paper.
     - Brynjolfsson, e., li, d., & raymond, l. R. (2023). Generative AI at work. National bureau of economic research (nber
       w31161).

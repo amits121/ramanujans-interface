@@ -114,7 +114,7 @@ components:
     - label: Target audience
       text: Cabinet committees, industrial confederations, defense leadership, and academic deans
     - label: Primary sources
-      text: Invent in India white paper final draft 2026, Pune innovation summit cdac deck 2026
+      text: Invent in India white paper final draft 2026, innovation summit deck 2026
 - id: section-1
   type: text-block
   props:
@@ -156,7 +156,7 @@ components:
     - - Sector 01
       - Deterministic and certifiable AI
       - Sovereign verification standards established for mission-critical autonomy
-      - National AI mission, cdac, CEMILAC
+      - National AI mission, CEMILAC
     - - Sector 02
       - Autonomous systems
       - Indigenous autonomy flight stacks graded on sovereign testbeds
@@ -216,7 +216,7 @@ components:
     items:
     - 'Sarkar, A., & Rodrigues, S. (2026). Invent in India: from Make in India to Invent in India, then Make in India. White
       paper final draft.'
-    - Intelligent Cloud Lab Inc. (2026). Pune innovation summit cdac meeting deck (v2, 13 October 2026).
+    - Intelligent Cloud Lab Inc. (2026). Innovation summit meeting deck (v2, 13 October 2026).
 - id: footer
   type: footer-sitemap
   props:

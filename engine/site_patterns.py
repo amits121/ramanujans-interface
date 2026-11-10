@@ -66,6 +66,7 @@ def nav_bar(p: Dict) -> str:
 
 def hero(p: Dict) -> str:
     _req(p, 'S-04', 'title')
+    kicker = f'<p className="site-hero-kicker">{_t(p["kicker"])}</p>' if p.get('kicker') else ''
     sub = f'<p className="site-hero-subtitle">{_t(p["subtitle"])}</p>' if p.get('subtitle') else ''
     actions = ''
     if p.get('primary_cta') or p.get('secondary_cta'):
@@ -75,7 +76,8 @@ def hero(p: Dict) -> str:
     img = ''
     if p.get('image'):
         img = f'<img className="site-hero-image" src={_t(p["image"]["src"])} alt={_t(p["image"]["alt"])} />'
-    return (f'<header className="site-hero"><div className="site-hero-text">{_heading(1, p["title"])}'
+    cls = 'site-hero site-hero-with-image' if img else 'site-hero'
+    return (f'<header className="{cls}"><div className="site-hero-text">{kicker}{_heading(1, p["title"])}'
             f'{sub}{actions}</div>{img}</header>')
 
 
@@ -150,7 +152,7 @@ PATTERNS: List[Pattern] = [
     Pattern('S-01', 'Image', 'site', 'Image with required alt text and optional caption', image),
     Pattern('S-02', 'Text Block', 'site', 'Optional heading and paragraphs', text_block),
     Pattern('S-03', 'Navigation Bar', 'site', 'Brand, links and optional call to action', nav_bar),
-    Pattern('S-04', 'Hero', 'site', 'Title, subtitle, actions and optional image', hero),
+    Pattern('S-04', 'Hero', 'site', 'Optional kicker, title, subtitle, actions and optional image', hero),
     Pattern('S-05', 'Feature Grid', 'site', 'Two to four columns of titled cards', feature_grid),
     Pattern('S-06', 'Footer', 'site', 'Brand, links, social links and note', footer),
     Pattern('S-07', 'Contact Form', 'site', 'Labelled name, email, message form with optional Turnstile', contact_form),

@@ -114,36 +114,32 @@ components:
     - label: Target audience
       text: University chancellors, research directors, corporate sponsors, and government agencies
     - label: Primary sources
-      text: Cdac partnership memorandum, kaydence media ventures letter of intent
+      text: Kaydence Media Ventures letter of intent
 - id: section-1
   type: text-block
   props:
     paragraphs:
-    - The centre for development of advanced computing serves as the primary institutional partner for the Invent in India
-      movement and the Pune innovation summit. As the premier research and development institution under the ministry of electronics
-      and information technology, c-dac brings an unparalleled legacy of sovereign computational invention.
-    - C-dac provides institutional guidance, technical evaluation on the Break It Challenge judging panel, participation in
-      summit addresses, and collaboration on advanced computing and quantum research.
-    heading: Institutional partnership with c-dac
+    -  
     level: 2
+    heading: Proposed summit at Lucknow in collaboration with former HAL senior engineers
 - id: section-2
   type: text-block
   props:
     paragraphs:
-    - Dr savio rodrigues, managing director and chief executive officer of kaydence media ventures pvt ltd, serves as the
+    - Dr Savio Rodrigues, managing director and chief executive officer of Kaydence Media Ventures Pvt Ltd, serves as the
       co-organizer of the Pune innovation summit and co-founder of the Invent in India movement.
-    - Kaydence media ventures oversees national communications, institutional stakeholder outreach, corporate partnership
+    - Kaydence Media Ventures oversees national communications, institutional stakeholder outreach, corporate partnership
       syndication, and national media execution, ensuring that the movement's message reaches industry leaders, policymakers,
       and young innovators across the country.
-    heading: 'Media, communications, and co-organizer: kaydence media ventures'
+    heading: 'Media, communications, and co-organizer: Kaydence Media Ventures'
     level: 2
 - id: section-3
   type: text-block
   props:
     paragraphs:
     - The movement is actively structuring research and co-development dialogues with leading domestic and international academic
-      institutions, including savitribai phule Pune university, Indian institute of technology madras, santa clara university,
-      the university of california berkeley, and Stanford university.
+      institutions, including Savitribai Phule Pune University, Indian Institute of Technology Madras, Santa Clara University,
+      the University of California Berkeley, and Stanford University.
     - Corporate partnerships are established on a dedicated single-sponsor per hub model, directly connecting domestic industrial
       corporations to accredited laboratory rigs.
     heading: Academic and corporate network expansion
@@ -162,14 +158,10 @@ components:
       - Amit Sarkar, founder and chief executive officer
       - Founding deep-tech inventor and first proof-case
       - Laboratory rig hardware, deterministic architectures, summit content
-    - - Kaydence media ventures
-      - Dr savio rodrigues, managing director and ceo
+    - - Kaydence Media Ventures
+      - Dr Savio Rodrigues, managing director and CEO
       - Co-organizer and national communications leader
       - Institutional outreach, corporate partnerships, media execution
-    - - C-dac (centre for dev of advanced computing)
-      - Director general and senior scientists
-      - Institutional partner and sovereign computing anchor
-      - Summit venue, challenge judging panel, trainee recruitment
     - - Academic partner network
       - Participating university deans and faculty
       - Publishing and graduate research partners
@@ -179,7 +171,7 @@ components:
   props:
     heading: Authentic research sources and citations
     items:
-    - Kaydence media ventures pvt ltd. (2026). Letter of intent for joint collaboration on Pune innovation summit.
+    - Kaydence Media Ventures Pvt Ltd. (2026). Letter of intent for joint collaboration on Pune innovation summit.
     - Institutional governance protocols and memorandum of understanding register.
 - id: footer
   type: footer-sitemap

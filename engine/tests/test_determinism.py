@@ -21,6 +21,7 @@ ENGINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ENGINE)
 
 from spec_parser import SpecParser  # noqa: E402
+from pattern_library import PATTERN_LIBRARY_VERSION  # noqa: E402
 from generate import generate, spec_key  # noqa: E402
 
 SPECS = ('login-screen', 'dashboard-screen', 'nested-cards')
@@ -60,7 +61,7 @@ class DeterminismTest(unittest.TestCase):
             with self.subTest(spec=name):
                 code = generate(SpecParser().parse(spec_path(name))).code
                 self.assertIsNone(FORBIDDEN.search(code))
-                self.assertIn('Pattern library: 1.3.0', code)
+                self.assertIn(f'Pattern library: {PATTERN_LIBRARY_VERSION}', code)
 
     def test_generation_does_not_mutate_the_spec(self):
         parser = SpecParser()

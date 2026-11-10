@@ -144,8 +144,8 @@ components:
   props:
     paragraphs:
     - The Fremont laboratory is integrated into a secure, encrypted mesh network via tailscale, linking the testbed directly
-      to the Pune innovation summit and c-dac workstations.
-    - During the live summit demonstration, attendees in Pune witness real-time teleoperation over the transatlantic link.
+      to the proposed summit at Lucknow in collaboration with former HAL senior engineers.
+    - During the live summit demonstration, attendees in Lucknow witness real-time teleoperation over the transatlantic link.
       Attendees observe the simulated drone attempt to breach the geofence under aggressive adversarial steering, demonstrating
       the unbreakable mathematical boundary enforced by the bridge.
     heading: Remote teleoperation and live demonstration
@@ -176,7 +176,7 @@ components:
       - Logs every evaluated vector, gate decision, and state hash
     - - Network bridge link
       - Encrypted tailscale wireguard mesh network
-      - Streams live low-latency telemetry to Pune summit console
+      - Streams live low-latency telemetry to the Lucknow summit console
 - id: citations
   type: citations
   props:

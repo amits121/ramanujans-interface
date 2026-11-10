@@ -26,7 +26,12 @@ import yaml
 
 W = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
 META_KEYS = {'url path': 'path', 'target audience': 'audience',
-             'primary technical thesis': 'thesis', 'primary authentic research source': 'source'}
+             'primary technical thesis': 'thesis', 'primary authentic research source': 'source',
+             'hero headline': 'hero_title', 'hero line': 'hero_kicker', 'hero actions': 'hero_actions',
+             'image': 'image'}
+# "hero headline:" turns the page header into a hero (S-04): the headline as the title, "hero line:" as the kicker above it,
+# the thesis as the subtitle and "hero actions: <label> -> <path>; <label> -> <path>" as up to two buttons.
+# "image: <file> | <alt text> | <caption>" places the file from the assets folder under the header, or inside the hero.
 CITATIONS_HEADING = 'authentic research sources and citations'
 ORDINALS = ('first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth')
 LEAD_WORDS = ('vector', 'sector', 'layer', 'stream', 'branch', 'phase', 'step')
@@ -176,14 +181,48 @@ def slug(path):
     return 'home' if path == '/' else re.sub(r'[^a-z0-9]+', '-', path.strip('/').lower()).strip('-')
 
 
+def image_props(value, case):
+    parts = [x.strip() for x in value.split('|')]
+    if len(parts) < 2 or not parts[0] or not parts[1]:
+        sys.exit(f'image line needs "<file> | <alt text>", got: {value}')
+    props = {'src': '/assets/' + parts[0], 'alt': case(parts[1])}
+    if len(parts) > 2 and parts[2]:
+        props['caption'] = case(parts[2])
+    return props
+
+
+def hero_props(page, case):
+    meta = page['meta']
+    props = {'title': case(meta['hero_title'])}
+    if meta.get('hero_kicker'):
+        props['kicker'] = case(meta['hero_kicker'])
+    if meta.get('thesis'):
+        props['subtitle'] = case(meta['thesis'])
+    actions = [a for a in (x.strip() for x in meta.get('hero_actions', '').split(';')) if a]
+    for key, action in zip(('primary_cta', 'secondary_cta'), actions):
+        if '->' not in action:
+            sys.exit(f'hero action needs "<label> -> <path>", got: {action}')
+        label, href = (x.strip() for x in action.split('->', 1))
+        props[key] = {'label': case(label), 'href': href}
+    if meta.get('image'):
+        img = image_props(meta['image'], case)
+        props['image'] = {'src': img['src'], 'alt': img['alt']}
+    return props
+
+
 def spec_for(page, menu_props, footer_props, case):
     meta = page['meta']
-    components = [{'id': 'menu', 'type': 'site-menu', 'props': menu_props},
-                  {'id': 'header', 'type': 'page-header', 'props': {
-                      'title': page['title'],
-                      'standfirst': case(meta['thesis']) if meta.get('thesis') else '',
-                      'meta': [{'label': 'Target audience', 'text': case(meta['audience'])} for _ in [0] if meta.get('audience')]
-                              + [{'label': 'Primary sources', 'text': case(meta['source'])} for _ in [0] if meta.get('source')]}}]
+    components = [{'id': 'menu', 'type': 'site-menu', 'props': menu_props}]
+    if meta.get('hero_title'):
+        components.append({'id': 'hero', 'type': 'hero', 'props': hero_props(page, case)})
+    else:
+        components.append({'id': 'header', 'type': 'page-header', 'props': {
+            'title': page['title'],
+            'standfirst': case(meta['thesis']) if meta.get('thesis') else '',
+            'meta': [{'label': 'Target audience', 'text': case(meta['audience'])} for _ in [0] if meta.get('audience')]
+                    + [{'label': 'Primary sources', 'text': case(meta['source'])} for _ in [0] if meta.get('source')]}})
+        if meta.get('image'):
+            components.append({'id': 'image', 'type': 'image', 'props': image_props(meta['image'], case)})
     n = 0
     for section in page['sections']:
         n += 1
@@ -256,7 +295,13 @@ def main():
 
     docs = sorted(os.path.join(d, n) for d, _, fs in os.walk(args.content_dir) for n in fs
                   if n.endswith('.docx') and not n.startswith('~$') and 'site tree' not in n.lower().replace('_', ' '))
-    pages = [parse_page(path, case) for path in docs]
+    pages = []
+    for path in docs:                                   # only page documents; other Word files in the folder are left alone
+        kind, first = next(read_docx(path), ('p', ''))
+        if kind != 'p' or 'page document:' not in first:
+            print(f'skipped (not a page document): {os.path.relpath(path, args.content_dir)}')
+            continue
+        pages.append(parse_page(path, case))
     existing = {p['meta']['path'] for p in pages}
     if len(existing) != len(pages):
         sys.exit('two documents share one url path')

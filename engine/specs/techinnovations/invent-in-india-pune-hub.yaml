@@ -112,9 +112,9 @@ components:
       be seeded, funded, and scaled on domestic soil
     meta:
     - label: Target audience
-      text: Pune industrialists, c-dac leadership, university students, and researchers
+      text: Pune industrialists, university students, and researchers
     - label: Primary sources
-      text: Pune innovation summit concept note 2026, c-dac partnership memorandum
+      text: Innovation summit concept note 2026
 - id: section-1
   type: text-block
   props:
@@ -122,11 +122,7 @@ components:
     - Pune holds a unique position in India's scientific and industrial history. It unites premier academic universities,
       national research laboratories, defense establishments, and a robust automotive and manufacturing ecosystem within a
       single municipal geography.
-    - The centre for development of advanced computing is the natural institutional partner. When western export controls
-      denied India access to foreign supercomputers in the 1980s, c-dac built the param 8000 in 1991, proving that Indian
-      scientists could invent foundational computing architectures independently. The Pune innovation hub builds directly
-      on this legacy.
-    heading: Why Pune and the institutional partnership with c-dac
+    heading: Why Pune
     level: 2
 - id: section-2
   type: text-block
@@ -147,8 +143,8 @@ components:
   type: text-block
   props:
     paragraphs:
-    - The Pune innovation hub establishes an immediate hiring channel, recruiting engineering talent from c-dac's advanced
-      computing trainee programs and providing young engineers with immediate exposure to world-class architectural practices.
+    - The Pune innovation hub establishes an immediate hiring channel, recruiting engineering talent and providing young engineers
+      with immediate exposure to world-class architectural practices.
     - By bridging sovereign computing heritage with modern deterministic neuro-symbolic systems, the Pune hub establishes
       the working template that will be replicated across one hundred regional hubs nationwide.
     heading: Recruitment and the engineering channel
@@ -167,12 +163,8 @@ components:
       - Jetson hardware-in-the-loop autonomous rig
       - Verified and operational
       - Provides real physical testing, not bench simulations
-    - - Institutional anchor partner
-      - Centre for development of advanced computing
-      - Formal memorandum established
-      - Leverages sovereign computing heritage and infrastructure
     - - Academic publishing partner
-      - Savitribai phule Pune university network
+      - Savitribai Phule Pune University network
       - Joint publications scheduled
       - Connects graduate research directly to industrial rigs
     - - Corporate research sponsor
@@ -192,7 +184,6 @@ components:
   props:
     heading: Authentic research sources and citations
     items:
-    - Centre for development of advanced computing. (1991-2026). Historical supercomputing milestones and parametric architecture.
     - Sarkar, A. (2026). Pune innovation hub operational charter and specifications.
 - id: footer
   type: footer-sitemap

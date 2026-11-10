@@ -114,7 +114,7 @@ components:
     - label: Target audience
       text: Indian citizens, scientists, industrial leaders, university students, and the global diaspora
     - label: Primary sources
-      text: Invent in India white paper final draft 2026 by Amit Sarkar and dr savio rodrigues
+      text: Invent in India white paper final draft 2026 by Amit Sarkar and Dr Savio Rodrigues
 - id: section-1
   type: text-block
   props:
@@ -123,8 +123,8 @@ components:
       world-class manufacturing physical infrastructure. But a country that only makes what others invent remains a tenant
       in the modern world, paying intellectual property rents on every component, every license, and every line of code.
     - 'Invent in India is the necessary successor and completion of Make in India. Its doctrine is simple and unyielding:
-      Invent in India, then make what you invent, so that what India makes belongs to India. Founded by Amit Sarkar and dr
-      savio rodrigues of kaydence media ventures, the movement exists to build the domestic laboratory, reform the examination
+      Invent in India, then make what you invent, so that what India makes belongs to India. Founded by Amit Sarkar and Dr
+      Savio Rodrigues of Kaydence Media Ventures, the movement exists to build the domestic laboratory, reform the examination
       culture, and bridge Silicon Valley innovation directly to Indian soil, seeded with verified deep-technology intellectual
       property as an initial proof-of-concept.'
     heading: Movement genesis and foundational doctrine

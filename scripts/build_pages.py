@@ -92,7 +92,8 @@ def render_pages(rows, out_dir, shell_index, env):
              page['path']], cwd=SHELL, check=True, capture_output=True, text=True).stdout
         html = shell_index.replace('<div id="root"></div>', '<div id="root">' + markup + '</div>')
         depth = len([p for p in page['path'].strip('/').split('/') if p])
-        html = html.replace('href="/assets/', 'href="' + ('../' * depth or './') + 'assets/')   # relative: works on disk and on the host
+        rel = ('../' * depth or './') + 'assets/'
+        html = html.replace('href="/assets/', 'href="' + rel).replace('src="/assets/', 'src="' + rel)   # relative: works on disk and on the host
         html = html.replace('%%TITLE%%', html_lib.escape(page['title'], quote=True))
         html = html.replace('%%DESCRIPTION%%', html_lib.escape(page.get('description', ''), quote=True))
         target = page_dir(out_dir, page['path'])

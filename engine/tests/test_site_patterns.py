@@ -136,6 +136,18 @@ class SitePatternTest(unittest.TestCase):
         self.assertNotIn('stylesheet', css)   # the font link is the build's job, not the theme stylesheet's
 
 
+    def test_hero_kicker_and_image_class(self):
+        lib = PatternLibrary(); register_site_patterns(lib)
+        plain = lib.generate('S-04', {'title': 'T'})
+        self.assertNotIn('site-hero-kicker', plain)
+        self.assertNotIn('site-hero-with-image', plain)
+        full = lib.generate('S-04', {'title': 'T', 'kicker': 'K', 'subtitle': 'S',
+                                     'primary_cta': {'label': 'Go', 'href': '/a'},
+                                     'image': {'src': '/assets/x.webp', 'alt': 'A'}})
+        self.assertIn('<p className="site-hero-kicker">{"K"}</p><h1>', full)
+        self.assertIn('className="site-hero site-hero-with-image"', full)
+        self.assertIn('site-hero-image', full)
+
     def test_rich_text_bold_and_refusals(self):
         self.assertEqual(_rich('plain'), '{"plain"}')
         self.assertEqual(_rich('a **b** c'), '{"a "}<strong>{"b"}</strong>{" c"}')

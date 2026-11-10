@@ -54,7 +54,7 @@ class Pattern:
         return self.generator(props)
 
 
-PATTERN_LIBRARY_VERSION = '1.3.0'
+PATTERN_LIBRARY_VERSION = '1.3.1'
 
 
 class PatternLibrary:

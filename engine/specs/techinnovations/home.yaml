@@ -104,18 +104,20 @@ components:
         href: /about/partners
       - label: Inquiry and enterprise licensing
         href: /about/contact
-- id: header
-  type: page-header
+- id: hero
+  type: hero
   props:
-    title: Home executive briefing
-    standfirst: The twenty-first century represents an exponential convergence of computational, robotic, and energy architectures
+    title: The twenty-first century will hold twenty thousand years of progress at twentieth-century rates
+    kicker: Ray Kurzweil, the law of accelerating returns, 2001
+    subtitle: The twenty-first century represents an exponential convergence of computational, robotic, and energy architectures
       requiring totally math-driven deterministic verification rather than probabilistic assumption or neuro-symbolic transfer
       learning
-    meta:
-    - label: Target audience
-      text: Global technologists, enterprise leaders, academic researchers, and sovereign policymakers
-    - label: Primary sources
-      text: Kurzweil 2001, ARK Invest 2024, International Monetary Fund 2025, World Intellectual Property Organization 2025
+    primary_cta:
+      label: The 20,000 year century
+      href: /frontier/accelerating-returns
+    secondary_cta:
+      label: The yardstick
+      href: /yardstick
 - id: section-1
   type: text-block
   props:
@@ -315,7 +317,7 @@ components:
 accessibility:
   focusOrder:
   - menu
-  - header
+  - hero
   - section-1
   - section-2
   - section-3

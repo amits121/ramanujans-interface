@@ -114,7 +114,7 @@ components:
     - label: Target audience
       text: Independent software developers, hardware hackers, engineering students, and cybersecurity researchers
     - label: Primary sources
-      text: Break It Challenge rules draft 1 (7 October 2026), cdac panel charter
+      text: Break It Challenge rules draft 1 (7 October 2026)
 - id: section-1
   type: text-block
   props:
