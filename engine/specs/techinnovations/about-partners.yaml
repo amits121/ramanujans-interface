@@ -127,18 +127,7 @@ components:
       and young innovators across the country.
     heading: 'Media, communications, and co-organizer: Kaydence Media Ventures'
     level: 2
-- id: section-3
-  type: text-block
-  props:
-    paragraphs:
-    - The movement is actively structuring research and co-development dialogues with leading domestic and international academic
-      institutions, including Savitribai Phule Pune University, Indian Institute of Technology Madras, Santa Clara University,
-      the University of California Berkeley, and Stanford University.
-    - Corporate partnerships are established on a dedicated single-sponsor per hub model, directly connecting domestic industrial
-      corporations to accredited laboratory rigs.
-    heading: Academic and corporate network expansion
-    level: 2
-- id: table-4
+- id: table-3
   type: data-table
   props:
     caption: Institutional governance and organizational roles
@@ -265,8 +254,7 @@ accessibility:
   - header
   - section-1
   - section-2
-  - section-3
-  - table-4
+  - table-3
   - citations
   - footer
   ariaLabels: true

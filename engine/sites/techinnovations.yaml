@@ -14,18 +14,17 @@ pages:
   title: Inquiry and enterprise licensing
   description: Centralized contact and licensing portal for deterministic AI technology, innovation hub sponsorship, and open
     challenge registration
-  preview: true
 - path: /about/founder
   spec: engine/specs/techinnovations/about-founder.yaml
   title: 'About us: leadership and core innovation team'
   description: Uniting over three decades of aerospace and Silicon Valley engineering excellence with elite innovators across
     deterministic AI, cloud infrastructure, and distributed systems
-  preview: true
 - path: /about/partners
   spec: engine/specs/techinnovations/about-partners.yaml
   title: Institutional and academic partners
   description: Collaborative public-private governance uniting premier national laboratories, media organizations, and academic
     institutions
+  preview: true
 - path: /frontier
   spec: engine/specs/techinnovations/frontier.yaml
   title: Global frontier overview
