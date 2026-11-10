@@ -97,10 +97,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .page > .site-citations { padding-top: var(--space-xl); }
 .site-table { margin: 0; }
 /* reading column: header, text, citations and figures sit in one centred measure; tables, hero, menu and footer keep the 1120px frame */
-.page > .site-page-header, .page > .site-text, .page > .site-citations, .page > .site-image, .page > .site-hero:not(.site-hero-with-image) {
+.page > .site-page-header, .page > .site-text, .page > .site-citations, .page > .site-image, .page > .site-contact, .page > .site-hero:not(.site-hero-with-image) {
   padding-left: max(var(--space-md), calc((100% - 720px) / 2)); padding-right: max(var(--space-md), calc((100% - 720px) / 2));
 }
 .page > .site-image { padding-top: 0; padding-bottom: var(--space-lg); }
+.page > .site-contact { padding-top: var(--space-lg); padding-bottom: var(--space-lg); }
+.site-contact h2 { color: var(--color-heading-accent, inherit); }
 .site-page-header h1 { max-width: 22ch; }
 .site-standfirst { font-size: var(--font-size-body-large); line-height: 1.5; font-weight: var(--font-weight-medium); color: var(--color-text-primary); }
 .site-page-meta { display: grid; gap: var(--space-xs); margin: var(--space-lg) 0 0; font-size: var(--font-size-body-small); color: var(--color-text-secondary); }

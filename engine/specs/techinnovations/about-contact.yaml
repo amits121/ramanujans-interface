@@ -173,6 +173,19 @@ components:
       - National journalists, tech publications, broadcasters
       - Official press briefings, founder interviews, data kits
       - Same business day
+- id: form-5
+  type: contact-form
+  props:
+    action: /contact/send
+    heading: Contact us
+- id: section-6
+  type: text-block
+  props:
+    paragraphs:
+    - 'United States: 3141 Stevens Creek Blvd #40950, San Jose, CA 95117.'
+    - 'Pune, India: Ascent Tower, Suite 610, Amanora Park Town, Hadapsar, Pune, Maharashtra 411028.'
+    heading: Locations
+    level: 2
 - id: citations
   type: citations
   props:
@@ -284,6 +297,8 @@ accessibility:
   - section-2
   - section-3
   - table-4
+  - form-5
+  - section-6
   - citations
   - footer
   ariaLabels: true

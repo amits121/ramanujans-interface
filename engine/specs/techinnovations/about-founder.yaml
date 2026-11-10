@@ -169,15 +169,6 @@ components:
       - Deterministic ux scoring, friction mapping, access guard
       - Formal compliance and enterprise web governance
       - Patent pending
-- id: citations
-  type: citations
-  props:
-    heading: Authentic research sources and citations
-    items:
-    - Intelligent cloud guru. (2025). Leadership and core team register. Official directory at intelligentcloud.guru/aboutus/.
-    - United States patent and trademark office. (2025-2026). Provisional patent application filings for Intelligent Cloud
-      Lab Inc.
-    - Hindustan Aeronautics Limited. (1994-1998). Light combat aircraft Tejas structural engineering records.
 - id: footer
   type: footer-sitemap
   props:
@@ -281,7 +272,6 @@ accessibility:
   - section-1
   - section-2
   - table-3
-  - citations
   - footer
   ariaLabels: true
   keyboardNav: true

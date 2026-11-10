@@ -32,6 +32,7 @@ META_KEYS = {'url path': 'path', 'target audience': 'audience',
 # "hero headline:" turns the page header into a hero (S-04): the headline as the title, "hero line:" as the kicker above it,
 # the thesis as the subtitle and "hero actions: <label> -> <path>; <label> -> <path>" as up to two buttons.
 # "image: <file> | <alt text> | <caption>" places the file from the assets folder under the header, or inside the hero.
+# A body paragraph "contact form: <action url>" places the contact form (S-07) at that point, headed by the heading before it.
 CITATIONS_HEADING = 'authentic research sources and citations'
 ORDINALS = ('first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth')
 LEAD_WORDS = ('vector', 'sector', 'layer', 'stream', 'branch', 'phase', 'step')
@@ -162,6 +163,11 @@ def parse_page(path, case):
         if item.lower() == CITATIONS_HEADING:
             in_citations, pending_heading, current = True, None, None
             continue
+        if item.lower().startswith('contact form:'):      # "contact form: <action>" places the form here
+            page['sections'].append({'form': {'action': item.split(':', 1)[1].strip(),
+                                              'heading': case(pending_heading) if pending_heading else ''}})
+            pending_heading, current = None, None
+            continue
         if is_heading(item):
             if pending_heading:                       # two headings in a row: the first stands alone
                 page['sections'].append({'heading': case(pending_heading), 'paragraphs': []})
@@ -228,6 +234,11 @@ def spec_for(page, menu_props, footer_props, case):
         n += 1
         if 'table' in section:
             components.append({'id': f'table-{n}', 'type': 'data-table', 'props': section['table']})
+        elif 'form' in section:
+            props = {'action': section['form']['action']}
+            if section['form']['heading']:
+                props['heading'] = section['form']['heading']
+            components.append({'id': f'form-{n}', 'type': 'contact-form', 'props': props})
         elif section['paragraphs'] or section['heading']:
             props = {'paragraphs': section['paragraphs'] or ['']}
             if section['heading']:
